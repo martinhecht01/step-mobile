@@ -19,25 +19,26 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RoutineCard() {
+fun RoutineCard(title: String, description: String, isFavorite: Boolean) {
     val paddingModifier = Modifier.padding(10.dp)
     Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier) {
         Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Routine Title", modifier = paddingModifier)
-            Text(text = "Routine Description", modifier = paddingModifier)
-            FavoriteButton()
+            Text(text = title, modifier = paddingModifier)
+            Text(text = description, modifier = paddingModifier)
+            FavoriteButton(isFavorite)
         }
     }
 }
 
 @Composable
 fun FavoriteButton(
+    favInitialStatus: Boolean,
     modifier: Modifier = Modifier,
     color: Color = Color(0xffE91E63)
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(favInitialStatus) }
 
     IconToggleButton(
         checked = isFavorite,

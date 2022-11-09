@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.step_mobile.loginButton
 import java.lang.reflect.Modifier.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -41,7 +40,10 @@ fun LoginScreen() {
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Box(Modifier.background(color = White).padding(30.dp)){
+            Box(
+                Modifier
+                    .background(color = White)
+                    .padding(30.dp)){
                 Column(verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally){
                     Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {

@@ -24,7 +24,7 @@ fun ScrollRoutine(){
         ),
         content = {
             items(list.size) { index ->
-                RoutineCard()
+                RoutineCard("Rutina", "Descripcion", true)
             }
         }
     )
