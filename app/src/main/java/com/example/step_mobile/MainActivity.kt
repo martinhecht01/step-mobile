@@ -46,14 +46,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun loginButton(){
-    Button(onClick = { /*TODO*/ }, modifier = Modifier.width(140.dp).height(60.dp) ,colors = ButtonDefaults.buttonColors( contentColor = Color.White), shape = RoundedCornerShape(40.dp), elevation =  ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp,)
-    ) {
-        Text("Login", fontSize = 30.sp, fontWeight = FontWeight.Bold)
-    }
-}
-
-@Composable
 fun BottomBar(navController: NavController) {
     val items = listOf(
         Screen.HomeScreen,
