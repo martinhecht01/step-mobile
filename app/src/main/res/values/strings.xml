@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">step-mobile</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="search_screen">Search Screen</string>
+    <string name="play_screen">Play Screen</string>
+    <string name="my_workouts_screen">My Workouts Screen</string>
 </resources>

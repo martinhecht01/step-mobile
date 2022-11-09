@@ -8,6 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.step_mobile.ui.theme.BottomNavigationTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,18 +33,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            StepmobileTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize()
+            BottomNavigationTheme {
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = { BottomBar(navController = navController) }
                 ) {
-                    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = null, contentScale = ContentScale.Crop)
-                    Row(
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(25.dp)
-                    ){
-                        loginButton()
-                    }
+                    MyNavGraph(navController = navController)
                 }
             }
         }
@@ -55,32 +54,35 @@ fun loginButton(){
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!", Modifier.firstBaselineToTop(100.dp))
-}
+fun BottomBar(navController: NavController) {
+    val items = listOf(
+        Screen.HomeScreen,
+        Screen.SearchScreen,
+        Screen.PlayScreen,
+        Screen.MyWorkoutsScreen,
+    )
 
-//Padding TOP
-fun Modifier.firstBaselineToTop(firstBaselineToTop: Dp) = layout { measurable, constraints ->
-    // Measure the composable
-    val placeable = measurable.measure(constraints)
-
-    // Check the composable has a first baseline
-    check(placeable[FirstBaseline] != AlignmentLine.Unspecified)
-    val firstBaseline = placeable[FirstBaseline]
-
-    // Height of the composable with padding - first baseline
-    val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
-    val height = placeable.height + placeableY
-    layout(placeable.width, height) {
-        // Where the composable gets placed
-        placeable.placeRelative(0, placeableY)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    StepmobileTheme {
-        Greeting("Android")
+    BottomNavigation {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
+                label = { Text(text = item.title) },
+                alwaysShowLabel = true,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        navController.graph.startDestinationRoute?.let { screenRoute ->
+                            popUpTo(screenRoute) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                }
+            )
+        }
     }
 }
