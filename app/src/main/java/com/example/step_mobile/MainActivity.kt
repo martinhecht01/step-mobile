@@ -4,12 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.FirstBaseline
@@ -26,12 +24,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StepmobileTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    backGroundImg()
-                    Greeting("Pedro")
+                    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = null)
+                    Row(
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(25.dp)
+                    ){
+                        loginButton()
+                        signupButton()
+                    }
+                    //Greeting("Pedro")
                 }
             }
         }
@@ -43,6 +48,20 @@ fun backGroundImg(){
     val image = painterResource(R.drawable.fondo);
     Box(Modifier.fillMaxSize()) {
         Image(painter = image, contentDescription = null)
+    }
+}
+
+@Composable
+fun loginButton(){
+    Button(onClick = { /*TODO*/ }) {
+       Text("Login")
+    }
+}
+
+@Composable
+fun signupButton(){
+    Button(onClick = { /*TODO*/ }) {
+        Text("Sign Up")
     }
 }
 
