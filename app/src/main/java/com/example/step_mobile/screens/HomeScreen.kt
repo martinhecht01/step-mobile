@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.step_mobile.components.RoutineCard
+import com.example.step_mobile.components.ScrollRoutine
 
 @Composable
 fun HomeScreen() {
@@ -24,27 +25,4 @@ fun HomeScreen() {
 
         ScrollRoutine()
     }
-}
-
-@Composable
-fun ScrollRoutine(){
-    val list = (1..10).map { it.toString() }
-
-    LazyVerticalGrid(
-        //minimo width que tiene que tener una columna
-        columns = GridCells.Adaptive(200.dp),
-
-        // content padding
-        contentPadding = PaddingValues(
-            start = 12.dp,
-            top = 16.dp,
-            end = 12.dp,
-            bottom = 16.dp
-        ),
-        content = {
-            items(list.size) { index ->
-                RoutineCard()
-            }
-        }
-    )
 }
