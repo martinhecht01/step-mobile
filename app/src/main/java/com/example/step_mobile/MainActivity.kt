@@ -5,18 +5,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.step_mobile.ui.theme.StepmobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,16 +32,14 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = null)
+                    Image(painter = painterResource(id = R.drawable.fondo), contentDescription = null, contentScale = ContentScale.Crop)
                     Row(
                         verticalAlignment = Alignment.Bottom,
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(25.dp)
                     ){
                         loginButton()
-                        signupButton()
                     }
-                    //Greeting("Pedro")
                 }
             }
         }
@@ -44,24 +47,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun backGroundImg(){
-    val image = painterResource(R.drawable.fondo);
-    Box(Modifier.fillMaxSize()) {
-        Image(painter = image, contentDescription = null)
-    }
-}
-
-@Composable
 fun loginButton(){
-    Button(onClick = { /*TODO*/ }) {
-       Text("Login")
-    }
-}
-
-@Composable
-fun signupButton(){
-    Button(onClick = { /*TODO*/ }) {
-        Text("Sign Up")
+    Button(onClick = { /*TODO*/ }, modifier = Modifier.width(140.dp).height(60.dp) ,colors = ButtonDefaults.buttonColors( contentColor = Color.White), shape = RoundedCornerShape(40.dp), elevation =  ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp,)
+    ) {
+        Text("Login", fontSize = 30.sp, fontWeight = FontWeight.Bold)
     }
 }
 
