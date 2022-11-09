@@ -7,7 +7,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -16,6 +19,7 @@ import com.example.step_mobile.ui.theme.BottomNavigationTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.FirstBaseline
@@ -42,14 +46,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun loginButton(){
-    Button(onClick = { /*TODO*/ }, modifier = Modifier.width(140.dp).height(60.dp) ,colors = ButtonDefaults.buttonColors( contentColor = Color.White), shape = RoundedCornerShape(40.dp), elevation =  ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp,)
-    ) {
-        Text("Login", fontSize = 30.sp, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -85,4 +81,54 @@ fun BottomBar(navController: NavController) {
             )
         }
     }
+}
+
+@Composable
+fun RoutineCard() {
+    val paddingModifier = Modifier.padding(10.dp)
+    Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier) {
+        Column(verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = "Routine Title", modifier = paddingModifier)
+            Text(text = "Routine Description", modifier = paddingModifier)
+            FavoriteButton()
+
+
+
+
+        }
+
+
+    }
+}
+
+@Composable
+fun FavoriteButton(
+    modifier: Modifier = Modifier,
+    color: Color = Color(0xffE91E63)
+) {
+
+    var isFavorite by remember { mutableStateOf(false) }
+
+    IconToggleButton(
+        checked = isFavorite,
+        onCheckedChange = {
+            isFavorite = !isFavorite
+        }
+    ) {
+        Icon(
+            tint = color,
+            modifier = modifier.graphicsLayer {
+                scaleX = 1.3f
+                scaleY = 1.3f
+            },
+            imageVector = if (isFavorite) {
+                Icons.Filled.Favorite
+            } else {
+                Icons.Default.FavoriteBorder
+            },
+            contentDescription = null
+        )
+    }
+
 }

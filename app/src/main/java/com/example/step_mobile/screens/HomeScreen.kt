@@ -20,5 +20,6 @@ fun HomeScreen() {
             text = stringResource(id = R.string.home_screen),
             fontSize = 30.sp
         )
+        RoutineCard()
     }
 }
