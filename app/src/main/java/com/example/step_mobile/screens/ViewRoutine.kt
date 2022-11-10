@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.step_mobile.R
 import com.example.step_mobile.components.ExerciseCard
+import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.Purple200
 import com.example.step_mobile.ui.theme.StepmobileTheme
