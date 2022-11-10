@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 private val BlueDark = Color(0xFF1B56ED);
 private val Blue = Color(red = 85, green = 184, blue = 255);
 private val lightBlue = Color(0xFFBAE2FF)
+private val White = Color(0xFFFFFFFF)
 
 private val DarkColorPalette = darkColors(
     primary = BlueDark,
@@ -32,6 +33,13 @@ private val LightColorPalette = lightColors(
     */
 )
 
+private val BottomNavPalette = lightColors(
+    primary = White,
+    primaryVariant = BlueDark,
+    secondary = lightBlue,
+    onPrimary = BlueDark
+)
+
 @Composable
 fun BottomNavigationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -40,14 +48,14 @@ fun BottomNavigationTheme(
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        BottomNavPalette
     }
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = NavbarTypography,
         shapes = Shapes,
-        content = content
+        content = content,
     )
 }
 
