@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.ui.theme.StepmobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -58,13 +60,13 @@ fun BottomBar(navController: NavController) {
         Screen.MyWorkoutsScreen,
     )
 
-    BottomNavigation {
+    BottomNavigation{
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
-                label = { Text(text = item.title) },
+                icon = { Icon(imageVector = item.icon, contentDescription = item.title, tint = Color.Black, modifier = Modifier.size(40.dp)) },
+                //label = {},
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {

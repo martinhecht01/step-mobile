@@ -53,5 +53,5 @@ fun subtitleText(text: String){
 
 @Composable
 fun titleText(text: String){
-    Text(text, fontSize = 60.sp, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(bottom = 5.dp))
+    Text(text, fontSize = 61.sp, fontWeight = FontWeight.Bold, color = Color.White, modifier = Modifier.padding(bottom = 5.dp))
 }
