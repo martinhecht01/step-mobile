@@ -1,6 +1,7 @@
 package com.example.step_mobile
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
@@ -147,7 +150,7 @@ fun Timer(
             )
         ) {
             Text(
-                text = if (isTimerRunning && currentTime >= 0L) "Stop"
+                text = if (isTimerRunning && currentTime > 0L) "Stop"
                 else if (!isTimerRunning && currentTime >= 0L) "Start"
                 else "Restart"
             )
@@ -157,27 +160,32 @@ fun Timer(
 
 @Composable
 fun PlayScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = stringResource(id = R.string.play_screen),
-            fontSize = 30.sp
-        )
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            Timer(
-                totalTime = 100L * 1000L,
-                handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace  
-                inactiveBarColor = Color.DarkGray,
-                activeBarColor = Color(0xFF37B900),
-                modifier = Modifier.size(200.dp)
+    Surface(modifier = Modifier.fillMaxSize()){
+        Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = stringResource(id = R.string.play_screen),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
-        ExerciseCard("Bench Press", "Gayba Bodybuilder",15)
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                Timer(
+                    totalTime = 10L * 1000L,
+                    handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
+                    inactiveBarColor = Color.DarkGray,
+                    activeBarColor = Color(0xFF37B900),
+                    modifier = Modifier.size(200.dp)
+                )
+                ExerciseCard("Bench Press", "Gayba Bodybuilder",15)
 
 
+            }
+        }
     }
-}
 }

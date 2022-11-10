@@ -20,7 +20,7 @@ import com.example.step_mobile.R
 
 @Composable
 fun ScreenTitle(title: String){
-    Card(modifier = Modifier.background(Color.White).fillMaxWidth().height(70.dp), elevation = 20.dp){
+    Card(modifier = Modifier.background(Color.White).fillMaxWidth().height(70.dp), elevation = 5.dp){
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start){
             Image(painter = painterResource(id = R.drawable.logo), contentDescription = null, contentScale = ContentScale.Fit, modifier = Modifier.padding(all = 10.dp))
 
