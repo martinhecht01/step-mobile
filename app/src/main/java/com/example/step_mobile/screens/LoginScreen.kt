@@ -23,11 +23,13 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.ui.theme.DarkBlue
 
 
 @Composable
@@ -38,7 +40,9 @@ fun LoginScreen(navController: NavController) {
     ) {
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Box(modifier = Modifier.clip(shape = RoundedCornerShape(30.dp)), contentAlignment = Alignment.Center){
-            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clip(shape = RoundedCornerShape(25.dp))) {
+            Column(verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clip(shape = RoundedCornerShape(25.dp))) {
                 Box(modifier = Modifier
                     .background(color = White)
                     .padding(30.dp)){
@@ -64,8 +68,8 @@ fun LoginScreen(navController: NavController) {
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
                             PasswordTextField()
                         }
-                        Box(contentAlignment = Alignment.Center){
-                            loginButton(navController, "home_screen")
+                        Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
+                            loginContinueButton(navController, "home_screen", )
                         }
                     }
                 }
@@ -85,6 +89,27 @@ fun InputField(label : String) {
         modifier = Modifier.background(Color.Transparent),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
+}
+
+@Composable
+fun loginContinueButton(navController: NavController, route: String){
+    Button(
+        onClick = {
+            navController.navigate(route){
+                popUpTo("welcome_screen") { inclusive = true }
+            } },
+        modifier = Modifier
+            .width(250.dp)
+            .height(40.dp),
+        colors = ButtonDefaults.buttonColors(
+            contentColor = White,
+            backgroundColor = DarkBlue
+        ),
+        shape = RoundedCornerShape(40.dp),
+        elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
+    ) {
+        Text("Login", fontSize = 15.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+    }
 }
 
 
