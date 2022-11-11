@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.example.step_mobile.classes.Exercise
 import com.example.step_mobile.classes.PlayViewModel
 import com.example.step_mobile.classes.Routine
+import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.WelcomeScreen
 
 @Composable
@@ -29,6 +30,14 @@ fun MyNavGraph(navController: NavHostController) {
         }
         composable(Screen.MyWorkoutsScreen.route) {
             MyWorkoutsScreen()
+        }
+        composable(Screen.LoginScreen.route)
+        {
+            LoginScreen()
+        }
+        composable(Screen.WelcomeScreen.route)
+        {
+            WelcomeScreen()
         }
 
     }
