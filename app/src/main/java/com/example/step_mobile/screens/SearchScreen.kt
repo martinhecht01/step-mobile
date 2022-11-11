@@ -39,7 +39,7 @@ fun SearchScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ScreenTitle(title = "Search")
+            ScreenTitle(stringResource(R.string.search))
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 5.dp)) {
                 orderDropdown()
                 switchOrder()

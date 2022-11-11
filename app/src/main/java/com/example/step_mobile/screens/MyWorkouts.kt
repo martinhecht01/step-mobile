@@ -23,7 +23,7 @@ fun MyWorkoutsScreen() {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            ScreenTitle(title = "My Favourites")
+            ScreenTitle(title = stringResource(id = R.string.my_favourites))
 
         }
     }

@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">step-mobile</string>
     <string name="home_screen">Home Screen</string>
+    <string name="home">Home</string>
     <string name="search_screen">Search Screen</string>
+    <string name="search">Search</string>
     <string name="play_screen">Time to workout!</string>
     <string name="my_workouts_screen">My Workouts Screen</string>
+    <string name="my_favourites">My Favourites</string>
     <string name="welcome">Welcome!</string>
     <string name="welcome_text">Let us enhance your workout experience.</string>
     <string name="password">Password</string>
