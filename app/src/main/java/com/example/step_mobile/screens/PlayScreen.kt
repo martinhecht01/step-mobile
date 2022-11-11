@@ -1,5 +1,6 @@
 package com.example.step_mobile
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -180,31 +182,56 @@ fun PlayScreen(routine: Routine, viewModel : PlayViewModel) {
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         val iterator = routine.exercises.listIterator()
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = stringResource(id = R.string.play_screen),
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Timer(
-                    totalTime = 10L * 1000L,
-                    handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
-                    inactiveBarColor = Color.DarkGray,
-                    activeBarColor = Color(0xFF37B900),
-                    modifier = Modifier.size(200.dp),
-                    viewModel = viewModel
-                )
+        Box {
+            val contentPaddingModifier = Modifier.padding(16.dp)
+            val configuration = LocalConfiguration.current
+            when (configuration.orientation) {
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    Row(modifier = Modifier.fillMaxSize()) {
+                        mainContent(routine, viewModel)
+                    }
+                }
+                else -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        mainContent(routine, viewModel)
 
-                ExerciseCard(routine.exercises[viewModel.currentIndex()],15) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 
+                    }
+                }
             }
         }
+    }
+}
+@Composable
+fun mainContent(routine: Routine, viewModel : PlayViewModel) {
+
+
+    Text(
+        text = stringResource(id = R.string.play_screen),
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.White
+    )
+    Box(
+        contentAlignment = Alignment.Center
+    ) {
+        Timer(
+            totalTime = 10L * 1000L,
+            handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
+            inactiveBarColor = Color.DarkGray,
+            activeBarColor = Color(0xFF37B900),
+            modifier = Modifier.size(200.dp),
+            viewModel = viewModel
+        )
+
+        ExerciseCard(
+            routine.exercises[viewModel.currentIndex()],
+            15
+        ) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
+
+
     }
 }

@@ -1,9 +1,11 @@
 package com.example.step_mobile
 
+import RatingBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -17,8 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media2.session.StarRating
-import androidx.navigation.NavController
+import com.example.step_mobile.classes.Routine
 import com.example.step_mobile.components.ScreenTitle
 import java.lang.Float
 
@@ -26,16 +27,25 @@ import java.lang.Float
 fun HomeScreen() {
     Surface(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
+        Column(verticalArrangement = Arrangement.Top) {
+            ScreenTitle(title = "Home")
+        }
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            ScreenTitle(title = "Home")
             WelcomeCard("Pedro")
             TopWorkoutCard();
         }
     }
 
+}
+
+@Composable
+fun TopWorkoutDetail(routine: Routine){
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(vertical = 5.dp)) {
+        
+    }
 }
 
 @Composable
@@ -66,8 +76,10 @@ fun TopWorkoutCard(){
         .clip(shape = RoundedCornerShape(30.dp))
         .background(Color.White)
         .fillMaxWidth()
-        .height(200.dp)) {
+        .height(300.dp)) {
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally){
+            Text(text = "Top Workout", color = Color.DarkGray, fontSize = 25.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp))
+            RatingBar(rating = 4.5)
         }
     }
 }

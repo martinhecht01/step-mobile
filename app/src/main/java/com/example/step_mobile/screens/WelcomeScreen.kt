@@ -43,7 +43,7 @@ fun WelcomeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .paddingFromBaseline(bottom = 50.dp)
-                .padding(60.dp)
+                .padding(50.dp)
         ) {
             titleText(LocalContext.current.resources.getString(R.string.welcome))
             subtitleText(LocalContext.current.resources.getString(R.string.welcome_text))
