@@ -7,4 +7,7 @@
     <string name="my_workouts_screen">Mis rutinas</string>
     <string name="welcome">Bienvenido!</string>
     <string name="welcome_text">Dejanos mejorar tu experiencia de entrenamiento</string>
+    <string name="password">Clave</string>
+    <string name="login">Ingresar</string>
+    <string name="signin">Iniciar Sesion</string>
 </resources>

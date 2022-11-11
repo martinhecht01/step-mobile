@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -48,20 +49,20 @@ fun LoginScreen(navController: NavController) {
                     .padding(30.dp)){
                     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            Text(text = "Sign In", fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
+                            Text(stringResource(R.string.signin), fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp)){
-                            Text(
-                                buildAnnotatedString {
-                                    withStyle(style = SpanStyle(color = Color.DarkGray, fontSize = 20.sp)) {
-                                        append("New to Step? ")
-                                    }
-                                    withStyle(style = SpanStyle(color = Color.Green, textDecoration = TextDecoration.Underline, fontSize = 20.sp)) {
-                                        append("Sign up for free")
-                                    }
-                                }
-                            )
-                        }
+//                        Box(modifier = Modifier.padding(bottom = 25.dp)){
+//                            Text(
+//                                buildAnnotatedString {
+//                                    withStyle(style = SpanStyle(color = Color.DarkGray, fontSize = 20.sp)) {
+//                                        append("New to Step? ")
+//                                    }
+//                                    withStyle(style = SpanStyle(color = Color.Green, textDecoration = TextDecoration.Underline, fontSize = 20.sp)) {
+//                                        append("Sign up for free")
+//                                    }
+//                                }
+//                            )
+//                        }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
                             InputField(label = "Email")
                         }
@@ -108,7 +109,7 @@ fun loginContinueButton(navController: NavController, route: String){
         shape = RoundedCornerShape(40.dp),
         elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
     ) {
-        Text("Login", fontSize = 15.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+        Text(stringResource(R.string.login), fontSize = 15.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
     }
 }
 
@@ -120,7 +121,7 @@ fun PasswordTextField() {
     OutlinedTextField(
         value = password,
         onValueChange = { password = it },
-        label = { Text("Password") },
+        label = { Text(stringResource(R.string.password)) },
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )

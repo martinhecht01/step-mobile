@@ -6,4 +6,7 @@
     <string name="my_workouts_screen">My Workouts Screen</string>
     <string name="welcome">Welcome!</string>
     <string name="welcome_text">Let us enhance your workout experience.</string>
+    <string name="password">Password</string>
+    <string name="login">Log in</string>
+    <string name="signin">Sign In</string>
 </resources>
