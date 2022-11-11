@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import com.example.step_mobile.classes.Exercise
+import com.example.step_mobile.classes.PlayViewModel
 import com.example.step_mobile.classes.Routine
 import com.example.step_mobile.repositories.RoutineRepository
 
@@ -41,7 +42,7 @@ import kotlin.math.sin
 @Composable
 fun Timer(
 
-    iterator : Iterator<Exercise>,
+    viewModel: PlayViewModel,
 
     totalTime: Long,
 
@@ -140,7 +141,7 @@ fun Timer(
                 if(currentTime <= 0L) {
                     currentTime = totalTime
                     isTimerRunning = true
-                    iterator.next()
+                    viewModel.incIndex()
                 } else {
                     isTimerRunning = !isTimerRunning
                 }
@@ -158,14 +159,14 @@ fun Timer(
             Text(
                 text = if (isTimerRunning && currentTime > 0L) "Stop"
                 else if (!isTimerRunning && currentTime >= 0L) "Start"
-                else "Restart"
+                else "Next"
             )
         }
     }
 }
 
 @Composable
-fun PlayScreen(routine: Routine) {
+fun PlayScreen(routine: Routine, viewModel : PlayViewModel) {
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         val iterator = routine.exercises.listIterator()
@@ -188,11 +189,10 @@ fun PlayScreen(routine: Routine) {
                     inactiveBarColor = Color.DarkGray,
                     activeBarColor = Color(0xFF37B900),
                     modifier = Modifier.size(200.dp),
-                    iterator = iterator
+                    viewModel = viewModel
                 )
 
-                for (exercises in routine.exercises)
-                    ExerciseCard(iterator.next(),15) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
+                ExerciseCard(routine.exercises[viewModel.currentIndex()],15) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 
             }
         }
