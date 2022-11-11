@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,8 +46,8 @@ fun WelcomeScreen(navController: NavController) {
                 .paddingFromBaseline(bottom = 50.dp)
                 .padding(50.dp)
         ) {
-            titleText(LocalContext.current.resources.getString(R.string.welcome))
-            subtitleText(LocalContext.current.resources.getString(R.string.welcome_text))
+            titleText(stringResource(R.string.welcome))
+            subtitleText(stringResource(R.string.welcome_text))
             loginButton(navController, "login_screen")
         }
     }
@@ -58,7 +59,6 @@ fun loginButton(navController: NavController, route: String) {
         onClick = {
             navController.navigate(route)},
         modifier = Modifier
-            .width(140.dp)
             .padding(bottom = 20.dp)
         ,
         colors = ButtonDefaults.buttonColors(
@@ -69,7 +69,7 @@ fun loginButton(navController: NavController, route: String) {
         shape = RoundedCornerShape(40.dp),
         elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
     ) {
-        Text("Login", fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+        Text(stringResource(R.string.login), fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
     }
 }
 
@@ -80,7 +80,7 @@ fun subtitleText(text: String) {
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         color = Color.White,
-        textAlign = TextAlign.Justify,
+       // textAlign = TextAlign.Justify,
         modifier = Modifier.padding(bottom = 50.dp)
     )
 }
