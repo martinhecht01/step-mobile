@@ -14,10 +14,6 @@ class RoutineViewModel : ViewModel() {
 
     init{
         viewModelScope.launch{//TODO: aca hay que llamar a la api para llenar las rutinas
-            state = state.copy(
-                isLoading = true
-            )
-            delay(2000)
             state =state.copy(
                 routines = listOf(
                 Routine("gayba","feliz"),
