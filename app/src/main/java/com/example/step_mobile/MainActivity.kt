@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val backStack by navController.currentBackStackEntryAsState()
                 Scaffold(
-                    bottomBar = { BottomBar(navController = navController) }
+                    bottomBar = { BottomBar(navController = navController, true) }
                 ) {
                     MyNavGraph(navController = navController)
                 }
