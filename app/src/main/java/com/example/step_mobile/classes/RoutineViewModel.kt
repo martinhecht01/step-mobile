@@ -5,10 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.step_mobile.repositories.RoutineRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RoutineViewModel : ViewModel() {
+class RoutineViewModel(
+    private val repository: RoutineRepository
+) : ViewModel() {
     var state by mutableStateOf(RoutineState())
         private set
 
@@ -21,6 +24,7 @@ class RoutineViewModel : ViewModel() {
                 Routine("gaybabodybuilder","triste"),
                 Routine("aguante","racing"),
                 Routine("locelso","abandonaste")),
+                //routines = repository.getRoutines(), // Para cuando podamos conectar la api
                 isLoading = false
             )
         }
