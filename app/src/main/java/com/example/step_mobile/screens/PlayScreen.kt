@@ -80,6 +80,16 @@ fun Timer(
             delay(100L)
             currentTime -= 100L
             value = currentTime / totalTime.toFloat()
+            if(currentTime<=0 && viewModel.currentIndex() != 1){//TODO:esto esta mal adaptar a cada rutina
+
+
+
+                currentTime = totalTime
+                isTimerRunning = true
+                viewModel.incIndex()
+            }else if(currentTime<=0 && viewModel.currentIndex() == 1){
+                isTimerRunning = !isTimerRunning
+            }
         }
     }
     Box(
