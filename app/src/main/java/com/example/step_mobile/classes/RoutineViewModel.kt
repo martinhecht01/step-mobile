@@ -18,14 +18,14 @@ class RoutineViewModel(
     init{
         viewModelScope.launch{//TODO: aca hay que llamar a la api para llenar las rutinas
             state =state.copy(
-                routines = listOf(
-                Routine("gayba","feliz"),
-                Routine("manu","feliz"),
-                Routine("gaybabodybuilder","triste"),
-                Routine("aguante","racing"),
-                Routine("locelso","abandonaste")),
-                //routines = repository.getRoutines(), // Para cuando podamos conectar la api
-                isLoading = false
+//                routines = listOf(
+////                Routine("gayba","feliz"),
+////                Routine("manu","feliz"),
+////                Routine("gaybabodybuilder","triste"),
+////                Routine("aguante","racing"),
+////                Routine("locelso","abandonaste")),
+//                //routines = repository.getRoutines(), // Para cuando podamos conectar la api
+//                isLoading = false
             )
         }
     }

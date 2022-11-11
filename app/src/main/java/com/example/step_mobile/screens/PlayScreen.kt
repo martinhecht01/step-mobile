@@ -26,8 +26,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import com.example.step_mobile.classes.Exercise
+import com.example.step_mobile.classes.Routine
+import com.example.step_mobile.repositories.RoutineRepository
 
 import kotlinx.coroutines.delay
 import kotlin.math.PI
@@ -37,6 +41,7 @@ import kotlin.math.sin
 @Composable
 fun Timer(
 
+    iterator : Iterator<Exercise>,
 
     totalTime: Long,
 
@@ -135,6 +140,7 @@ fun Timer(
                 if(currentTime <= 0L) {
                     currentTime = totalTime
                     isTimerRunning = true
+                    iterator.next()
                 } else {
                     isTimerRunning = !isTimerRunning
                 }
@@ -159,9 +165,10 @@ fun Timer(
 }
 
 @Composable
-fun PlayScreen() {
+fun PlayScreen(routine: Routine) {
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
+        val iterator = routine.exercises.listIterator()
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -180,10 +187,12 @@ fun PlayScreen() {
                     handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
                     inactiveBarColor = Color.DarkGray,
                     activeBarColor = Color(0xFF37B900),
-                    modifier = Modifier.size(200.dp)
+                    modifier = Modifier.size(200.dp),
+                    iterator = iterator
                 )
-                ExerciseCard("Bench Press", "Gayba Bodybuilder",15)
 
+                for (exercises in routine.exercises)
+                    ExerciseCard(iterator.next(),15) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 
             }
         }

@@ -17,15 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.example.step_mobile.classes.Exercise
 
 @Composable
-fun ExerciseCard(title: String, description: String, Reps: Int) {
+fun ExerciseCard(exercise : Exercise, Reps: Int) {
     val paddingModifier = Modifier.padding(10.dp)
     Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier) {
         Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = title, modifier = paddingModifier)
-            Text(text = description, modifier = paddingModifier)
+            Text(text = exercise.title, modifier = paddingModifier)
+            Text(text = exercise.description, modifier = paddingModifier)
             Text( text = Reps.toString(), modifier = paddingModifier)
         }
     }
