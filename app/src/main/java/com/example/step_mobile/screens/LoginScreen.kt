@@ -26,12 +26,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.step_mobile.R
 
 
 @Composable
-@Preview
-fun LoginScreen() {
+//@Preview
+fun LoginScreen(navController: NavController) {
     Surface(
         modifier = androidx.compose.ui.Modifier.fillMaxSize()
     ) {
@@ -64,7 +65,7 @@ fun LoginScreen() {
                             PasswordTextField()
                         }
                         Box(contentAlignment = Alignment.Center){
-                            loginButton()
+                            loginButton(navController, "home_screen")
                         }
                     }
                 }

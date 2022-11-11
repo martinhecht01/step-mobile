@@ -14,7 +14,7 @@ import com.example.step_mobile.screens.WelcomeScreen
 fun MyNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.HomeScreen.route
+        startDestination = Screen.WelcomeScreen.route
     ) {
         composable(Screen.HomeScreen.route) {
             HomeScreen()
@@ -33,11 +33,11 @@ fun MyNavGraph(navController: NavHostController) {
         }
         composable(Screen.LoginScreen.route)
         {
-            LoginScreen()
+            LoginScreen(navController)
         }
         composable(Screen.WelcomeScreen.route)
         {
-            WelcomeScreen()
+            WelcomeScreen(navController)
         }
 
     }
