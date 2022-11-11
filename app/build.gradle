@@ -47,10 +47,6 @@ android {
 }
 
 dependencies {
-    def media2_version = "1.2.1"
-    implementation "androidx.media2:media2-session:$media2_version"
-    implementation "androidx.media2:media2-widget:$media2_version"
-    implementation "androidx.media2:media2-player:$media2_version"
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'
