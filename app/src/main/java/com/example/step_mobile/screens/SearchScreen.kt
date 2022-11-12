@@ -57,7 +57,7 @@ fun switchOrder(){
     Card(
         elevation = 10.dp,
         modifier = Modifier
-            .padding(start = 10.dp, top= 25.dp, bottom = 25.dp)
+            .padding(start = 10.dp, top = 25.dp, bottom = 25.dp)
             .clip(RoundedCornerShape(10.dp))
             .clickable { }
     ){
@@ -84,11 +84,15 @@ fun switchOrder(){
 @Composable
 fun orderDropdown(){
     var expanded by remember { mutableStateOf(false) }
-    var title by remember { mutableStateOf("Date") }
+
+    //TODO cuidado con este string, puede llegar a dar problemas de sincronizacion
+    var dateString = stringResource(R.string.date)
+
+    var title by remember { mutableStateOf(dateString) }
     Card(modifier = Modifier
         .padding(25.dp)
         .clip(shape = RoundedCornerShape(10.dp))
-        .clickable {  },
+        .clickable { },
         elevation = 10.dp
     )
     {
@@ -117,13 +121,13 @@ fun orderDropdown(){
 
             ) {
                 DropdownMenuItem(onClick = { title = "Date"; expanded = false }) {
-                    Text(text = "Date")
+                    Text(text = stringResource(R.string.date))
                 }
                 DropdownMenuItem(onClick = { title = "Difficulty"; expanded = false }) {
-                    Text(text = "Difficulty")
+                    Text(text = stringResource(R.string.difficulty))
                 }
                 DropdownMenuItem(onClick = { title = "Rating"; expanded = false }) {
-                    Text(text = "Rating")
+                    Text(text = stringResource(R.string.rating))
                 }
             }
         }

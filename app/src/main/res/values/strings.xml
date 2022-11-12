@@ -1,15 +1,36 @@
 <resources>
     <string name="app_name" translatable="false">step-mobile</string>
-    <string name="home_screen">Home Screen</string>
-    <string name="home">Home</string>
+
+    <!-- Search screen -->
     <string name="search_screen">Search Screen</string>
     <string name="search">Search</string>
+    <string name="date">Date</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="rating">Rating</string>
+
+    <!-- Play screen -->
     <string name="play_screen">Time to workout!</string>
+
+    <!-- My Workouts screen -->
     <string name="my_workouts_screen">My Workouts Screen</string>
+
+    <!-- Welcome screen -->
     <string name="my_favourites">My Favourites</string>
+
+    <!-- Welcome screen -->
     <string name="welcome">Welcome!</string>
     <string name="welcome_text">Let us enhance your workout experience.</string>
+
+    <!-- Login screen -->
     <string name="password">Password</string>
     <string name="login">Log in</string>
     <string name="signin">Sign In</string>
+
+    <!-- Home screen -->
+    <string name="home_screen">Home Screen</string>
+    <string name="home">Home</string>
+    <string name="cheering_message_1">Don\'t let your body down!</string>
+    <string name="cheering_message_2">Step it up!</string>
+    <string name="welcome_message_with_name">Welcome %1$s!</string>
+    <string name="top_workout">Top Workout</string>
 </resources>

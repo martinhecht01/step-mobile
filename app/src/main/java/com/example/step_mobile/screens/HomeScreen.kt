@@ -63,9 +63,13 @@ fun WelcomeCard(name: String){
         .fillMaxWidth()
         .height(200.dp)) {
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally){
-            Text(text = "Welcome " + name + "!", modifier = Modifier.padding(vertical = 15.dp, horizontal = 20.dp), color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 30.sp )
-            SubtitleText("Don't let your body down");
-            SubtitleText("Step it up!");
+            Text(stringResource(R.string.welcome_message_with_name, name),
+                modifier = Modifier.padding(vertical = 15.dp, horizontal = 20.dp),
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                fontSize = 30.sp )
+            SubtitleText(stringResource(id = R.string.cheering_message_1))
+            SubtitleText(stringResource(id = R.string.cheering_message_2))
         }
     }
 }
@@ -79,7 +83,14 @@ fun TopWorkoutCard(){
         .fillMaxWidth()
         .height(300.dp)) {
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally){
-            Text(text = "Top Workout", color = Color.DarkGray, fontSize = 25.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 10.dp))
+            Text(
+                stringResource(R.string.top_workout),
+                color = Color.DarkGray,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.
+                padding(vertical = 10.dp)
+            )
             RatingBar(rating = 4.5)
         }
     }
