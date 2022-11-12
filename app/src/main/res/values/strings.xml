@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">step-mobile</string>
+    <string name="app_name" translatable="false">Step</string>
 
     <!-- Search screen -->
     <string name="search_screen">Search Screen</string>
