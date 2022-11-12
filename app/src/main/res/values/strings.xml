@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">step-mobile</string>
 
     <!-- Search screen -->
+    <string name="search_url">Routine URL</string>
     <string name="search_screen">Search Screen</string>
     <string name="search">Search</string>
     <string name="date">Date</string>

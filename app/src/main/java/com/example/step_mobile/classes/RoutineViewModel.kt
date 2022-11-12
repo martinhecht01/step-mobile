@@ -24,15 +24,16 @@ class RoutineViewModel(navController: NavController) : ViewModel() {
                 routines = listOf(
                 Routine(1,"Pechardo", "Tetas", listOf(), 4.0),
                 Routine(2,"Piernas de tero", "Soy veloz", listOf(), 3.0),
-                Routine(3,"Hombros de acero", "La mole moli", listOf(), 2.5),
+                Routine(3,"Hombros de acero", "La mole moli", listOf(), 5.0),
                 Routine(4,"Gayba mode", "Gayba esta durp", listOf(), 4.5),
-                Routine(5,"Tobi pollito", "Tobi esta duro", listOf(), 5.0)
+                Routine(5,"Tobi pollito", "Tobi esta duro", listOf(), 4.0)
                 ),
                 isLoading = false
             )
         }
     }
 
+    //Evento que apretan ua rutina
     fun onRoutineClicked(id: Int){
         controller.navigate("view_routine_screen/${id}")
     }
@@ -43,6 +44,18 @@ class RoutineViewModel(navController: NavController) : ViewModel() {
                 return index
         }
         return -1
+    }
+
+    fun getIndexTopRoutine(): Int{
+        var topRating = -1.0;
+        var topIndex = -1;
+        for((index, routine) in state.routines.withIndex()){
+            if(routine.rating > topRating){
+                topRating = routine.rating
+                topIndex = index
+            }
+        }
+        return topIndex
     }
 
 }

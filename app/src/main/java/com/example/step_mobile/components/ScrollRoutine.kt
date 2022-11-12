@@ -33,28 +33,9 @@ fun ScrollRoutine(routineViewModel: RoutineViewModel){
         content = {
             items(state.routines) { routine ->
                 Box(modifier = Modifier.clickable { routineViewModel.onRoutineClicked(routine.id) }){
-                    RoutineCard(routine.title, routine.description, true)
+                    RoutineCard(routine.title, routine.description, true, routine.id)
                 }
             }
         }
     )
-}
-@Composable
-fun ScrollRoutine2(routineViewModel: RoutineViewModel){
-    val state = routineViewModel.state
-    if(state.isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
-        }
-    }
-    LazyColumn(
-        //minimo width que tiene que tener una columna
-        modifier = Modifier.fillMaxWidth()
-    ){
-        items(state.routines){
-            Column(modifier = Modifier.fillMaxWidth()){
-                RoutineCardTM(it)
-            }
-        }
-    }
 }

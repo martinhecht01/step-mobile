@@ -27,10 +27,10 @@ import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RoutineCard(title: String, description: String, isFavorite: Boolean) {
+fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+        putExtra(Intent.EXTRA_TEXT, "view_routine_screen/${id}")
         type = "text/plain"
     }
 

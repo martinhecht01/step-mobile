@@ -24,10 +24,10 @@ fun MyNavGraph(navController: NavHostController) {
     ) {
         var routineViewModel = RoutineViewModel(navController)
         composable(Screen.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(routineViewModel)
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(routineViewModel)
+            SearchScreen(routineViewModel, navController)
         }
         composable(Screen.PlayScreen.route) {
             PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf(Exercise("Pecho", "De pecho"),
@@ -49,6 +49,8 @@ fun MyNavGraph(navController: NavHostController) {
         composable(Screen.ViewRoutineScreen.route){
             val arg = it.arguments?.getString("id") ?: "-1"
             val id = Integer.parseInt(arg)
+            //Aca podes hacer manejo de error
+            //if(-1) -> errorScreen
             ViewRoutine(navController, id , routineViewModel)
         }
 

@@ -39,7 +39,6 @@ fun BottomBar(navController: NavController, showBar: Boolean) {
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
-        Screen.PlayScreen,
         Screen.MyWorkoutsScreen,
     )
 
@@ -64,7 +63,8 @@ fun BottomBar(navController: NavController, showBar: Boolean) {
                         navController.navigate(item.route) {
                             navController.graph.startDestinationRoute?.let { screenRoute ->
                                 popUpTo(screenRoute) {
-                                    saveState = true
+                                    //Saveo el estado de como tengo mi pantalla actual?
+                                    saveState = false
                                 }
                                 launchSingleTop = true
                                 restoreState = true
