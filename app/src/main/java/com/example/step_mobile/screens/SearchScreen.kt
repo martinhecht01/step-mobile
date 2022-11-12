@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.example.step_mobile.components.ScrollRoutine
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
@@ -37,10 +39,11 @@ fun SearchScreen() {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
             ScreenTitle(stringResource(R.string.search))
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 5.dp)) {
+            Row(verticalAlignment = Alignment.Top,
+                modifier = Modifier.padding(bottom = 5.dp)) {
                 orderDropdown()
                 switchOrder()
             }
@@ -51,8 +54,14 @@ fun SearchScreen() {
 
 @Composable
 fun switchOrder(){
-    Box(){
-        Column(modifier = Modifier.clip(shape = RoundedCornerShape(10.dp))) {
+    Card(
+        elevation = 10.dp,
+        modifier = Modifier
+            .padding(start = 10.dp, top= 25.dp, bottom = 25.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .clickable { }
+    ){
+        Column() {
             var order by remember { mutableStateOf(false) }
             OutlinedButton(onClick = {
                 order = !order
@@ -70,13 +79,19 @@ fun switchOrder(){
 
 }
 
+
+//TODO no queda claro que se puede clickear
 @Composable
 fun orderDropdown(){
     var expanded by remember { mutableStateOf(false) }
     var title by remember { mutableStateOf("Date") }
-    Box(modifier = Modifier
+    Card(modifier = Modifier
         .padding(25.dp)
-        .clip(shape = RoundedCornerShape(10.dp))) {
+        .clip(shape = RoundedCornerShape(10.dp))
+        .clickable {  },
+        elevation = 10.dp
+    )
+    {
         Column(
             modifier = Modifier
                 .background(color = Color.White)
