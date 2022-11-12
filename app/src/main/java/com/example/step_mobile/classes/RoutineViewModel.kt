@@ -5,15 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.example.step_mobile.repositories.RoutineRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 //class RoutineViewModel(private val repository: RoutineRepository) : ViewModel() {
-class RoutineViewModel() : ViewModel() {
+class RoutineViewModel(navController: NavController) : ViewModel() {
 
     var state by mutableStateOf(RoutineState())
         private set
+
+    val controller = navController
 
     init{
         viewModelScope.launch{//TODO: aca hay que llamar a la api para llenar las rutinas
@@ -29,4 +32,17 @@ class RoutineViewModel() : ViewModel() {
             )
         }
     }
+
+    fun onRoutineClicked(id: Int){
+        controller.navigate("view_routine_screen/${id}")
+    }
+
+    fun getIndexWithId(id: Int): Int {
+        for((index, routine) in state.routines.withIndex()){
+            if(routine.id == id)
+                return index
+        }
+        return -1
+    }
+
 }

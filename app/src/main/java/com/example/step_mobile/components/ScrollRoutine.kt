@@ -1,5 +1,6 @@
 package com.example.step_mobile.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -30,8 +31,10 @@ fun ScrollRoutine(routineViewModel: RoutineViewModel){
             bottom = 16.dp
         ),
         content = {
-            items(state.routines) { index ->
-                RoutineCard(index.title, index.description, true)
+            items(state.routines) { routine ->
+                Box(modifier = Modifier.clickable { routineViewModel.onRoutineClicked(routine.id) }){
+                    RoutineCard(routine.title, routine.description, true)
+                }
             }
         }
     )
