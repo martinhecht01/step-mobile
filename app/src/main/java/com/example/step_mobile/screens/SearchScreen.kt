@@ -28,12 +28,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.step_mobile.classes.RoutineViewModel
 import com.example.step_mobile.components.ScreenTitle
 import kotlin.math.exp
 
-@Preview
 @Composable
-fun SearchScreen() {
+fun SearchScreen(routineViewModel: RoutineViewModel) {
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(
@@ -47,7 +47,7 @@ fun SearchScreen() {
                 orderDropdown()
                 switchOrder()
             }
-            ScrollRoutine()
+            ScrollRoutine(routineViewModel)
         }
     }
 }

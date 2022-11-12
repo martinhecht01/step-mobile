@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -14,8 +15,8 @@ import com.example.step_mobile.classes.RoutineViewModel
 
 
 @Composable
-fun ScrollRoutine(){
-    val list = (1..10).map { it.toString() }
+fun ScrollRoutine(routineViewModel: RoutineViewModel){
+    val state = routineViewModel.state;
 
     LazyVerticalGrid(
         //minimo width que tiene que tener una columna
@@ -29,8 +30,8 @@ fun ScrollRoutine(){
             bottom = 16.dp
         ),
         content = {
-            items(list.size) { index ->
-                RoutineCard("Rutina", "Descripcion", true)
+            items(state.routines) { index ->
+                RoutineCard(index.title, index.description, true)
             }
         }
     )
