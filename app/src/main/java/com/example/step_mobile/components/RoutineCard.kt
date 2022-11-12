@@ -1,12 +1,11 @@
 package com.example.step_mobile.components
 
+import android.content.Intent
 import android.graphics.Paint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -17,17 +16,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import java.time.format.TextStyle
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RoutineCard(title: String, description: String, isFavorite: Boolean) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    val context = LocalContext.current
+
     val paddingModifier = Modifier.padding(10.dp)
-    Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier) {
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        elevation = 10.dp,
+        modifier = paddingModifier
+    ) {
         Column(Modifier.padding(10.dp)) {
             Row(Modifier.align(Alignment.End)) {
                 Text(
@@ -44,7 +59,9 @@ fun RoutineCard(title: String, description: String, isFavorite: Boolean) {
                 Icon(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = null,
-                    modifier = Modifier.padding(15.dp)
+                    modifier = Modifier.padding(15.dp).clickable {
+                        context.startActivity(shareIntent)
+                    }
                 )
             }
             Text(
