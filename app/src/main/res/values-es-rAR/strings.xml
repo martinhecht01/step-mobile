@@ -3,6 +3,7 @@
     <string name="app_name">Step</string>
 
     <!-- Search screen -->
+    <string name="search_url">URL de la rutina</string>
     <string name="search_screen">Pantalla de busqueda</string>
     <string name="search">Buscar</string>
     <string name="date">Fecha</string>

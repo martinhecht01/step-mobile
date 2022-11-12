@@ -4,13 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,34 +21,72 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.step_mobile.components.ScrollRoutine
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.TextStyle
+import androidx.navigation.NavController
 import com.example.step_mobile.classes.RoutineViewModel
 import com.example.step_mobile.components.ScreenTitle
-import kotlin.math.exp
 
 @Composable
-fun SearchScreen(routineViewModel: RoutineViewModel) {
+fun SearchScreen(routineViewModel: RoutineViewModel, navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ScreenTitle(stringResource(R.string.search))
-            Row(verticalAlignment = Alignment.Top,
-                modifier = Modifier.padding(bottom = 5.dp)) {
+            //SearchBar(navController = navController)
+            Row(verticalAlignment = Alignment.Top) {
                 orderDropdown()
                 switchOrder()
             }
             ScrollRoutine(routineViewModel)
         }
     }
+}
+
+//check string with regex and return true if it is view_routine_screen/ and a number
+fun isRoutineUrl(string: String): Boolean {
+    val regex = Regex("view_routine_screen/[0-9]+")
+    return regex.matches(string)
+}
+
+@Composable
+fun SearchBar(navController: NavController){
+    var url by rememberSaveable { mutableStateOf("") }
+    var errorFlag by remember { mutableStateOf(false) }
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(vertical = 15.dp)) {
+        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+            OutlinedTextField(
+                value = url,
+                textStyle = TextStyle(color = Color.DarkGray),
+                onValueChange = { url = it },
+                label = { Text(stringResource(id = R.string.search_url)) },
+                colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = Color.White),
+                shape = RoundedCornerShape(10.dp),
+                isError = errorFlag,
+            )
+            OutlinedButton(onClick = {
+                if(isRoutineUrl(url)){
+                    errorFlag = false
+                    navController.navigate(url)
+                } else{
+                    errorFlag = true
+                }},
+                Modifier
+                    .padding(horizontal = 10.dp)
+                    .padding(top = 5.dp)
+            ) {
+                Icon(imageVector = Icons.Outlined.Search, contentDescription = null, tint = Color.DarkGray)
+            }
+        }
+    }
+
 }
 
 @Composable
