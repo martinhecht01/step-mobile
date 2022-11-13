@@ -40,7 +40,7 @@ fun SearchScreen(routineViewModel: RoutineViewModel, navController: NavControlle
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ScreenTitle(stringResource(R.string.search))
-            //SearchBar(navController = navController)
+            SearchBar(navController = navController)
             Row(verticalAlignment = Alignment.Top) {
                 orderDropdown()
                 switchOrder()

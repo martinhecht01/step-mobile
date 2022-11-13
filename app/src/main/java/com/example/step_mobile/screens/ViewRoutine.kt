@@ -14,9 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.classes.Routine
 import com.example.step_mobile.classes.RoutineViewModel
 import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.components.ScreenTitle
@@ -25,14 +28,19 @@ import com.example.step_mobile.ui.theme.StepmobileTheme
 
 @Composable
 fun ViewRoutine(navController: NavController, id: Int, routineViewModel: RoutineViewModel) {
-    val index = routineViewModel.getIndexWithId(id)
-    var routine = routineViewModel.state.routines[index]
+    var index = routineViewModel.getIndexWithId(id)
+    var errorFlag = false
+    if(index == -1) {
+        errorFlag = true
+    }
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(id = R.drawable.fondonp),
         contentDescription = null,
         contentScale = ContentScale.Crop
     )
+    if(!errorFlag) {
+        var routine = routineViewModel.state.routines[index]
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             StepmobileTheme() {
                 ScreenTitle(title = routine.title)
@@ -43,7 +51,7 @@ fun ViewRoutine(navController: NavController, id: Int, routineViewModel: Routine
                 shape = RoundedCornerShape(20.dp),
                 elevation = 10.dp,
 
-            ) {
+                ) {
                 RoutineInfo()
             }
             Row(horizontalArrangement = Arrangement.Center) {
@@ -55,11 +63,21 @@ fun ViewRoutine(navController: NavController, id: Int, routineViewModel: Routine
                         .size(60.dp),
                     shape = RoundedCornerShape(100),
                     elevation = ButtonDefaults.elevation(5.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = PlayGreen, contentColor = Color.White)) {
-                   Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = PlayGreen,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
                 }
             }
         }
+    } else{
+        //TODO: Error management? Tirar error screen? 
+        navController.navigate("search_screen"){
+            popUpTo("search_screen")
+        }
+    }
 
 
 }
