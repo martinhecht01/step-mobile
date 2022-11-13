@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.classes.Routine
 import com.example.step_mobile.classes.RoutineViewModel
 import com.example.step_mobile.components.CycleCard
 import com.example.step_mobile.components.ExerciseCardTM
@@ -26,7 +28,6 @@ import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
 
 @Composable
-@Preview
 fun ViewRoutine(navController: NavController, id: Int, routineViewModel: RoutineViewModel) {
     var index = routineViewModel.getIndexWithId(id)
     var errorFlag = false
