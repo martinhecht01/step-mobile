@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">step-mobile</string>
+    <string name="app_name">Step</string>
 
     <!-- Search screen -->
     <string name="search_url">URL de la rutina</string>
