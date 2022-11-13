@@ -181,7 +181,7 @@ fun Timer(
 fun PlayScreen(routine: Routine, viewModel : PlayViewModel) {
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
-        val iterator = routine.exercises.listIterator()
+//        val iterator = routine.exercises.listIterator() TODO: las routines ahora tienen cycles
         Box {
             val contentPaddingModifier = Modifier.padding(16.dp)
             val configuration = LocalConfiguration.current
@@ -228,7 +228,7 @@ fun mainContent(routine: Routine, viewModel : PlayViewModel) {
         )
 
         ExerciseCard(
-            routine.exercises[viewModel.currentIndex()],
+            routine.cycles[0].exercises[viewModel.currentIndex()],
             15
         ) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 

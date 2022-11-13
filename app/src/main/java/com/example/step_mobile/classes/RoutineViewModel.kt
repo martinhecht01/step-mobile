@@ -6,8 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.example.step_mobile.repositories.RoutineRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 //class RoutineViewModel(private val repository: RoutineRepository) : ViewModel() {

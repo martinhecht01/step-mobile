@@ -1,17 +1,10 @@
 package com.example.step_mobile
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentComposer
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.step_mobile.classes.Exercise
-import com.example.step_mobile.classes.PlayViewModel
-import com.example.step_mobile.classes.Routine
-import com.example.step_mobile.classes.RoutineViewModel
+import com.example.step_mobile.classes.*
 import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
@@ -30,8 +23,9 @@ fun MyNavGraph(navController: NavHostController) {
             SearchScreen(routineViewModel, navController)
         }
         composable(Screen.PlayScreen.route) {
-            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf(Exercise("Pecho", "De pecho"),
-                Exercise("Piernas", "de piernas")
+            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf(
+                Cycle("Pecho", listOf<Exercise>(Exercise("Piernas", "de piernas")),
+                )
             ), 5.0), viewModel = PlayViewModel()
             )
         }

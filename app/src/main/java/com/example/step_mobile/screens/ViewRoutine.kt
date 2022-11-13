@@ -14,19 +14,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.classes.Cycle
+import com.example.step_mobile.classes.Exercise
+import com.example.step_mobile.classes.Routine
 import com.example.step_mobile.classes.RoutineViewModel
+import com.example.step_mobile.components.CycleCard
 import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
 
 @Composable
+@Preview
 fun ViewRoutine(navController: NavController, id: Int, routineViewModel: RoutineViewModel) {
     val index = routineViewModel.getIndexWithId(id)
     var routine = routineViewModel.state.routines[index]
+//    var routine = Routine(
+//        1, "Press Day", "Rutina de pecho", listOf(
+//            Cycle(
+//                "Pechdfghjdthgfjo", listOf<Exercise>(Exercise("Piernas", "de piernas")),
+//            ), Cycle(
+//                "Pecho2", listOf<Exercise>(Exercise("Piernas2", "de piernas2")),
+//            )
+//        ), 5.0
+//    )
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(id = R.drawable.fondonp),
@@ -39,12 +55,14 @@ fun ViewRoutine(navController: NavController, id: Int, routineViewModel: Routine
             }
 
             Card(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier
+                    .padding(20.dp)
+                    .height(400.dp),
                 shape = RoundedCornerShape(20.dp),
                 elevation = 10.dp,
 
             ) {
-                RoutineInfo()
+                RoutineInfo(routine = routine)
             }
             Row(horizontalArrangement = Arrangement.Center) {
                 Button(
@@ -65,24 +83,36 @@ fun ViewRoutine(navController: NavController, id: Int, routineViewModel: Routine
 }
 
 @Composable
-fun RoutineInfo(){
+fun RoutineInfo(routine: Routine){
     val paddingModifier = Modifier.padding(10.dp)
     val list = (1..9).map { it.toString() }
         Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(200.dp),
-                contentPadding = PaddingValues(
-                    start = 12.dp,
-                    top = 16.dp,
-                    end = 12.dp,
-                    bottom = 16.dp
-                ),
-                content = {
-                    items(list.size) { index ->
-                        ExerciseCardTM("Ejercicio", 5)
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(200.dp),
+                    contentPadding = PaddingValues(
+                        start = 12.dp,
+                        top = 16.dp,
+                        end = 12.dp,
+                        bottom = 16.dp
+                    ),
+                    content = {
+                        if (routine.cycles.isEmpty())
+                            item{
+                                Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
+                            }
+                        else {
+                            routine.cycles.forEachIndexed() { index, _ ->
+                                item {
+                                    CycleCard(title = routine.cycles[index].name)
+                                }
+                                items(routine.cycles[index].exercises.size) { index2 ->
+                                    ExerciseCardTM(routine.cycles[index].exercises[index2].title, 5)
+                                }
+                            }
+                        }
                     }
-                }
-            )
+                )
+            }
+
         }
-}

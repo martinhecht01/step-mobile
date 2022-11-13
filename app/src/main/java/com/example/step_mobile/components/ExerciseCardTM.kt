@@ -16,7 +16,7 @@ fun ExerciseCardTM(title: String, time: Int) {
     val paddingModifier = Modifier.padding(10.dp)
     //val paddingLeft = Modifier.padding(start =  10.dp).padding(5.dp)
 
-    Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier) {
+    Card(shape = RoundedCornerShape(20.dp),elevation = 2.dp, modifier = paddingModifier) {
         //Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally)
         //{
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
