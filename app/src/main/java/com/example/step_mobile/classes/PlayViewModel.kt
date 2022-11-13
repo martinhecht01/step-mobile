@@ -27,5 +27,4 @@ class PlayViewModel () : ViewModel() {
     fun currentIndex(): Int {
         return exerciseIndex
     }
-
 }

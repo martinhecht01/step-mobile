@@ -10,7 +10,8 @@ import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
 
 @Composable
-fun MyNavGraph(navController: NavHostController) {
+fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels: min 2:14 de la clase o
+// TODO: screeenX(viewModel : MainViewModel = factory = getViewModelFactory())) en la declaracion PS:que facha que es manu
     NavHost(
         navController = navController,
         startDestination = Screen.WelcomeScreen.route
