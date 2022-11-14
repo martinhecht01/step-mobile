@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.step_mobile.ui.theme.BottomNavigationTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,6 +25,7 @@ import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -39,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     else -> true
                 }
                 Scaffold(
-                    bottomBar = { if(showBottomBar) BottomBar(navController = navController) }
+                    bottomBar = { if(showBottomBar) BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {
                     MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
                 }
@@ -50,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun BottomBar(navController: NavController){
+fun BottomBar(navController: NavController, mainViewModel: MainViewModel){
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
@@ -86,5 +89,16 @@ fun BottomBar(navController: NavController){
                 }
             )
         }
+        var scope = rememberCoroutineScope()
+        BottomNavigationItem(onClick = {
+               scope.launch {
+                   mainViewModel.logout()
+                   if(!mainViewModel.uiState.isAuthenticated){
+                       navController.navigate("welcome_screen"){
+                           popUpTo(0)
+                       }
+                   }
+               }
+        }, icon = { Icon(painterResource(R.drawable.ic_logout ), contentDescription = null, modifier = Modifier.size(30.dp), tint = Color.DarkGray) }, alwaysShowLabel = true, selected = true)
     }
 }
