@@ -20,6 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.ui.theme.StepmobileTheme
 import com.example.step_mobile.util.getViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.updateAndGet
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -29,9 +32,14 @@ class MainActivity : ComponentActivity() {
             StepmobileTheme{}
             BottomNavigationTheme {
                 val navController = rememberNavController()
-                val backStack by navController.currentBackStackEntryAsState()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                var showBottomBar = when (navBackStackEntry?.destination?.route) {
+                    "welcome_screen" -> false
+                    "login_screen" -> false
+                    else -> true
+                }
                 Scaffold(
-                    bottomBar = { BottomBar(navController = navController) }
+                    bottomBar = { if(showBottomBar) BottomBar(navController = navController) }
                 ) {
                     MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
                 }
@@ -40,44 +48,43 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
-fun BottomBar(navController: NavController) {
+fun BottomBar(navController: NavController){
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
         Screen.MyWorkoutsScreen,
     )
-    if(true) {
-        BottomNavigation {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            items.forEach { item ->
-                BottomNavigationItem(
-                    icon = {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.title,
-                            tint = Color.DarkGray,
-                            modifier = Modifier.size(30.dp)
-                        )
-                    },
-                    //label = {Text(text = item.title, color = Color.DarkGray)},
-                    alwaysShowLabel = true,
-                    selected = currentRoute == item.route,
-                    onClick = {
-                        navController.navigate(item.route) {
-                            navController.graph.startDestinationRoute?.let { screenRoute ->
-                                popUpTo(screenRoute) {
-                                    //Saveo el estado de como tengo mi pantalla actual?
-                                    saveState = false
-                                }
-                                launchSingleTop = true
-                                restoreState = true
+    BottomNavigation {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        tint = Color.DarkGray,
+                        modifier = Modifier.size(30.dp)
+                    )
+                },
+                //label = {Text(text = item.title, color = Color.DarkGray)},
+                alwaysShowLabel = true,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        navController.graph.startDestinationRoute?.let { screenRoute ->
+                            popUpTo(screenRoute) {
+                                //Saveo el estado de como tengo mi pantalla actual?
+                                saveState = false
                             }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     }
-                )
-            }
+                }
+            )
         }
     }
 }
