@@ -12,11 +12,14 @@ import com.example.step_mobile.screens.WelcomeScreen
 import com.example.step_mobile.util.getViewModelFactory
 
 @Composable
-fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels: min 2:14 de la clase o
+fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
 // TODO: screeenX(viewModel : MainViewModel = factory = getViewModelFactory())) en la declaracion PS:que facha que es manu
+    var start = Screen.WelcomeScreen.route
+    if(mainViewModel.uiState.isAuthenticated)
+        start = Screen.HomeScreen.route
     NavHost(
         navController = navController,
-        startDestination = Screen.WelcomeScreen.route
+        startDestination = start
     ) {
         var routineViewModel = RoutineViewModel(navController)
         composable(Screen.HomeScreen.route) {
@@ -41,7 +44,7 @@ fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels
         }
         composable(Screen.WelcomeScreen.route)
         {
-            WelcomeScreen(navController)
+            WelcomeScreen(navController, viewModel(factory = getViewModelFactory()))
         }
         composable(Screen.ViewRoutineScreen.route){
             val arg = it.arguments?.getString("id") ?: "-1"
@@ -52,4 +55,5 @@ fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels
         }
 
     }
+
 }

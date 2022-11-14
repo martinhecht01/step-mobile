@@ -15,19 +15,25 @@ import com.example.step_mobile.ui.theme.BottomNavigationTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.ui.theme.StepmobileTheme
+import com.example.step_mobile.util.getViewModelFactory
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            StepmobileTheme{}
             BottomNavigationTheme {
                 val navController = rememberNavController()
                 val backStack by navController.currentBackStackEntryAsState()
                 Scaffold(
-                    bottomBar = { BottomBar(navController = navController, true) }
+                    bottomBar = { BottomBar(navController = navController) }
                 ) {
-                    MyNavGraph(navController = navController)
+                    MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
                 }
             }
         }
@@ -35,14 +41,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun BottomBar(navController: NavController, showBar: Boolean) {
+fun BottomBar(navController: NavController) {
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
         Screen.MyWorkoutsScreen,
     )
-
-    if(showBar) {
+    if(true) {
         BottomNavigation {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route

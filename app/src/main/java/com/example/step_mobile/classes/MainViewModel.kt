@@ -30,11 +30,9 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = true,
                 message = null,
-
             )
 
             runCatching {
-                Log.d("puto", "Putazo")
                 userRepository.login(username, password)
             }.onSuccess { response ->
                 uiState = uiState.copy(
@@ -45,7 +43,6 @@ class MainViewModel(
                 // Handle the error and notify the UI when appropriate.
                 uiState = uiState.copy(
                     message = e.message,
-                    isAuthenticated = false,
                     isFetching = false)
             }
 

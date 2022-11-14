@@ -12,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.classes.MainViewModel
+import kotlinx.coroutines.launch
 
 //@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun WelcomeScreen(navController: NavController) {
+fun WelcomeScreen(navController: NavController, mainViewModel: MainViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
