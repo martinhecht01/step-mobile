@@ -27,12 +27,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavController
-import com.example.step_mobile.classes.RoutineViewModel
+import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenTitle
 
 @Composable
-fun SearchScreen(routineViewModel: RoutineViewModel, navController: NavController) {
+fun SearchScreen( navController: NavController,  viewModel : MainViewModel) {
+    val state = viewModel.uiState
+
     Surface(modifier = Modifier.fillMaxSize() ){
+        if(state.isFetching){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                CircularProgressIndicator()
+            }
+        }
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -45,7 +52,8 @@ fun SearchScreen(routineViewModel: RoutineViewModel, navController: NavControlle
                 orderDropdown()
                 switchOrder()
             }
-            ScrollRoutine(routineViewModel)
+
+            ScrollRoutine(state.routines)
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.step_mobile.classes
 
+import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.data.model.Sport
 import com.example.step_mobile.data.model.User
 
@@ -9,6 +10,8 @@ data class MainUiState(
     val currentUser: User? = null,
     val sports: List<Sport>? = null,
     val currentSport: Sport? = null,
+    val routines: List<Routine>? = null,
+    val currentRoutine: Routine? = null,
     val message: String? = null
 )
 

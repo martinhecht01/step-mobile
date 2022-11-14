@@ -28,13 +28,10 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
-import com.example.step_mobile.classes.Exercise
 import com.example.step_mobile.classes.PlayViewModel
-import com.example.step_mobile.classes.Routine
-import com.example.step_mobile.repositories.RoutineRepository
+import com.example.step_mobile.data.model.Routine
 
 import kotlinx.coroutines.delay
 import kotlin.math.PI

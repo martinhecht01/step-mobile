@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.model.Sport
+import com.example.step_mobile.data.repository.RoutineRepository
 import com.example.step_mobile.data.repository.SportRepository
 import com.example.step_mobile.data.repository.UserRepository
 
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val sessionManager: SessionManager,
     private val userRepository: UserRepository,
-    private val sportRepository: SportRepository
+    private val sportRepository: SportRepository,
+    private val routineRepository: RoutineRepository
     ) : ViewModel() {
 
     var uiState by mutableStateOf(MainUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
@@ -175,4 +177,48 @@ class MainViewModel(
                 isFetching = false)
         }
     }
+
+    //EMPIEZA LA PARTE DE ROUTINES
+    fun getRoutines() = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.getRoutines(true)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+                routines = response
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+
+    fun getRoutine(routineId: Int) = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.getRoutine(routineId)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+                currentRoutine = response
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+
 }

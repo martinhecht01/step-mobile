@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.step_mobile.classes.*
+import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
@@ -21,19 +22,19 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         navController = navController,
         startDestination = start
     ) {
-        var routineViewModel = RoutineViewModel(navController)
+
         composable(Screen.HomeScreen.route) {
-            HomeScreen(routineViewModel)
+            HomeScreen(viewModel(factory = getViewModelFactory()))
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(routineViewModel, navController)
+            SearchScreen(navController,viewModel(factory = getViewModelFactory()) )
         }
         composable(Screen.PlayScreen.route) {
-            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf(
-                Cycle("Pecho", listOf<Exercise>(Exercise("Piernas", "de piernas")),
-                )
-            ), 5.0), viewModel = PlayViewModel()
-            )
+//            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf( TODO:TIENE QUE RECIBIR MAINviewmodel (creo)
+//                Cycle("Pecho", listOf<Exercise>(Exercise("Piernas", "de piernas")),
+//                )
+//            ), 5.0), viewModel = PlayViewModel()
+//            )
         }
         composable(Screen.MyWorkoutsScreen.route) {
             MyWorkoutsScreen()
@@ -51,7 +52,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             val id = Integer.parseInt(arg)
             //Aca podes hacer manejo de error
             //if(-1) -> errorScreen
-            ViewRoutine(navController, id , routineViewModel)
+//            ViewRoutine(navController, id , routineViewModel) //TODO: SE ROMPIO CON LA NUEVA IMPLEMENTACION
         }
 
     }

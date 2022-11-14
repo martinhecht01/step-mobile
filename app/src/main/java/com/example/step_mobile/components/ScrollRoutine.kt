@@ -2,22 +2,17 @@ package com.example.step_mobile.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.step_mobile.classes.RoutineViewModel
+import com.example.step_mobile.data.model.Routine
 
 
 @Composable
-fun ScrollRoutine(routineViewModel: RoutineViewModel){
-    val state = routineViewModel.state;
+fun ScrollRoutine(routines: List<Routine>){
+
 
     LazyVerticalGrid(
         //minimo width que tiene que tener una columna
@@ -31,10 +26,10 @@ fun ScrollRoutine(routineViewModel: RoutineViewModel){
             bottom = 16.dp
         ),
         content = {
-            items(state.routines) { routine ->
-                Box(modifier = Modifier.clickable { routineViewModel.onRoutineClicked(routine.id) }){
-                    RoutineCard(routine.title, routine.description, true, routine.id)
-                }
+            items(routines.size) { idx ->
+//                Box(modifier = Modifier.clickable { routine.onRoutineClicked(routine.id) }){
+                    RoutineCard(routines[idx].name, routines[idx].detail, true, routines[idx].id)
+//                }
             }
         }
     )

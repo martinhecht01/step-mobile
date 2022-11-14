@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.step_mobile.classes.Routine
+import com.example.step_mobile.data.model.Routine
 
 @Composable
 fun RoutineCardTM(routine: Routine) {

@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val backStack by navController.currentBackStackEntryAsState()
                 Scaffold(
-                    bottomBar = { BottomBar(navController = navController) }
+                    bottomBar = { BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {
                     MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
                 }
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun BottomBar(navController: NavController) {
+fun BottomBar(navController: NavController, viewModel : MainViewModel) {
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
@@ -75,6 +75,7 @@ fun BottomBar(navController: NavController) {
                                 restoreState = true
                             }
                         }
+                        viewModel.getRoutines()
                     }
                 )
             }
