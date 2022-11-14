@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Step</string>
 
+    <!-- Search Screen -->
+    <string name="no_routines">Seems like you don\'t have any routines available!</string>
+
     <!-- Search screen -->
     <string name="search_url">Routine URL</string>
     <string name="search_screen">Search Screen</string>

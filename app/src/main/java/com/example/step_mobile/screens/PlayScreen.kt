@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import com.example.step_mobile.classes.Exercise
 import com.example.step_mobile.classes.PlayViewModel
 import com.example.step_mobile.data.model.Routine
 
@@ -225,7 +226,8 @@ fun mainContent(routine: Routine, viewModel : PlayViewModel) {
         )
 
         ExerciseCard(
-            routine.cycles[0].exercises[viewModel.currentIndex()],
+            //TODO: agarrar los cylces de la routine
+            Exercise(title = " Tobis", description = "Tobis"),
             15
         ) //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 

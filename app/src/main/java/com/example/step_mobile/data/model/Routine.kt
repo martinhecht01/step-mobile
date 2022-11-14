@@ -3,13 +3,14 @@ package com.example.step_mobile.data.model
 import com.example.step_mobile.classes.Cycle
 import com.example.step_mobile.data.network.model.NetworkRoutine
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 
 data class Routine(
     var id         : Int,
     var name       : String,
     var detail     : String,
-    var date       : Int?,
+    var date       : Date?,
     var score      : Int?,
     var isPublic   : Boolean?,
     var difficulty : String?,

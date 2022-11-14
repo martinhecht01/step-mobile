@@ -2,6 +2,7 @@ package com.example.step_mobile
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.ui.theme.StepmobileTheme
 import com.example.step_mobile.util.getViewModelFactory
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -29,11 +32,11 @@ class MainActivity : ComponentActivity() {
             StepmobileTheme{}
             BottomNavigationTheme {
                 val navController = rememberNavController()
-                val backStack by navController.currentBackStackEntryAsState()
+                val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
                 Scaffold(
                     bottomBar = { BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {
-                    MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
+                    MyNavGraph(navController = navController, viewModel)
                 }
             }
         }
@@ -47,6 +50,7 @@ fun BottomBar(navController: NavController, viewModel : MainViewModel) {
         Screen.SearchScreen,
         Screen.MyWorkoutsScreen,
     )
+    var scope = rememberCoroutineScope()
     if(true) {
         BottomNavigation {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -65,17 +69,20 @@ fun BottomBar(navController: NavController, viewModel : MainViewModel) {
                     alwaysShowLabel = true,
                     selected = currentRoute == item.route,
                     onClick = {
-                        navController.navigate(item.route) {
-                            navController.graph.startDestinationRoute?.let { screenRoute ->
-                                popUpTo(screenRoute) {
-                                    //Saveo el estado de como tengo mi pantalla actual?
-                                    saveState = false
+                        scope.launch {
+                            viewModel.getRoutines()
+                            navController.navigate(item.route) {
+                                navController.graph.startDestinationRoute?.let { screenRoute ->
+                                    popUpTo(screenRoute) {
+                                        //Saveo el estado de como tengo mi pantalla actual?
+                                        saveState = false
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
                             }
+                            Log.d("routines", viewModel.uiState.routines.size.toString())
                         }
-                        viewModel.getRoutines()
                     }
                 )
             }

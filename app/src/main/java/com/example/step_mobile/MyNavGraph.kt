@@ -1,6 +1,7 @@
 package com.example.step_mobile
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
 import com.example.step_mobile.util.getViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
@@ -24,10 +26,10 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
     ) {
 
         composable(Screen.HomeScreen.route) {
-            HomeScreen(viewModel(factory = getViewModelFactory()))
+            HomeScreen(mainViewModel)
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(navController,viewModel(factory = getViewModelFactory()) )
+            SearchScreen(navController, mainViewModel )
         }
         composable(Screen.PlayScreen.route) {
 //            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf( TODO:TIENE QUE RECIBIR MAINviewmodel (creo)
@@ -41,11 +43,11 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         }
         composable(Screen.LoginScreen.route)
         {
-            LoginScreen(navController,   viewModel(factory = getViewModelFactory()))
+            LoginScreen(navController, mainViewModel)
         }
         composable(Screen.WelcomeScreen.route)
         {
-            WelcomeScreen(navController, viewModel(factory = getViewModelFactory()))
+            WelcomeScreen(navController, mainViewModel)
         }
         composable(Screen.ViewRoutineScreen.route){
             val arg = it.arguments?.getString("id") ?: "-1"

@@ -9,6 +9,7 @@ import kotlinx.coroutines.sync.withLock
 class RoutineRepository(
     private val remoteDataSource: RoutineRemoteDataSource
 ) {
+
     // Mutex to make writes to cached values thread-safe.
     private val routinesMutex = Mutex()
     // Cache of the latest routines got from the network.
@@ -22,7 +23,6 @@ class RoutineRepository(
                 this.routines = result.content.map { it.asModel() }
             }
         }
-
         return routinesMutex.withLock { this.routines }
     }
 

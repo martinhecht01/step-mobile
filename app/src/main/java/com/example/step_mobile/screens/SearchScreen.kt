@@ -1,5 +1,6 @@
 package com.example.step_mobile
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,34 +27,34 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenTitle
+import com.example.step_mobile.data.model.Routine
+import com.example.step_mobile.util.getViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen( navController: NavController,  viewModel : MainViewModel) {
     val state = viewModel.uiState
 
     Surface(modifier = Modifier.fillMaxSize() ){
-        if(state.isFetching){
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                CircularProgressIndicator()
-            }
-        }
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
             ScreenTitle(stringResource(R.string.search))
             SearchBar(navController = navController)
             Row(verticalAlignment = Alignment.Top) {
                 orderDropdown()
                 switchOrder()
             }
-
-            ScrollRoutine(state.routines)
+            if(state.isFetching){
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                    CircularProgressIndicator(color = Color.White)
+                }
+            } else{
+                ScrollRoutine(state.routines)
+            }
         }
     }
 }

@@ -7,19 +7,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.model.Sport
 import com.example.step_mobile.data.repository.RoutineRepository
 import com.example.step_mobile.data.repository.SportRepository
 import com.example.step_mobile.data.repository.UserRepository
+import com.example.step_mobile.util.getViewModelFactory
 
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val sessionManager: SessionManager,
     private val userRepository: UserRepository,
+    private val routineRepository: RoutineRepository,
     private val sportRepository: SportRepository,
-    private val routineRepository: RoutineRepository
+
     ) : ViewModel() {
 
     var uiState by mutableStateOf(MainUiState(isAuthenticated = sessionManager.loadAuthToken() != null))
@@ -63,7 +67,7 @@ class MainViewModel(
                 isAuthenticated = false,
                 currentUser = null,
                 currentSport = null,
-                sports = null
+                sports = listOf()
             )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
@@ -147,7 +151,7 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = false,
                 currentSport = response,
-                sports = null
+                //TODO: MODIFY sports state
             )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
@@ -168,7 +172,7 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = false,
                 currentSport = null,
-                sports = null
+                //TODO: REMOVE SPORT FROM STATE
             )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
@@ -185,8 +189,9 @@ class MainViewModel(
             message = null
         )
         runCatching {
-            routineRepository.getRoutines(true)
+            routineRepository.getRoutines(false)
         }.onSuccess { response ->
+            Log.d("response", response.toString())
             uiState = uiState.copy(
                 isFetching = false,
                 routines = response

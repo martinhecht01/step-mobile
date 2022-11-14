@@ -1,5 +1,5 @@
 package com.example.step_mobile.repositories
-
+/*
 class RoutineRepository {
 
 //    private val api = RoutineApi()
@@ -13,3 +13,4 @@ class RoutineRepository {
     }
 
 }
+*/
