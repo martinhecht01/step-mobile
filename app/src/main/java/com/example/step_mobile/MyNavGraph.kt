@@ -1,6 +1,7 @@
 package com.example.step_mobile
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,6 +9,7 @@ import com.example.step_mobile.classes.*
 import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
+import com.example.step_mobile.util.getViewModelFactory
 
 @Composable
 fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels: min 2:14 de la clase o
@@ -35,7 +37,7 @@ fun MyNavGraph(navController: NavHostController) { //TODO: para pasar viewmodels
         }
         composable(Screen.LoginScreen.route)
         {
-            LoginScreen(navController)
+            LoginScreen(navController,   viewModel(factory = getViewModelFactory()))
         }
         composable(Screen.WelcomeScreen.route)
         {

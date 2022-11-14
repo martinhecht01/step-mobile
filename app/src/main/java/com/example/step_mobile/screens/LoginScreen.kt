@@ -30,12 +30,21 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
+import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.ui.theme.DarkBlue
+import com.example.step_mobile.util.getViewModelFactory
 
+//viewModel : MainViewModel = factory = getViewModelFactory()
 
 @Composable
 //@Preview
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, viewModel : MainViewModel ) {
+//    val uiState = viewModel.uiState
+//    if(uiState.isAuthenticated){
+//        navController.navigate("home_screen"){
+//            popUpTo("welcome_screen") { inclusive = true }
+//        }
+//    }
     Surface(
         modifier = androidx.compose.ui.Modifier.fillMaxSize()
     ) {
@@ -64,13 +73,13 @@ fun LoginScreen(navController: NavController) {
 //                            )
 //                        }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            InputField(label = "Email")
+                            InputField(label = "Username")
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
                             PasswordTextField()
                         }
                         Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
-                            loginContinueButton(navController, "home_screen", )
+                            loginContinueButton(navController, viewModel,"home_screen","manu","manu" )
                         }
                     }
                 }
@@ -93,12 +102,16 @@ fun InputField(label : String) {
 }
 
 @Composable
-fun loginContinueButton(navController: NavController, route: String){
+fun loginContinueButton(navController: NavController,viewModel : MainViewModel, route: String, username : String, password : String){
+
     Button(
         onClick = {
+            viewModel.login(username,password)
+
+        if(viewModel.uiState.isAuthenticated && !viewModel.uiState.isFetching){
             navController.navigate(route){
                 popUpTo("welcome_screen") { inclusive = true }
-            } },
+            }} },
         modifier = Modifier
             .width(250.dp)
             .height(40.dp),
