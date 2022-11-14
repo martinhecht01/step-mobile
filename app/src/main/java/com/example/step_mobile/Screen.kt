@@ -1,10 +1,8 @@
 package com.example.step_mobile
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.step_mobile.classes.Routine
 
 sealed class Screen(val title: String, val icon: ImageVector, val route: String, val showBottomBar: Boolean, val showTopBar: Boolean) {
     object HomeScreen: Screen("Home", Icons.Rounded.Home, "home_screen", true, true)

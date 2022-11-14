@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.step_mobile.classes.Routine
+import com.example.step_mobile.data.model.Routine
 
 @Composable
 fun RoutineCardTM(routine: Routine) {
@@ -22,10 +22,10 @@ fun RoutineCardTM(routine: Routine) {
         //{
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
             // Card(shape = RoundedCornerShape(10.dp),elevation = 5.dp, modifier = paddingModifier) {
-            Text(text = routine.title, modifier = paddingModifier)
+            Text(text = routine.name, modifier = paddingModifier)
             //}
             // Card(shape = RoundedCornerShape(10.dp), elevation = 5.dp){
-            Text(text = routine.description, modifier = paddingModifier)
+            Text(text = routine.detail, modifier = paddingModifier)
             // }
         }
     }

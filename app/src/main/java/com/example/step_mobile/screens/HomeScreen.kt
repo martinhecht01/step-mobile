@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,16 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.step_mobile.classes.Routine
-import com.example.step_mobile.classes.RoutineViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.components.ScreenTitle
-import java.lang.Float
+import com.example.step_mobile.util.getViewModelFactory
 
 @Composable
-fun HomeScreen(routineViewModel: RoutineViewModel ) {
-    val topIndex = routineViewModel.getIndexTopRoutine()
-    val topRoutine = routineViewModel.state.routines[topIndex]
+fun HomeScreen(mainViewModel: MainViewModel ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(verticalArrangement = Arrangement.Top) {
@@ -41,7 +38,7 @@ fun HomeScreen(routineViewModel: RoutineViewModel ) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
             WelcomeCard("Pedro")
-            TopWorkoutCard(routineViewModel, topRoutine);
+            TopWorkoutCard(viewModel(factory = getViewModelFactory()));
         }
     }
 
@@ -73,7 +70,19 @@ fun WelcomeCard(name: String){
 }
 
 @Composable
-fun TopWorkoutCard(routineViewModel: RoutineViewModel,routine: Routine){
+fun TopWorkoutCard(mainViewModel: MainViewModel){
+    var routine = Routine(
+        name = "Hombros de acero",
+        detail = "Tebi chupado",
+        category = null,
+        id = 100,
+        date = null,
+        score = 5,
+        isPublic = true,
+        difficulty = "Modo tobi",
+        user = null,
+        metadata = null
+    )
     Text(
         stringResource(R.string.top_workout),
         color = Color.DarkGray,
@@ -87,24 +96,28 @@ fun TopWorkoutCard(routineViewModel: RoutineViewModel,routine: Routine){
         .fillMaxWidth()
         .height(300.dp)) {
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.End) {
-            Image(painter = painterResource(R.drawable.trainers), contentDescription = null, contentScale = ContentScale.FillBounds, modifier = Modifier.height(200.dp).width(200.dp))
+            Image(painter = painterResource(R.drawable.trainers), contentDescription = null, contentScale = ContentScale.FillBounds, modifier = Modifier
+                .height(200.dp)
+                .width(200.dp))
         }
 
-        Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.Start, modifier = Modifier.clickable {  routineViewModel.onRoutineClicked(routine.id) }. padding(horizontal = 35.dp, vertical = 10.dp)){
+        Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.Start, modifier = Modifier
+            .clickable { /*TODO*/ }
+            .padding(horizontal = 35.dp, vertical = 10.dp)){
             Text(
-                text = routine.title,
+                text = routine.name,
                 color = Color.DarkGray,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 10.dp)
             )
             Text(
-                text = routine.description,
+                text = routine.detail,
                 color = Color.DarkGray,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(vertical = 10.dp)
             )
-            RatingBar(rating = routine.rating, modifier = Modifier.padding(vertical = 10.dp))
+            RatingBar(rating = 5.0, modifier = Modifier.padding(vertical = 10.dp))
         }
     }
 }

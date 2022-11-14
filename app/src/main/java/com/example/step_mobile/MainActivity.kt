@@ -2,6 +2,7 @@ package com.example.step_mobile
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -22,9 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.ui.theme.StepmobileTheme
 import com.example.step_mobile.util.getViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -41,64 +40,83 @@ class MainActivity : ComponentActivity() {
                     "login_screen" -> false
                     else -> true
                 }
+                val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
                 Scaffold(
                     bottomBar = { if(showBottomBar) BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {
-                    MyNavGraph(navController = navController, viewModel(factory = getViewModelFactory()))
+                    MyNavGraph(navController = navController, viewModel)
                 }
             }
         }
     }
 }
 
-
 @Composable
-fun BottomBar(navController: NavController, mainViewModel: MainViewModel){
+fun BottomBar(navController: NavController, viewModel: MainViewModel) {
     val items = listOf(
         Screen.HomeScreen,
         Screen.SearchScreen,
         Screen.MyWorkoutsScreen,
     )
-    BottomNavigation {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-        items.forEach { item ->
-            BottomNavigationItem(
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title,
-                        tint = Color.DarkGray,
-                        modifier = Modifier.size(30.dp)
-                    )
-                },
-                //label = {Text(text = item.title, color = Color.DarkGray)},
-                alwaysShowLabel = true,
-                selected = currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route) {
-                        navController.graph.startDestinationRoute?.let { screenRoute ->
-                            popUpTo(screenRoute) {
-                                //Saveo el estado de como tengo mi pantalla actual?
-                                saveState = false
+    var scope = rememberCoroutineScope()
+    if (true) {
+        BottomNavigation {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+            items.forEach { item ->
+                BottomNavigationItem(
+                    icon = {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.title,
+                            tint = Color.DarkGray,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    },
+                    //label = {Text(text = item.title, color = Color.DarkGray)},
+                    alwaysShowLabel = true,
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        scope.launch {
+                            viewModel.getRoutines()
+                            navController.navigate(item.route) {
+                                navController.graph.startDestinationRoute?.let { screenRoute ->
+                                    popUpTo(screenRoute) {
+                                        //Saveo el estado de como tengo mi pantalla actual?
+                                        saveState = false
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
                             }
-                            launchSingleTop = true
-                            restoreState = true
+                            Log.d("routines", viewModel.uiState.routines.size.toString())
                         }
                     }
-                }
+                )
+            }
+            var scope = rememberCoroutineScope()
+            BottomNavigationItem(
+                onClick = {
+                    scope.launch {
+                        viewModel.logout()
+                        if (!viewModel.uiState.isAuthenticated) {
+                            navController.navigate("welcome_screen") {
+                                popUpTo(0)
+                            }
+                        }
+                    }
+                },
+                icon = {
+                    Icon(
+                        painterResource(R.drawable.ic_logout),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp),
+                        tint = Color.DarkGray
+                    )
+                },
+                alwaysShowLabel = true,
+                selected = true
             )
-        }
-        var scope = rememberCoroutineScope()
-        BottomNavigationItem(onClick = {
-               scope.launch {
-                   mainViewModel.logout()
-                   if(!mainViewModel.uiState.isAuthenticated){
-                       navController.navigate("welcome_screen"){
-                           popUpTo(0)
-                       }
-                   }
-               }
-        }, icon = { Icon(painterResource(R.drawable.ic_logout ), contentDescription = null, modifier = Modifier.size(30.dp), tint = Color.DarkGray) }, alwaysShowLabel = true, selected = true)
+            }
     }
 }

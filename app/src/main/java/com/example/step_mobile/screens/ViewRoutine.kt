@@ -16,11 +16,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
-import com.example.step_mobile.classes.Routine
-import com.example.step_mobile.classes.RoutineViewModel
+import com.example.step_mobile.data.model.Routine
+
 import com.example.step_mobile.components.CycleCard
 import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.components.ScreenTitle
@@ -28,94 +27,94 @@ import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
 
 @Composable
-fun ViewRoutine(navController: NavController, id: Int, routineViewModel: RoutineViewModel) {
-    var index = routineViewModel.getIndexWithId(id)
-    var errorFlag = false
-    if(index == -1) {
-        errorFlag = true
-    }
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.fondonp),
-        contentDescription = null,
-        contentScale = ContentScale.Crop
-    )
-    if(!errorFlag) {
-        var routine = routineViewModel.state.routines[index]
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            StepmobileTheme() {
-                ScreenTitle(title = routine.title)
-            }
-
-            Card(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .height(400.dp),
-                shape = RoundedCornerShape(20.dp),
-                elevation = 10.dp,
-
-            ) {
-                RoutineInfo(routine = routine)
-            }
-            Row(horizontalArrangement = Arrangement.Center) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .align(alignment = Alignment.Bottom)
-                        .padding(20.dp)
-                        .size(60.dp),
-                    shape = RoundedCornerShape(100),
-                    elevation = ButtonDefaults.elevation(5.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = PlayGreen,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
-                }
-            }
-        }
-    } else{
-        //TODO: Error management? Tirar error screen?
-        navController.navigate("search_screen"){
-            popUpTo("search_screen")
-        }
-    }
-
-
-}
-
-@Composable
-fun RoutineInfo(routine: Routine){
-    val paddingModifier = Modifier.padding(10.dp)
-    val list = (1..9).map { it.toString() }
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(200.dp),
-                    contentPadding = PaddingValues(
-                        start = 12.dp,
-                        top = 16.dp,
-                        end = 12.dp,
-                        bottom = 16.dp
-                    ),
-                    content = {
-                        if (routine.cycles.isEmpty())
-                            item{
-                                Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
-                            }
-                        else {
-                            routine.cycles.forEachIndexed() { index, _ ->
-                                item {
-                                    CycleCard(title = routine.cycles[index].name)
-                                }
-                                items(routine.cycles[index].exercises.size) { index2 ->
-                                    ExerciseCardTM(routine.cycles[index].exercises[index2].title, 5)
-                                }
-                            }
-                        }
-                    }
-                )
-            }
-
+fun ViewRoutine(navController: NavController, id: Int) {
+//    var index = routineViewModel.getIndexWithId(id)
+//    var errorFlag = false
+//    if(index == -1) {
+//        errorFlag = true
+//    }
+//    Image(
+//        modifier = Modifier.fillMaxSize(),
+//        painter = painterResource(id = R.drawable.fondonp),
+//        contentDescription = null,
+//        contentScale = ContentScale.Crop
+//    )
+//    if(!errorFlag) {
+//        var routine = routineViewModel.state.routines[index]
+//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//            StepmobileTheme() {
+//                routine.name?.let { ScreenTitle(title = it) }
+//            }
+//
+//            Card(
+//                modifier = Modifier
+//                    .padding(20.dp)
+//                    .height(400.dp),
+//                shape = RoundedCornerShape(20.dp),
+//                elevation = 10.dp,
+//
+//            ) {
+//                RoutineInfo(routine = routine)
+//            }
+//            Row(horizontalArrangement = Arrangement.Center) {
+//                Button(
+//                    onClick = { /*TODO*/ },
+//                    modifier = Modifier
+//                        .align(alignment = Alignment.Bottom)
+//                        .padding(20.dp)
+//                        .size(60.dp),
+//                    shape = RoundedCornerShape(100),
+//                    elevation = ButtonDefaults.elevation(5.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        backgroundColor = PlayGreen,
+//                        contentColor = Color.White
+//                    )
+//                ) {
+//                    Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
+//                }
+//            }
+//        }
+//    } else{
+//        //TODO: Error management? Tirar error screen?
+//        navController.navigate("search_screen"){
+//            popUpTo("search_screen")
+//        }
+//    }
+//
+//
+//}
+//
+//@Composable
+//fun RoutineInfo(routine: Routine){
+//    val paddingModifier = Modifier.padding(10.dp)
+//    val list = (1..9).map { it.toString() }
+//        Column(verticalArrangement = Arrangement.Center,
+//            horizontalAlignment = Alignment.CenterHorizontally) {
+//                LazyVerticalGrid(
+//                    columns = GridCells.Adaptive(200.dp),
+//                    contentPadding = PaddingValues(
+//                        start = 12.dp,
+//                        top = 16.dp,
+//                        end = 12.dp,
+//                        bottom = 16.dp
+//                    ),
+//                    content = {
+//                        if (routine.cycles.isEmpty())
+//                            item{
+//                                Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
+//                            }
+//                        else {
+//                            routine.cycles.forEachIndexed() { index, _ ->
+//                                item {
+//                                    CycleCard(title = routine.cycles[index].name)
+//                                }
+//                                items(routine.cycles[index].exercises.size) { index2 ->
+//                                    ExerciseCardTM(routine.cycles[index].exercises[index2].title, 5)
+//                                }
+//                            }
+//                        }
+//                    }
+//                )
+//            }
+//
         }

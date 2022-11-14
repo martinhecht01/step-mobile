@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">Step</string>
 
+    <!-- Search Screen -->
+    <string name="no_routines">Rayos! Parece que no tienes rutinas disponible</string>
+
     <!-- Search screen -->
     <string name="search_url">URL de la rutina</string>
     <string name="search_screen">Pantalla de busqueda</string>

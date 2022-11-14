@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.step_mobile.repositories.ExerciseRepository
-import com.example.step_mobile.repositories.RoutineRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
