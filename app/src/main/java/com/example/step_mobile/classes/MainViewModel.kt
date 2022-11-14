@@ -1,7 +1,9 @@
 package com.example.step_mobile.classes
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,24 +24,31 @@ class MainViewModel(
         private set
     var lastGetSportsTimestamp = 0
 
-    fun login(username: String, password: String) = viewModelScope.launch {
-        uiState = uiState.copy(
-            isFetching = true,
-            message = null
-        )
-        runCatching {
-            userRepository.login(username, password)
-        }.onSuccess { response ->
+    //TODO try with suspend
+    suspend fun login(username: String, password: String) = viewModelScope.launch {
+
             uiState = uiState.copy(
-                isFetching = false,
-                isAuthenticated = true
+                isFetching = true,
+                message = null,
+
             )
-        }.onFailure { e ->
-            // Handle the error and notify the UI when appropriate.
-            uiState = uiState.copy(
-                message = e.message,
-                isFetching = false)
-        }
+
+            runCatching {
+                Log.d("puto", "Putazo")
+                userRepository.login(username, password)
+            }.onSuccess { response ->
+                uiState = uiState.copy(
+                    isFetching = false,
+                    isAuthenticated = true
+                )
+            }.onFailure { e ->
+                // Handle the error and notify the UI when appropriate.
+                uiState = uiState.copy(
+                    message = e.message,
+                    isAuthenticated = false,
+                    isFetching = false)
+            }
+
     }
 
     fun logout() = viewModelScope.launch {
