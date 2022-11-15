@@ -85,6 +85,7 @@ fun FavoriteButton(
     IconToggleButton(
         checked = isFavorite,
         onCheckedChange = {
+            //TODO: ADD / REMOVE from favourites.
             isFavorite = !isFavorite
         }
     ) {

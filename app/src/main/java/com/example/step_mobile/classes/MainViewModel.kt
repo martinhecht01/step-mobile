@@ -225,6 +225,24 @@ class MainViewModel(
         }
     }
 
+    fun removeFav(id: Int){
+        //TODO: remove de la api
+        //TODO: remove del uiState.favRoutines
+    }
+
+    fun addFav(id: Int){
+        //TODO: add de la api
+        //TODO: add del uiState.favRoutines O hacer getFavourites() nuevamente.
+    }
+
+    fun isFavourite(id: Int): Boolean{
+        for(routine in uiState.favRoutines){
+            if (routine.id == id)
+                return true
+        }
+        return false
+    }
+
     fun getFavourites() = viewModelScope.launch {
         uiState = uiState.copy(
             isFetching = true,

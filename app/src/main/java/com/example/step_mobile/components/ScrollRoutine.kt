@@ -9,8 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,7 +30,17 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun ScrollRoutine(navController: NavController, routines: List<Routine>, mainViewModel: MainViewModel){
+fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, mainViewModel: MainViewModel, order: String, reversed: Boolean){
+    var routines by remember { mutableStateOf(noOrderRoutines) }
+
+    when(order){
+            "Date" -> routines = noOrderRoutines.sortedBy { it.date }
+            "Name" -> routines = noOrderRoutines.sortedBy { it.name }
+            "Details" -> routines = noOrderRoutines.sortedBy { it.detail }
+    }
+    if(reversed)
+        routines = routines.reversed();
+
     Log.d("scroll", routines.size.toString())
     if(routines.size == 0){
         Card(modifier = Modifier
@@ -71,7 +80,8 @@ fun ScrollRoutine(navController: NavController, routines: List<Routine>, mainVie
                      }
                      navController.navigate("view_routine_screen")
                  }){
-                        RoutineCard(routines[idx].name, routines[idx].detail, true, routines[idx].id)
+                        var isFav = mainViewModel.isFavourite(routines[idx].id)
+                        RoutineCard(routines[idx].name, routines[idx].detail, isFav, routines[idx].id)
                  }
                 }
 

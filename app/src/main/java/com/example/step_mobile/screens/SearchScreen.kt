@@ -41,145 +41,92 @@ import kotlinx.coroutines.launch
 fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) {
     val state = mainViewModel.uiState
 
+    var expanded by remember { mutableStateOf(false) }
+    var title by remember { mutableStateOf("") }
+    var order by remember { mutableStateOf(false) }
+
+    title = stringResource(R.string.date)
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
             ScreenTitle(stringResource(R.string.search))
-            SearchBar(navController = navController)
             Row(verticalAlignment = Alignment.Top) {
-                orderDropdown()
-                switchOrder()
+                Card(modifier = Modifier
+                    .padding(25.dp)
+                    .clip(shape = RoundedCornerShape(10.dp))
+                    .clickable { },
+                    elevation = 10.dp
+                )
+                {
+                    Column(
+                        modifier = Modifier
+                            .background(color = Color.White)
+                            .width(120.dp),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { expanded = true },
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = title,
+                                fontSize = (20 / LocalDensity.current.fontScale).sp,
+                                color = Color.DarkGray,
+                                modifier = Modifier.padding(5.dp)
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier.clip(shape = RoundedCornerShape(15.dp)),
+
+                            ) {
+                            var dateString = stringResource(R.string.date)
+                            DropdownMenuItem(onClick = { title = dateString; expanded = false }) {
+                                Text(text = stringResource(R.string.date))
+                            }
+
+                            var nameString = "Name"
+                            DropdownMenuItem(onClick = { title = nameString; expanded = false }) {
+                                Text(text = nameString)
+                            }
+                            var detailsString = "Details"
+                            DropdownMenuItem(onClick = { title = detailsString; expanded = false }) {
+                                Text(text = detailsString)
+                            }
+                        }
+                    }
+                }
+                Card(
+                    elevation = 10.dp,
+                    modifier = Modifier
+                        .padding(start = 10.dp, top = 25.dp, bottom = 25.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable { }
+                ){
+                    Column() {
+                        OutlinedButton(onClick = {
+                            order = !order
+                        }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.White, contentColor = Color.DarkGray)) {
+                            if(order) {
+                                Icon(imageVector = Icons.Filled.KeyboardArrowDown, contentDescription = null, Modifier.size(30.dp))
+                                Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, Modifier.size(15.dp))
+                            } else{
+                                Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, Modifier.size(30.dp))
+                                Icon(imageVector = Icons.Filled.KeyboardArrowDown, contentDescription = null, Modifier.size(15.dp))
+                            }
+                        }
+                    }
+                }
             }
             if(state.isFetching){
                 ScreenLoader()
             } else{
-                ScrollRoutine(navController, state.routines, mainViewModel)
+                ScrollRoutine(navController, state.routines, mainViewModel, title, order)
             }
         }
     }
 }
 
-//check string with regex and return true if it is view_routine_screen/ and a number
-fun isRoutineUrl(string: String): Boolean {
-    val regex = Regex("view_routine_screen/[0-9]+")
-    return regex.matches(string)
-}
 
-@Composable
-fun SearchBar(navController: NavController){
-    var url by rememberSaveable { mutableStateOf("") }
-    var errorFlag by remember { mutableStateOf(false) }
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(vertical = 15.dp)) {
-        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-            OutlinedTextField(
-                value = url,
-                textStyle = TextStyle(color = Color.DarkGray),
-                onValueChange = { url = it },
-                label = { Text(stringResource(id = R.string.search_url)) },
-                colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = Color.White),
-                shape = RoundedCornerShape(10.dp),
-                isError = errorFlag,
-            )
-            OutlinedButton(onClick = {
-                if(isRoutineUrl(url)){
-                    errorFlag = false
-                    navController.navigate(url)
-                } else{
-                    errorFlag = true
-                }},
-                Modifier
-                    .padding(horizontal = 10.dp)
-                    .padding(top = 5.dp)
-            ) {
-                Icon(imageVector = Icons.Outlined.Search, contentDescription = null, tint = Color.DarkGray)
-            }
-        }
-    }
-
-}
-
-@Composable
-fun switchOrder(){
-    Card(
-        elevation = 10.dp,
-        modifier = Modifier
-            .padding(start = 10.dp, top = 25.dp, bottom = 25.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .clickable { }
-    ){
-        Column() {
-            var order by remember { mutableStateOf(false) }
-            OutlinedButton(onClick = {
-                order = !order
-            }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.White, contentColor = Color.DarkGray)) {
-                if(order) {
-                    Icon(imageVector = Icons.Filled.KeyboardArrowDown, contentDescription = null, Modifier.size(30.dp))
-                    Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, Modifier.size(15.dp))
-                } else{
-                    Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, Modifier.size(30.dp))
-                    Icon(imageVector = Icons.Filled.KeyboardArrowDown, contentDescription = null, Modifier.size(15.dp))
-                }
-            }
-        }
-    }
-
-}
-
-
-//TODO no queda claro que se puede clickear
-@Composable
-fun orderDropdown(){
-    var expanded by remember { mutableStateOf(false) }
-
-    //TODO cuidado con este string, puede llegar a dar problemas de sincronizacion
-    var dateString = stringResource(R.string.date)
-
-    var title by remember { mutableStateOf(dateString) }
-    Card(modifier = Modifier
-        .padding(25.dp)
-        .clip(shape = RoundedCornerShape(10.dp))
-        .clickable { },
-        elevation = 10.dp
-    )
-    {
-        Column(
-            modifier = Modifier
-                .background(color = Color.White)
-                .width(120.dp),
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = true },
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = title,
-                    fontSize = (20 / LocalDensity.current.fontScale).sp,
-                    color = Color.DarkGray,
-                    modifier = Modifier.padding(5.dp)
-                )
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.clip(shape = RoundedCornerShape(15.dp)),
-
-            ) {
-                var dateString = stringResource(R.string.date)
-                DropdownMenuItem(onClick = { title = dateString; expanded = false }) {
-                    Text(text = stringResource(R.string.date))
-                }
-
-                var difficultyString = stringResource(id = R.string.difficulty)
-                DropdownMenuItem(onClick = { title = difficultyString; expanded = false }) {
-                    Text(text = stringResource(R.string.difficulty))
-                }
-                var ratingString = stringResource(id = R.string.rating)
-                DropdownMenuItem(onClick = { title = ratingString; expanded = false }) {
-                    Text(text = stringResource(R.string.rating))
-                }
-            }
-        }
-    }
-}

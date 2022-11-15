@@ -16,7 +16,7 @@ data class Routine(
     var difficulty : String?,
     var user       : User?,
     var category   : Category?,
-    var metadata : String?
+    var metadata   : String?
 ) {
 
     fun asNetworkModel(): NetworkRoutine {

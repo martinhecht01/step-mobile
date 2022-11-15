@@ -81,8 +81,10 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
                         scope.launch {
 
                             // search_screen
-                            if(item.route == Screen.SearchScreen.route)
+                            if(item.route == Screen.SearchScreen.route) {
                                 viewModel.getRoutines()
+                                viewModel.getFavourites()
+                            }
 
                             //my_workouts_screen
                             if(item.route == Screen.MyWorkoutsScreen.route)
