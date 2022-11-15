@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -92,7 +93,7 @@ fun subtitleText(text: String) {
 fun titleText(text: String) {
     Text(
         text,
-        fontSize = 61.sp,
+        fontSize = (55/ LocalDensity.current.fontScale).sp,
         fontWeight = FontWeight.Bold,
         color = Color.White,
         modifier = Modifier.padding(bottom = 5.dp)
