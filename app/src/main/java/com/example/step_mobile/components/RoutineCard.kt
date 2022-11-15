@@ -1,5 +1,6 @@
 package com.example.step_mobile.components
 
+import RatingBar
 import android.content.Intent
 import android.graphics.Paint
 import androidx.compose.foundation.clickable
@@ -29,7 +30,7 @@ import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int, mainViewModel: MainViewModel) {
+fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boolean, id: Int, mainViewModel: MainViewModel) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, "view_routine_screen")
@@ -61,16 +62,19 @@ fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int
                 Icon(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = null,
-                    modifier = Modifier.padding(15.dp).clickable {
-                        context.startActivity(shareIntent)
-                    }
+                    modifier = Modifier
+                        .padding(15.dp)
+                        .clickable {
+                            context.startActivity(shareIntent)
+                        }
                 )
             }
             Text(
                 text = description,
-                modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
+                modifier = Modifier.padding(horizontal = 10.dp).padding(bottom = 10.dp),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,)
+            RatingBar(rating = score.toDouble(), modifier = Modifier.padding(horizontal = 10.dp))
         }
     }
 }
