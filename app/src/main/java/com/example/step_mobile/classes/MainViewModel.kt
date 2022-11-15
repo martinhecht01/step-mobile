@@ -225,5 +225,26 @@ class MainViewModel(
         }
     }
 
+    fun getFavourites() = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.getFavourites(false)
+        }.onSuccess { response ->
+            Log.d("response", response.toString())
+            uiState = uiState.copy(
+                isFetching = false,
+                favRoutines = response
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
 
 }

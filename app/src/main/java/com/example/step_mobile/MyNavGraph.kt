@@ -39,7 +39,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
 //            )
         }
         composable(Screen.MyWorkoutsScreen.route) {
-            MyWorkoutsScreen()
+            MyWorkoutsScreen(navController, mainViewModel)
         }
         composable(Screen.LoginScreen.route)
         {

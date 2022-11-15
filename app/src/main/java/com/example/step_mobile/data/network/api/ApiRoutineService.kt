@@ -22,4 +22,7 @@ interface ApiRoutineService {
 
     @DELETE("routines/{routineId}")
     suspend fun deleteRoutine(@Path("routineId") routineId: Int) : Response<Unit>
+
+    @GET("favourites")
+    suspend fun getFavourites(): Response<NetworkPagedContent<NetworkRoutine>>
 }

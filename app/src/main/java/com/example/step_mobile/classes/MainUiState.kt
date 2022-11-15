@@ -11,6 +11,7 @@ data class MainUiState(
     val sports: List<Sport> = listOf(),
     val currentSport: Sport? = null,
     val routines: List<Routine> = listOf(),
+    val favRoutines: List<Routine> = listOf(),
     val currentRoutine: Routine? = null,
     val message: String? = null
 )

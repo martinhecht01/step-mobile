@@ -79,19 +79,26 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
                     selected = currentRoute == item.route,
                     onClick = {
                         scope.launch {
+
+                            // search_screen
                             if(item.route == Screen.SearchScreen.route)
                                 viewModel.getRoutines()
-                            navController.navigate(item.route) {
-                                navController.graph.startDestinationRoute?.let { screenRoute ->
-                                    popUpTo(screenRoute) {
-                                        //Saveo el estado de como tengo mi pantalla actual?
-                                        saveState = false
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
+
+                            //my_workouts_screen
+                            if(item.route == Screen.MyWorkoutsScreen.route)
+                                viewModel.getFavourites()
+
                             Log.d("routines", viewModel.uiState.routines.size.toString())
+                        }
+                        navController.navigate(item.route) {
+                            navController.graph.startDestinationRoute?.let { screenRoute ->
+                                popUpTo(screenRoute) {
+                                    //Saveo el estado de como tengo mi pantalla actual?
+                                    saveState = false
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )

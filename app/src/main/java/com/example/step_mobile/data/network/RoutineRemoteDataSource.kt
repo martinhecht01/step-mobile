@@ -38,4 +38,10 @@ class RoutineRemoteDataSource(
             apiRoutineService.deleteRoutine(routineId)
         }
     }
+
+    suspend fun getFavourites() : NetworkPagedContent<NetworkRoutine>{
+        return handleApiResponse {
+            apiRoutineService.getFavourites()
+        }
+    }
 }

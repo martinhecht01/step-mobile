@@ -15,6 +15,10 @@ class RoutineRepository(
     private val routinesMutex = Mutex()
     // Cache of the latest routines got from the network.
     private var routines: List<Routine> = emptyList()
+    private var favRoutines: List<Routine> = emptyList()
+    private val favMutex = Mutex()
+
+
 
     suspend fun getRoutines(refresh: Boolean = false): List<Routine> {
         delay(1000)
@@ -54,5 +58,17 @@ class RoutineRepository(
         routinesMutex.withLock {
             this.routines = emptyList()
         }
+    }
+
+    suspend fun getFavourites(refresh: Boolean = false): List<Routine> {
+        delay(1000)
+        if (refresh || favRoutines.isEmpty()) {
+            val result = remoteDataSource.getFavourites()
+            // Thread-safe write to latestNews
+            favMutex.withLock {
+                this.favRoutines = result.content.map { it.asModel() }
+            }
+        }
+        return favMutex.withLock { this.favRoutines }
     }
 }
