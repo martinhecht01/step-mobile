@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.model.Sport
@@ -294,6 +295,30 @@ class MainViewModel(
                 isFetching = false,
                 favRoutines = response
             )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+    suspend fun reviewRoutine(review: Review, id : Int) = viewModelScope.launch{
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.reviewRoutine(review, id)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+                routines = listOf(),
+                favRoutines = listOf()
+            )
+            getRoutines()
+            getFavourites()
+
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
             uiState = uiState.copy(

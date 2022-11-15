@@ -1,7 +1,9 @@
 package com.example.step_mobile.data.network
 
+import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.data.network.api.ApiRoutineService
 import com.example.step_mobile.data.network.model.NetworkPagedContent
+import com.example.step_mobile.data.network.model.NetworkReview
 import com.example.step_mobile.data.network.model.NetworkRoutine
 
 
@@ -54,6 +56,12 @@ class RoutineRemoteDataSource(
     suspend fun addToFavourites(routineId: Int){
         handleApiResponse {
             apiRoutineService.addToFavourites(routineId)
+        }
+    }
+
+    suspend fun reviewRoutine(review : NetworkReview, routineId : Int){
+        handleApiResponse {
+            apiRoutineService.reviewRoutine(routineId,review)
         }
     }
 }

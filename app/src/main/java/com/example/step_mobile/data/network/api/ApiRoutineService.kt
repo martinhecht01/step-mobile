@@ -2,6 +2,7 @@ package com.example.step_mobile.data.network.api
 
 
 import com.example.step_mobile.data.network.model.NetworkPagedContent
+import com.example.step_mobile.data.network.model.NetworkReview
 import com.example.step_mobile.data.network.model.NetworkRoutine
 import retrofit2.Response
 import retrofit2.http.*
@@ -31,4 +32,8 @@ interface ApiRoutineService {
 
     @DELETE("favourites/{routineId}")
     suspend fun deleteFromFavourites(@Path("routineId") routineId: Int) : Response<Unit>
+
+    @POST("reviews/{routineId}")
+    suspend fun reviewRoutine(@Path("routineId") routineId: Int, @Body review : NetworkReview) : Response<Unit>
+
 }

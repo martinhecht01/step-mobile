@@ -1,6 +1,7 @@
 package com.example.step_mobile.data.repository
 
 
+import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.data.network.RoutineRemoteDataSource
 import kotlinx.coroutines.delay
@@ -85,4 +86,15 @@ class RoutineRepository(
             this.favRoutines = emptyList()
         }
     }
+
+    suspend fun reviewRoutine(review : Review, routineId : Int){
+        remoteDataSource.reviewRoutine(review.asNetworkModel(), routineId)
+        routinesMutex.withLock {
+            this.routines = emptyList()
+        }
+        favMutex.withLock {
+            this.favRoutines = emptyList()
+        }
+    }
+
 }

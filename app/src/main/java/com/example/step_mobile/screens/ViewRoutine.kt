@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,8 +27,10 @@ import com.example.step_mobile.components.CycleCard
 import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.components.ScreenTitle
+import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
@@ -45,6 +48,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
         ScreenLoader()
     } else {
         var routine = mainViewModel.uiState.currentRoutine
+        var scope = rememberCoroutineScope()
         if (routine != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 StepmobileTheme() {
@@ -62,7 +66,11 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                 }
                 Row(horizontalArrangement = Arrangement.Center) {
                     Button(
-                        onClick = { },
+                        onClick = {
+                            scope.launch {
+                                mainViewModel.reviewRoutine(Review(1, ""), routine.id)
+                            }
+                        },
                         modifier = Modifier
                             .align(alignment = Alignment.Bottom)
                             .padding(20.dp)
