@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,27 +21,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.components.ScreenTitle
+import com.example.step_mobile.data.model.User
 import com.example.step_mobile.util.getViewModelFactory
+import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(mainViewModel: MainViewModel ) {
+fun HomeScreen(mainViewModel: MainViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
-        Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
-        Column(verticalArrangement = Arrangement.Top) {
-            ScreenTitle(stringResource(R.string.home))
-        }
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            WelcomeCard("Pedro")
-            TopWorkoutCard(viewModel(factory = getViewModelFactory()));
+        Image(
+            painter = painterResource(id = R.drawable.fondonp),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+        if (mainViewModel.uiState.isFetching) {
+
+        } else {
+            var user = mainViewModel.uiState.currentUser
+            var name by remember { mutableStateOf("") }
+            if(user != null){
+                name = user.firstName
+            }
+            Column(verticalArrangement = Arrangement.Top) {
+                ScreenTitle(stringResource(R.string.home))
+            }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                WelcomeCard(name)
+                TopWorkoutCard(viewModel(factory = getViewModelFactory()));
+            }
         }
     }
-
 }
 
 @Composable

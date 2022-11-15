@@ -82,7 +82,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel, back
                     elevation = 10.dp,
 
                     ) {
-                    RoutineInfo(routine = routine)
+                    RoutineInfo(mainViewModel)
                 }
                 Row(horizontalArrangement = Arrangement.Center) {
                     Button(
@@ -117,7 +117,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel, back
 }
 
 @Composable
-fun RoutineInfo(routine: Routine){
+fun RoutineInfo(mainViewModel: MainViewModel){
     val paddingModifier = Modifier.padding(10.dp)
     val list = (1..9).map { it.toString() }
         Column(verticalArrangement = Arrangement.Center,
@@ -132,22 +132,22 @@ fun RoutineInfo(routine: Routine){
                         bottom = 16.dp
                     ),
                     content = {
-                       /* if (routine.cycles.isEmpty())
+                       if (mainViewModel.uiState.currentCycles.isEmpty())
                             item{
                                 Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
                             }
                         else {
-                            routine.cycles.forEachIndexed() { index, _ ->
+                           mainViewModel.uiState.currentCycles.forEachIndexed() { index, _ ->
                                 item {
-                                    CycleCard(title = routine.cycles[index].name)
+                                    CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
                                 }
-                                items(routine.cycles[index].exercises.size) { index2 ->
-                                    ExerciseCardTM(routine.cycles[index].exercises[index2].title, 5)
+                                items(mainViewModel.uiState.currentCycleExercises.size) { index2 ->
+                                    ExerciseCardTM(mainViewModel.uiState.currentCycles[index2].name, 5)
                                 }
                             }
                         }
 
-                        */
+
                     }
                 )
         }

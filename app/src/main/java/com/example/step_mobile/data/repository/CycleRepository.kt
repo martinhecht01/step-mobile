@@ -16,8 +16,7 @@ class CycleRepository(
     // Cache of the latest routines got from the network.
     private var cycles: List<Cycle> = emptyList()
 
-    suspend fun getRoutines(routineId: Int): List<Cycle> {
-        delay(1000)
+    suspend fun getCycles(routineId: Int): List<Cycle> {
         if (cycles.isEmpty()) {
             val result = remoteDataSource.getCycles(routineId)
             // Thread-safe write to latestNews

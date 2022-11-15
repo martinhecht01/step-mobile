@@ -2,24 +2,26 @@ package com.example.step_mobile.data.model
 
 import com.example.step_mobile.data.network.model.NetworkCycle
 
-data class Cycle(
-    var totalCount : Int?             ,
-    var orderBy    : String?          ,
-    var direction  : String?          ,
-    var content    : List<Content>    ,
-    var size       : Int?             ,
-    var page       : Int?             ,
-    var isLastPage : Boolean?
+data class Cycle (
+
+    var id          : Int    ,
+    var name        : String ,
+    var detail      : String ,
+    var type        : String? ,
+    var order       : Int   ,
+    var repetitions : Int    ,
+    var metadata    : String?
+
 ){
     fun asNetworkModel() : NetworkCycle {
         return NetworkCycle(
-            totalCount =totalCount,
-            orderBy    =orderBy   ,
-            direction  =direction ,
-            content    =content   ,
-            size       =size      ,
-            page       =page      ,
-            isLastPage =isLastPage
+            id          =id         ,
+            name        =name       ,
+            detail      =detail     ,
+            type        =type       ,
+            order       =order      ,
+            repetitions =repetitions,
+            metadata    =metadata
         )
     }
 }

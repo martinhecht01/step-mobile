@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.mainContent
 import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.delay
@@ -96,6 +97,7 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = viewModel.uiState.isAuthenticated){
         if(viewModel.uiState.isAuthenticated) {
+            viewModel.getCurrentUser()
             navController.navigate(route) {
                 popUpTo("welcome_screen") { inclusive = true }
             }
@@ -105,7 +107,6 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
         onClick = {
             scope.launch{
                 viewModel.login(username,password)
-                viewModel.getCurrentUser()
             } },
         modifier = Modifier
             .width(250.dp)
