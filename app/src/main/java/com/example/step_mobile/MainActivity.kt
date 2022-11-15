@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.data.model.Routine
@@ -38,6 +39,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
+            LaunchedEffect(key1 = true){
+                viewModel.getCurrentUser()
+            }
             StepmobileTheme{}
             BottomNavigationTheme {
                 val navController = rememberNavController()
@@ -47,7 +52,6 @@ class MainActivity : ComponentActivity() {
                     "login_screen" -> false
                     else -> true
                 }
-                val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
                 Scaffold(
                     bottomBar = { if(showBottomBar) BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {
