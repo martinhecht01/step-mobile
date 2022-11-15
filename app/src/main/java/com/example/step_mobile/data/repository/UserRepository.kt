@@ -1,6 +1,7 @@
 package com.example.step_mobile.data.repository
 
 
+import com.example.step_mobile.data.model.Name
 import com.example.step_mobile.data.model.User
 import com.example.step_mobile.data.network.UserRemoteDataSource
 import kotlinx.coroutines.sync.Mutex
@@ -33,6 +34,14 @@ class UserRepository(
         }
 
         return currentUserMutex.withLock { this.currentUser }
+    }
+
+    suspend fun modifyUser(newName: Name){
+        remoteDataSource.modifyUser(newName.asNetworkModel())
+
+        currentUserMutex.withLock {
+            this.currentUser = null
+        }
     }
 }
 

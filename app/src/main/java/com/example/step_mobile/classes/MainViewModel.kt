@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.step_mobile.data.model.Name
 import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.util.SessionManager
@@ -31,6 +32,7 @@ class MainViewModel(
         private set
     var lastGetSportsTimestamp = 0
 
+    // --------------------- USER ----------------------
     //TODO try with suspend
     suspend fun login(username: String, password: String) = viewModelScope.launch {
 
@@ -98,7 +100,30 @@ class MainViewModel(
         }
     }
 
-    fun getSports() = viewModelScope.launch {
+    suspend fun modifyUser(newName : Name) = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            userRepository.modifyUser(newName)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+                currentUser = null
+            )
+            getCurrentUser()
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+    // -------------------- SPORTS ----------------------
+
+    fun getSports(sport : Sport) = viewModelScope.launch {
         uiState = uiState.copy(
             isFetching = true,
             message = null
@@ -183,7 +208,9 @@ class MainViewModel(
         }
     }
 
-    //EMPIEZA LA PARTE DE ROUTINES
+
+    //-------------------- ROUTINES -------------------------
+
     fun getRoutines() = viewModelScope.launch {
         uiState = uiState.copy(
             isFetching = true,
@@ -225,6 +252,33 @@ class MainViewModel(
                 isFetching = false)
         }
     }
+
+    suspend fun reviewRoutine(review: Review, id : Int) = viewModelScope.launch{
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.reviewRoutine(review, id)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+                routines = listOf(),
+                favRoutines = listOf()
+            )
+            getRoutines()
+            getFavourites()
+
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+
+    // ---------------------- FAVOURITES --------------------
 
     fun deleteFromFavourites(id: Int) = viewModelScope.launch{
         uiState = uiState.copy(
@@ -303,31 +357,9 @@ class MainViewModel(
         }
     }
 
-    suspend fun reviewRoutine(review: Review, id : Int) = viewModelScope.launch{
-        uiState = uiState.copy(
-            isFetching = true,
-            message = null
-        )
-        runCatching {
-            routineRepository.reviewRoutine(review, id)
-        }.onSuccess { response ->
-            uiState = uiState.copy(
-                isFetching = false,
-                routines = listOf(),
-                favRoutines = listOf()
-            )
-            getRoutines()
-            getFavourites()
 
-        }.onFailure { e ->
-            // Handle the error and notify the UI when appropriate.
-            uiState = uiState.copy(
-                message = e.message,
-                isFetching = false)
-        }
-    }
 
-    //Empieza cycle y cycleexercises
+    //----------------- CYCLE AND CYCLEEXERCISE ---------------------
 
     fun getCycles(routineId: Int) = viewModelScope.launch {
         uiState = uiState.copy(

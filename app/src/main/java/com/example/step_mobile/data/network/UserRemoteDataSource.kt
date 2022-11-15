@@ -3,6 +3,7 @@ package com.example.step_mobile.data.network
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.network.api.ApiUserService
 import com.example.step_mobile.data.network.model.NetworkCredentials
+import com.example.step_mobile.data.network.model.NetworkName
 import com.example.step_mobile.data.network.model.NetworkUser
 
 
@@ -25,5 +26,11 @@ class UserRemoteDataSource(
 
     suspend fun getCurrentUser() : NetworkUser {
         return handleApiResponse { apiUserService.getCurrentUser() }
+    }
+
+    suspend fun modifyUser(newName : NetworkName){
+        handleApiResponse {
+            apiUserService.modifyUser(newName)
+        }
     }
 }

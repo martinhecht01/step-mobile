@@ -30,6 +30,7 @@ import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.util.getViewModelFactory
 import com.example.step_mobile.R
+import com.example.step_mobile.data.model.Name
 import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.ui.theme.PlayGreen
@@ -108,11 +109,16 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                             enabled = edit,
                             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
                         )
-
+                        val scope = rememberCoroutineScope()
                         Button(
                             onClick = {
                                 if(edit){
-                                    //TODO: GUARDAR EL NUEVO PERFIL y getCurrentUser()
+                                    //TODO: loading animation
+                                    val name = Name(firstName, lastName)
+                                    scope.launch {
+                                        //TODO agregar loading animation
+                                        mainViewModel.modifyUser(newName = name )
+                                    }
                                 }
                                 edit = !edit
                             },
@@ -156,16 +162,19 @@ fun ScreenLogoutTitle(navController: NavController, title: String, mainViewModel
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End){
             Icon(painter = painterResource(id = R.drawable.ic_logout),
                 contentDescription = null,
-                modifier = Modifier.clickable {
-                    scope.launch {
-                        mainViewModel.logout()
-                        if(!mainViewModel.uiState.isAuthenticated){
-                            navController.navigate("welcome_screen"){
-                                popUpTo(0)
+                modifier = Modifier
+                    .clickable {
+                        scope.launch {
+                            mainViewModel.logout()
+                            if (!mainViewModel.uiState.isAuthenticated) {
+                                navController.navigate("welcome_screen") {
+                                    popUpTo(0)
+                                }
                             }
                         }
                     }
-                }.padding(horizontal = 20.dp).size(35.dp),
+                    .padding(horizontal = 20.dp)
+                    .size(35.dp),
             tint = Color.DarkGray)
         }
     }
