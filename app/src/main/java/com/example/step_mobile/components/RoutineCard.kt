@@ -89,7 +89,6 @@ fun FavoriteButton(
     IconToggleButton(
         checked = isFavorite,
         onCheckedChange = {
-            //TODO: ADD / REMOVE from favourites.
             if(isFavorite){
                 mainViewModel.deleteFromFavourites(id)
             }else{
