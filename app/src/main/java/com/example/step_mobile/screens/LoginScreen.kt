@@ -85,6 +85,7 @@ fun InputField(label : String) : String{
         onValueChange = { text = it },
         label = { Text(label) },
         modifier = Modifier.background(Color.Transparent),
+        colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
     return text
@@ -104,6 +105,7 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
         onClick = {
             scope.launch{
                 viewModel.login(username,password)
+                viewModel.getCurrentUser()
             } },
         modifier = Modifier
             .width(250.dp)
@@ -129,7 +131,8 @@ fun PasswordTextField() : String{
         onValueChange = { password = it },
         label = { Text(stringResource(R.string.password)) },
         visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue)
     )
     return password
 }
