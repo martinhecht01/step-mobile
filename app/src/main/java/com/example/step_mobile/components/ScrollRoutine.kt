@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,15 +20,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.step_mobile.SubtitleText
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.R.*
 import com.example.step_mobile.classes.MainViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun ScrollRoutine(routines: List<Routine>){
+fun ScrollRoutine(navController: NavController, routines: List<Routine>, mainViewModel: MainViewModel){
     Log.d("scroll", routines.size.toString())
     if(routines.size == 0){
         Card(modifier = Modifier
@@ -47,6 +51,7 @@ fun ScrollRoutine(routines: List<Routine>){
             }
         }
     } else {
+        var scope = rememberCoroutineScope()
         LazyVerticalGrid(
             //minimo width que tiene que tener una columna
             columns = GridCells.Adaptive(200.dp),
@@ -60,9 +65,14 @@ fun ScrollRoutine(routines: List<Routine>){
             ),
             content = {
                 items(routines.size) { idx ->
-//             Box(modifier = Modifier.clickable { routine.onRoutineClicked(routine.id) }){
-                    RoutineCard(routines[idx].name, routines[idx].detail, true, routines[idx].id)
-//             }
+                 Box(modifier = Modifier.clickable {
+                     scope.launch {
+                         mainViewModel.getRoutine(routines[idx].id)
+                     }
+                     navController.navigate("view_routine_screen")
+                 }){
+                        RoutineCard(routines[idx].name, routines[idx].detail, true, routines[idx].id)
+                 }
                 }
 
             }

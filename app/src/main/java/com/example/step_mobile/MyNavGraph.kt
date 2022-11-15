@@ -51,11 +51,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         }
         composable(Screen.ViewRoutineScreen.route)
         {
-            val arg = it.arguments?.getString("id") ?: "-1"
-            val id = Integer.parseInt(arg)
-            //Aca podes hacer manejo de error
-            //if(-1) -> errorScreen
-//            ViewRoutine(navController, id , routineViewModel) //TODO: SE ROMPIO CON LA NUEVA IMPLEMENTACION
+            ViewRoutine(navController, mainViewModel)
         }
 
     }

@@ -30,14 +30,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchScreen( navController: NavController,  viewModel : MainViewModel) {
-    val state = viewModel.uiState
+fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) {
+    val state = mainViewModel.uiState
 
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
@@ -49,11 +50,9 @@ fun SearchScreen( navController: NavController,  viewModel : MainViewModel) {
                 switchOrder()
             }
             if(state.isFetching){
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                    CircularProgressIndicator(color = Color.White)
-                }
+                ScreenLoader()
             } else{
-                ScrollRoutine(state.routines)
+                ScrollRoutine(navController, state.routines, mainViewModel)
             }
         }
     }

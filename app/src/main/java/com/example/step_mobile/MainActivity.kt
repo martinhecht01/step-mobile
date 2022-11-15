@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
@@ -78,7 +79,8 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
                     selected = currentRoute == item.route,
                     onClick = {
                         scope.launch {
-                            viewModel.getRoutines()
+                            if(item.route == Screen.SearchScreen.route)
+                                viewModel.getRoutines()
                             navController.navigate(item.route) {
                                 navController.graph.startDestinationRoute?.let { screenRoute ->
                                     popUpTo(screenRoute) {

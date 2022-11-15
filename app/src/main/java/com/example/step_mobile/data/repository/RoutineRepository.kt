@@ -3,6 +3,7 @@ package com.example.step_mobile.data.repository
 
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.data.network.RoutineRemoteDataSource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -16,6 +17,7 @@ class RoutineRepository(
     private var routines: List<Routine> = emptyList()
 
     suspend fun getRoutines(refresh: Boolean = false): List<Routine> {
+        delay(1000)
         if (refresh || routines.isEmpty()) {
             val result = remoteDataSource.getRoutines()
             // Thread-safe write to latestNews
@@ -27,6 +29,7 @@ class RoutineRepository(
     }
 
     suspend fun getRoutine(routineId: Int) : Routine {
+        delay(1000)
         return remoteDataSource.getRoutine(routineId).asModel()
     }
 

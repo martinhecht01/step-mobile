@@ -30,7 +30,7 @@ import java.time.format.TextStyle
 fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, "view_routine_screen/${id}")
+        putExtra(Intent.EXTRA_TEXT, "view_routine_screen")
         type = "text/plain"
     }
 
