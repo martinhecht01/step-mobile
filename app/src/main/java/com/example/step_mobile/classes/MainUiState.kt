@@ -1,8 +1,6 @@
 package com.example.step_mobile.classes
 
-import com.example.step_mobile.data.model.Routine
-import com.example.step_mobile.data.model.Sport
-import com.example.step_mobile.data.model.User
+import com.example.step_mobile.data.model.*
 
 data class MainUiState(
     val isAuthenticated: Boolean = false,
@@ -13,7 +11,9 @@ data class MainUiState(
     val routines: List<Routine> = listOf(),
     val favRoutines: List<Routine> = listOf(),
     val currentRoutine: Routine? = null,
-    val message: String? = null
+    val message: String? = null,
+    val currentCycles: List<Cycle> = listOf(),
+    val currentCycleExercises: List<CycleExercise> = listOf()
 )
 
 val MainUiState.canGetCurrentUser: Boolean get() = isAuthenticated

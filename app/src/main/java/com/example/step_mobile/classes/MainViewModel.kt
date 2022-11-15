@@ -12,9 +12,7 @@ import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.model.Sport
-import com.example.step_mobile.data.repository.RoutineRepository
-import com.example.step_mobile.data.repository.SportRepository
-import com.example.step_mobile.data.repository.UserRepository
+import com.example.step_mobile.data.repository.*
 import com.example.step_mobile.util.getViewModelFactory
 
 import kotlinx.coroutines.launch
@@ -24,6 +22,8 @@ class MainViewModel(
     private val userRepository: UserRepository,
     private val routineRepository: RoutineRepository,
     private val sportRepository: SportRepository,
+    private val cycleRepository: CycleRepository,
+    private val cycleExerciseRepository: CycleExerciseRepository
 
     ) : ViewModel() {
 
@@ -326,6 +326,51 @@ class MainViewModel(
                 isFetching = false)
         }
     }
+
+    //Empieza cycle y cycleexercises
+
+    fun getCycles(routineId: Int) = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            cycleRepository.getCycles(routineId)
+        }.onSuccess { response ->
+            Log.d("response", response.toString())
+            uiState = uiState.copy(
+                isFetching = false,
+                currentCycles = response
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
+    fun getCycleExercises(cycleId: Int) = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            cycleExerciseRepository.getCycleExercises(cycleId)
+        }.onSuccess { response ->
+            Log.d("response", response.toString())
+            uiState = uiState.copy(
+                isFetching = false,
+                currentCycleExercises = response
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+    }
+
 
 
 }

@@ -1,13 +1,9 @@
 package com.example.step_mobile
 
 import android.app.Application
-import com.example.step_mobile.data.network.RoutineRemoteDataSource
-import com.example.step_mobile.data.network.SportRemoteDataSource
-import com.example.step_mobile.data.network.UserRemoteDataSource
+import com.example.step_mobile.data.network.*
 import com.example.step_mobile.data.network.api.RetrofitClient
-import com.example.step_mobile.data.repository.RoutineRepository
-import com.example.step_mobile.data.repository.SportRepository
-import com.example.step_mobile.data.repository.UserRepository
+import com.example.step_mobile.data.repository.*
 import com.example.step_mobile.util.SessionManager
 
 class StepApplication : Application() {
@@ -21,6 +17,11 @@ class StepApplication : Application() {
     private val routineRemoteDataSource: RoutineRemoteDataSource
         get() = RoutineRemoteDataSource(RetrofitClient.getApiRoutineService(this))
 
+    private val cycleRemoteDataSource: CycleRemoteDataSource
+        get() = CycleRemoteDataSource(RetrofitClient.getApiCycleService(this))
+    private val cycleExerciseRemoteDataSource: CycleExerciseRemoteDataSource
+        get() = CycleExerciseRemoteDataSource(RetrofitClient.getApiCycleExerciseService(this))
+
     val sessionManager: SessionManager
         get() = SessionManager(this)
 
@@ -32,4 +33,9 @@ class StepApplication : Application() {
 
     val routineRepository: RoutineRepository
         get() = RoutineRepository(routineRemoteDataSource)
+    val cycleRepository: CycleRepository
+        get() = CycleRepository(cycleRemoteDataSource)
+
+    val cycleExerciseRepository: CycleExerciseRepository
+        get() = CycleExerciseRepository(cycleExerciseRemoteDataSource)
 }

@@ -1,6 +1,5 @@
 package com.example.step_mobile.data.model
 
-import com.example.step_mobile.classes.Cycle
 import com.example.step_mobile.data.network.model.NetworkRoutine
 import com.google.gson.annotations.SerializedName
 import java.util.Date
