@@ -25,6 +25,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -154,7 +155,7 @@ fun orderDropdown(){
             ) {
                 Text(
                     text = title,
-                    fontSize = 25.sp,
+                    fontSize = (20 / LocalDensity.current.fontScale).sp,
                     color = Color.DarkGray,
                     modifier = Modifier.padding(5.dp)
                 )
@@ -165,13 +166,17 @@ fun orderDropdown(){
                 modifier = Modifier.clip(shape = RoundedCornerShape(15.dp)),
 
             ) {
-                DropdownMenuItem(onClick = { title = "Date"; expanded = false }) {
+                var dateString = stringResource(R.string.date)
+                DropdownMenuItem(onClick = { title = dateString; expanded = false }) {
                     Text(text = stringResource(R.string.date))
                 }
-                DropdownMenuItem(onClick = { title = "Difficulty"; expanded = false }) {
+
+                var difficultyString = stringResource(id = R.string.difficulty)
+                DropdownMenuItem(onClick = { title = difficultyString; expanded = false }) {
                     Text(text = stringResource(R.string.difficulty))
                 }
-                DropdownMenuItem(onClick = { title = "Rating"; expanded = false }) {
+                var ratingString = stringResource(id = R.string.rating)
+                DropdownMenuItem(onClick = { title = ratingString; expanded = false }) {
                     Text(text = stringResource(R.string.rating))
                 }
             }
