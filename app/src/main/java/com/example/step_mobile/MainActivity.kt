@@ -1,6 +1,9 @@
 package com.example.step_mobile
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -16,12 +19,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.step_mobile.ui.theme.BottomNavigationTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.ui.theme.StepmobileTheme
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.delay

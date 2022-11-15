@@ -26,6 +26,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <data android:scheme="https" android:host="www.stepapp.me" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

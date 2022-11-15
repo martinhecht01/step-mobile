@@ -1,6 +1,8 @@
 package com.example.step_mobile.components
 
 import RatingBar
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Intent
 import android.graphics.Paint
 import androidx.compose.foundation.clickable
@@ -24,21 +26,33 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import com.example.step_mobile.MainActivity
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.data.model.Routine
 import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boolean, id: Int, mainViewModel: MainViewModel) {
-    val sendIntent: Intent = Intent().apply {
+    var uri = "https://www.stepapp.me"
+
+
+    val context = LocalContext.current
+    val deepLinkIntent = Intent(
+        Intent.ACTION_SEND,
+        "https://www.stepapp.me/${id}".toUri(),
+        context,
+        Routine::class.java
+    )
+
+    val deepLinkIntent2 : Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, "view_routine_screen")
+        putExtra(Intent.EXTRA_TEXT,"https://www.stepapp.me/${id}")
         type = "text/plain"
     }
 
-    val shareIntent = Intent.createChooser(sendIntent, null)
-    val context = LocalContext.current
+    val shareIntent = Intent.createChooser(deepLinkIntent2, "Share to")
 
     val paddingModifier = Modifier.padding(10.dp)
     Card(

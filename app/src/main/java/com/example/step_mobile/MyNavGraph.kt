@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.example.step_mobile.classes.*
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.screens.LoginScreen
@@ -53,6 +54,14 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         {
             ViewRoutine(navController, mainViewModel)
         }
+        val uri = "https://www.stepapp.me"
+        composable(
+            "view_routine?id={id}",
+            deepLinks = listOf(navDeepLink { uriPattern = "$uri/{id}" })
+        ) {
+            ViewRoutine(navController, mainViewModel)
+        }
+
 
     }
 
