@@ -29,7 +29,6 @@ import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.data.model.User
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.launch
-
 @Composable
 fun HomeScreen(mainViewModel: MainViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -60,6 +59,7 @@ fun HomeScreen(mainViewModel: MainViewModel) {
         }
     }
 }
+
 
 @Composable
 fun SubtitleText(text: String){

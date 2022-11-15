@@ -68,6 +68,7 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
         Screen.HomeScreen,
         Screen.SearchScreen,
         Screen.MyWorkoutsScreen,
+        Screen.ProfileScreen
     )
     var scope = rememberCoroutineScope()
     if (true) {
@@ -91,13 +92,13 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
                         scope.launch {
 
                             // search_screen
-                            if(item.route == Screen.SearchScreen.route) {
+                            if (item.route == Screen.SearchScreen.route) {
                                 viewModel.getRoutines()
                                 viewModel.getFavourites()
                             }
 
                             //my_workouts_screen
-                            if(item.route == Screen.MyWorkoutsScreen.route)
+                            if (item.route == Screen.MyWorkoutsScreen.route)
                                 viewModel.getFavourites()
 
                             Log.d("routines", viewModel.uiState.routines.size.toString())
@@ -115,29 +116,6 @@ fun BottomBar(navController: NavController, viewModel: MainViewModel) {
                     }
                 )
             }
-            var scope = rememberCoroutineScope()
-            BottomNavigationItem(
-                onClick = {
-                    scope.launch {
-                        viewModel.logout()
-                        if (!viewModel.uiState.isAuthenticated) {
-                            navController.navigate("welcome_screen") {
-                                popUpTo(0)
-                            }
-                        }
-                    }
-                },
-                icon = {
-                    Icon(
-                        painterResource(R.drawable.ic_logout),
-                        contentDescription = null,
-                        modifier = Modifier.size(30.dp),
-                        tint = Color.DarkGray
-                    )
-                },
-                alwaysShowLabel = true,
-                selected = true
-            )
-            }
+        }
     }
 }

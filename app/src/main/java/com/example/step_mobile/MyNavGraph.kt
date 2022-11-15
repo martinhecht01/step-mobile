@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.step_mobile.classes.*
 import com.example.step_mobile.screens.LoginScreen
+import com.example.step_mobile.screens.ProfileScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
 
@@ -19,6 +20,10 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         navController = navController,
         startDestination = start
     ) {
+
+        composable(Screen.ProfileScreen.route) {
+            ProfileScreen(navController, mainViewModel)
+        }
 
         composable(Screen.HomeScreen.route) {
             HomeScreen(mainViewModel)
