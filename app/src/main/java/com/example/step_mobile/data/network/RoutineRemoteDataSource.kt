@@ -44,4 +44,16 @@ class RoutineRemoteDataSource(
             apiRoutineService.getFavourites()
         }
     }
+
+    suspend fun deleteFromFavourites(routineId : Int){
+        handleApiResponse {
+            apiRoutineService.deleteFromFavourites(routineId)
+        }
+    }
+
+    suspend fun addToFavourites(routineId: Int){
+        handleApiResponse {
+            apiRoutineService.addToFavourites(routineId)
+        }
+    }
 }

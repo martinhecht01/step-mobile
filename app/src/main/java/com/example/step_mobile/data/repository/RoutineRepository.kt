@@ -71,4 +71,18 @@ class RoutineRepository(
         }
         return favMutex.withLock { this.favRoutines }
     }
+
+    suspend fun deleteFromFavourites(routineId: Int){
+        remoteDataSource.deleteFromFavourites(routineId)
+        favMutex.withLock {
+            this.favRoutines = emptyList()
+        }
+    }
+
+    suspend fun addToFavourites(routineId: Int){
+        remoteDataSource.addToFavourites(routineId)
+        favMutex.withLock {
+            this.favRoutines = emptyList()
+        }
+    }
 }

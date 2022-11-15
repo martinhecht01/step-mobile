@@ -225,14 +225,52 @@ class MainViewModel(
         }
     }
 
-    fun removeFav(id: Int){
-        //TODO: remove de la api
-        //TODO: remove del uiState.favRoutines
+    fun deleteFromFavourites(id: Int) = viewModelScope.launch{
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.deleteFromFavourites(id)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+
+                //la vacio para evitar conflictos
+                favRoutines = listOf(),
+            )
+            //el delete la vacio y ahora la llenamos de nuevo
+            getFavourites()
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
     }
 
-    fun addFav(id: Int){
-        //TODO: add de la api
-        //TODO: add del uiState.favRoutines O hacer getFavourites() nuevamente.
+    fun addToFavourites(id: Int) = viewModelScope.launch{
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null
+        )
+        runCatching {
+            routineRepository.addToFavourites(id)
+        }.onSuccess { response ->
+            uiState = uiState.copy(
+                isFetching = false,
+
+                //la vacio para evitar conflictos
+                favRoutines = listOf(),
+            )
+            //el delete la vacio y ahora la llenamos de nuevo
+            getFavourites()
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
     }
 
     fun isFavourite(id: Int): Boolean{

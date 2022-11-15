@@ -23,11 +23,13 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
+import com.example.step_mobile.MainActivity
+import com.example.step_mobile.classes.MainViewModel
 import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int) {
+fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int, mainViewModel: MainViewModel) {
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(Intent.EXTRA_TEXT, "view_routine_screen")
@@ -55,7 +57,7 @@ fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int
                     ),
                     modifier = paddingModifier.weight(1f)
                 )
-                FavoriteButton(isFavorite)
+                FavoriteButton(isFavorite, mainViewModel = mainViewModel, id = id)
                 Icon(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = null,
@@ -77,7 +79,9 @@ fun RoutineCard(title: String, description: String, isFavorite: Boolean, id: Int
 fun FavoriteButton(
     favInitialStatus: Boolean,
     modifier: Modifier = Modifier,
-    color: Color = Color(0xffE91E63)
+    color: Color = Color(0xffE91E63),
+    mainViewModel: MainViewModel,
+    id: Int
 ) {
 
     var isFavorite by remember { mutableStateOf(favInitialStatus) }
@@ -86,6 +90,11 @@ fun FavoriteButton(
         checked = isFavorite,
         onCheckedChange = {
             //TODO: ADD / REMOVE from favourites.
+            if(isFavorite){
+                mainViewModel.deleteFromFavourites(id)
+            }else{
+                mainViewModel.addToFavourites(id)
+            }
             isFavorite = !isFavorite
         }
     ) {
