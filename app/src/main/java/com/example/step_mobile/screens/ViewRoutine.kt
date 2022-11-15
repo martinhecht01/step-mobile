@@ -68,6 +68,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                     Button(
                         onClick = {
                             scope.launch {
+                                //TODO: star review listener (score hardcoded)
                                 mainViewModel.reviewRoutine(Review(1, ""), routine.id)
                             }
                         },

@@ -64,6 +64,7 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
         LazyVerticalGrid(
             //minimo width que tiene que tener una columna
             columns = GridCells.Adaptive(200.dp),
+            modifier = Modifier.height(530.dp),
 
             // content padding
             contentPadding = PaddingValues(

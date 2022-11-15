@@ -22,8 +22,8 @@ class RoutineRepository(
 
 
     suspend fun getRoutines(refresh: Boolean = false): List<Routine> {
-        delay(1000)
         if (refresh || routines.isEmpty()) {
+            delay(200)
             val result = remoteDataSource.getRoutines()
             // Thread-safe write to latestNews
             routinesMutex.withLock {
@@ -34,7 +34,7 @@ class RoutineRepository(
     }
 
     suspend fun getRoutine(routineId: Int) : Routine {
-        delay(1000)
+        delay(200)
         return remoteDataSource.getRoutine(routineId).asModel()
     }
 
@@ -62,7 +62,7 @@ class RoutineRepository(
     }
 
     suspend fun getFavourites(refresh: Boolean = false): List<Routine> {
-        delay(1000)
+        delay(200)
         if (refresh || favRoutines.isEmpty()) {
             val result = remoteDataSource.getFavourites()
             // Thread-safe write to latestNews
