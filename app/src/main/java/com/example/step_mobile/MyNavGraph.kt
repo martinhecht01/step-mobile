@@ -1,19 +1,13 @@
 package com.example.step_mobile
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
 import com.example.step_mobile.classes.*
-import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.screens.LoginScreen
 import com.example.step_mobile.screens.ViewRoutine
 import com.example.step_mobile.screens.WelcomeScreen
-import com.example.step_mobile.util.getViewModelFactory
-import kotlinx.coroutines.launch
 
 @Composable
 fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
@@ -50,19 +44,20 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         {
             WelcomeScreen(navController, mainViewModel)
         }
-        composable(Screen.ViewRoutineScreen.route)
-        {
-            ViewRoutine(navController, mainViewModel)
-        }
         val uri = "https://www.stepapp.me"
         composable(
-            "view_routine?id={id}",
+            Screen.ViewRoutineScreen.route,
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.StringType
+                }
+            ),
             deepLinks = listOf(navDeepLink { uriPattern = "$uri/{id}" })
-        ) {
-            ViewRoutine(navController, mainViewModel)
+        ) { backStackEntry ->
+            if (backStackEntry.arguments?.getString("id")?.compareTo("-1") != 0)
+                mainViewModel.getRoutines()
+            ViewRoutine(navController, mainViewModel, backStackEntry)
         }
-
-
     }
 
 }

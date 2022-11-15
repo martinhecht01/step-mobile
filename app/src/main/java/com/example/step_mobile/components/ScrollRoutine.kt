@@ -79,7 +79,8 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
                      scope.launch {
                          mainViewModel.getRoutine(routines[idx].id)
                      }
-                     navController.navigate("view_routine_screen")
+                     navController.navigate("view_routine_screen?id=-1")
+
                  }){
                         var isFav = mainViewModel.isFavourite(routines[idx].id)
                         RoutineCard(routines[idx].name, routines[idx].detail, routines[idx].score ?: 0 , isFav, routines[idx].id, mainViewModel)

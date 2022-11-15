@@ -42,12 +42,12 @@ class MainActivity : ComponentActivity() {
             BottomNavigationTheme {
                 val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
-                var showBottomBar = when (navBackStackEntry?.destination?.route) {
-                    "welcome_screen" -> false
-                    "login_screen" -> false
+                val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
+                val showBottomBar = when (viewModel.uiState.isAuthenticated){
+                    false -> false
                     else -> true
                 }
-                val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
+
                 Scaffold(
                     bottomBar = { if(showBottomBar) BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {

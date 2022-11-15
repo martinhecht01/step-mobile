@@ -1,6 +1,9 @@
 package com.example.step_mobile.screens
 
+import android.annotation.SuppressLint
+import android.app.FragmentManager.BackStackEntry
 import android.util.Log
+import androidx.annotation.RestrictTo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,8 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.navDeepLink
 import com.example.step_mobile.R
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.data.model.Routine
@@ -30,10 +37,13 @@ import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.data.model.Review
 import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
+@Preview
+fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel, backStackEntry : NavBackStackEntry) {
 
     Image(
         modifier = Modifier.fillMaxSize(),
@@ -41,13 +51,23 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
         contentDescription = null,
         contentScale = ContentScale.Crop
     )
+    val id = backStackEntry.arguments?.getString("id") ?: ""
     StepmobileTheme() {
         ScreenTitle("")
     }
     if(mainViewModel.uiState.isFetching){
         ScreenLoader()
     } else {
-        var routine = mainViewModel.uiState.currentRoutine
+        var routine: Routine?
+        routine = null
+        if (id.compareTo("-1") == 0)
+            routine = mainViewModel.uiState.currentRoutine
+        else{
+            for (currRout in mainViewModel.uiState.routines)
+                if (id.compareTo((currRout.id).toString()) == 0){
+                    routine = currRout
+                }
+        }
         var scope = rememberCoroutineScope()
         if (routine != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
