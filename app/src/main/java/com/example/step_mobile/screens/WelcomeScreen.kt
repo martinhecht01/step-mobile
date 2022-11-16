@@ -52,7 +52,7 @@ fun WelcomeScreen(navController: NavController, mainViewModel: MainViewModel) {
         ) {
             titleText(stringResource(R.string.welcome))
             subtitleText(stringResource(R.string.welcome_text))
-            loginButton(navController, "login_screen")
+            loginButton(navController, "login_screen?id=${-1}")
         }
     }
 }

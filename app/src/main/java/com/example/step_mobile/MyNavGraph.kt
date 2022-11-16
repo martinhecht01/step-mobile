@@ -1,14 +1,12 @@
 package com.example.step_mobile
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.step_mobile.classes.*
-import com.example.step_mobile.screens.LoginScreen
-import com.example.step_mobile.screens.ProfileScreen
-import com.example.step_mobile.screens.ViewRoutine
-import com.example.step_mobile.screens.WelcomeScreen
+import com.example.step_mobile.screens.*
 
 @Composable
 fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
@@ -41,9 +39,16 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         composable(Screen.MyWorkoutsScreen.route) {
             MyWorkoutsScreen(navController, mainViewModel)
         }
-        composable(Screen.LoginScreen.route)
-        {
-            LoginScreen(navController, mainViewModel)
+        composable(Screen.LoginScreen.route,
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.StringType
+                }
+            ))
+        {backStackEntry ->
+            var string = backStackEntry.arguments?.getString("id")
+            var num = Integer.parseInt(string ?: "-1")
+            LoginScreen(navController, mainViewModel, num)
         }
         composable(Screen.WelcomeScreen.route)
         {
@@ -51,7 +56,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         }
         val uri = "https://www.stepapp.me"
         composable(
-            Screen.ViewRoutineScreen.route,
+            Screen.ShareScreen.route,
             arguments = listOf(
                 navArgument("id"){
                     type = NavType.StringType
@@ -59,10 +64,18 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             ),
             deepLinks = listOf(navDeepLink { uriPattern = "$uri/{id}" })
         ) { backStackEntry ->
-            if (backStackEntry.arguments?.getString("id")?.compareTo("-1") != 0)
-                mainViewModel.getRoutines()
-            ViewRoutine(navController, mainViewModel, backStackEntry)
+            var string = backStackEntry.arguments?.getString("id")
+            var num = Integer.parseInt(string)
+            mainViewModel.getRoutines()
+            ShareScreen(navController, mainViewModel, num)
         }
+
+        composable(Screen.ViewRoutineScreen.route)
+        {
+            ViewRoutine(navController, mainViewModel)
+        }
+
+
     }
 
 }

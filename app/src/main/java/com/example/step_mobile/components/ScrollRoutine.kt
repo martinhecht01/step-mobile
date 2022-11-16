@@ -77,11 +77,12 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
                 items(routines.size) { idx ->
                  Box(modifier = Modifier.clickable {
                      scope.launch {
-                         mainViewModel.getRoutine(routines[idx].id)
-                         mainViewModel.getCycles(routines[idx].id)
+                         mainViewModel.getRoutine(routines[idx].id).invokeOnCompletion {
+                             mainViewModel.getCycles(routines[idx].id).invokeOnCompletion {
+                                 navController.navigate("view_routine_screen")
+                             }
+                         }
                      }
-                     navController.navigate("view_routine_screen?id=-1")
-
                  }){
                         var isFav = mainViewModel.isFavourite(routines[idx].id)
                         RoutineCard(routines[idx].name, routines[idx].detail, routines[idx].score ?: 0 , isFav, routines[idx].id, mainViewModel)

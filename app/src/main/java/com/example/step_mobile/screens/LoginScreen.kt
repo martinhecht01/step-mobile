@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 //@Preview
-fun LoginScreen(navController: NavController, viewModel : MainViewModel ) {
+fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int ) {
     Surface(
         modifier = androidx.compose.ui.Modifier.fillMaxSize()
     ) {
@@ -68,7 +68,7 @@ fun LoginScreen(navController: NavController, viewModel : MainViewModel ) {
                              password = PasswordTextField()
                         }
                         Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
-                            loginContinueButton(navController, viewModel,"home_screen", username, password)
+                            loginContinueButton(navController, viewModel,"home_screen", username, password, id)
                         }
                     }
                 }
@@ -93,13 +93,19 @@ fun InputField(label : String) : String{
 }
 
 @Composable
-fun loginContinueButton(navController: NavController,viewModel : MainViewModel, route: String, username : String, password : String){
+fun loginContinueButton(navController: NavController,viewModel : MainViewModel, route: String, username : String, password : String, id: Int){
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = viewModel.uiState.isAuthenticated){
         if(viewModel.uiState.isAuthenticated) {
             viewModel.getCurrentUser()
-            navController.navigate(route) {
-                popUpTo("welcome_screen") { inclusive = true }
+            if(id == -1) {
+                navController.navigate(route) {
+                    popUpTo("welcome_screen") { inclusive = true }
+                }
+            } else{
+                navController.navigate("share_screen?id=${id}"){
+                    popUpTo("welcome_screen")
+                }
             }
         }
     }

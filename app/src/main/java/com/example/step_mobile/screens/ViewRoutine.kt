@@ -42,8 +42,7 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-@Preview
-fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel, backStackEntry : NavBackStackEntry) {
+fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
 
     Image(
         modifier = Modifier.fillMaxSize(),
@@ -51,23 +50,13 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel, back
         contentDescription = null,
         contentScale = ContentScale.Crop
     )
-    val id = backStackEntry.arguments?.getString("id") ?: ""
     StepmobileTheme() {
         ScreenTitle("")
     }
     if(mainViewModel.uiState.isFetching){
         ScreenLoader()
     } else {
-        var routine: Routine?
-        routine = null
-        if (id.compareTo("-1") == 0)
-            routine = mainViewModel.uiState.currentRoutine
-        else{
-            for (currRout in mainViewModel.uiState.routines)
-                if (id.compareTo((currRout.id).toString()) == 0){
-                    routine = currRout
-                }
-        }
+        var routine = mainViewModel.uiState.currentRoutine
         var scope = rememberCoroutineScope()
         if (routine != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
