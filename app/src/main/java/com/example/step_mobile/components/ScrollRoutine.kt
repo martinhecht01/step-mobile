@@ -79,7 +79,6 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
                      scope.launch {
                          mainViewModel.getRoutine(routines[idx].id)
                          mainViewModel.getCycles(routines[idx].id)
-                         mainViewModel.getCycleExercises(mainViewModel.uiState.currentCycles[0].id)
                      }
                      navController.navigate("view_routine_screen?id=-1")
 

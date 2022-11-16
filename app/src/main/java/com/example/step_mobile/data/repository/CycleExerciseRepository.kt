@@ -18,13 +18,13 @@ class CycleExerciseRepository(
     private var cycleExercises: List<CycleExercise> = emptyList()
 
     suspend fun getCycleExercises(cycleId: Int): List<CycleExercise> {
-        if (cycleExercises.isEmpty()) {
+
             val result = remoteDataSource.getCycleExercises(cycleId)
             // Thread-safe write to latestNews
             cyclesMutex.withLock {
                 this.cycleExercises = result.content.map { it.asModel() }
             }
-        }
+
         return cyclesMutex.withLock { this.cycleExercises }
     }
 }

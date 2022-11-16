@@ -3,18 +3,16 @@ package com.example.step_mobile.classes
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.step_mobile.data.model.Name
-import com.example.step_mobile.data.model.Review
-import com.example.step_mobile.data.model.Routine
+
+import com.example.step_mobile.data.model.*
+
 import com.example.step_mobile.util.SessionManager
-import com.example.step_mobile.data.model.Sport
 import com.example.step_mobile.data.repository.*
-import com.example.step_mobile.util.getViewModelFactory
+
 
 import kotlinx.coroutines.launch
 
@@ -372,8 +370,14 @@ class MainViewModel(
             Log.d("response", response.toString())
             uiState = uiState.copy(
                 isFetching = false,
-                currentCycles = response
+                currentCycles = response,
+                currentCycleExercises = listOf()
             )
+            response.forEach{elem ->
+                getCycleExercises(elem.id)
+            }
+
+
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
             uiState = uiState.copy(
@@ -390,7 +394,7 @@ class MainViewModel(
         runCatching {
             cycleExerciseRepository.getCycleExercises(cycleId)
         }.onSuccess { response ->
-            Log.d("response", response.toString())
+            Log.d("exer", response.toString())
             uiState = uiState.copy(
                 isFetching = false,
                 currentCycleExercises = response

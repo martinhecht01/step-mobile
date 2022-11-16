@@ -8,7 +8,7 @@ data class CycleExercise(
     var order       : Int     ,
     var duration    : Int     ,
     var repetitions : Int     ,
-    var exercise    : Exercise?
+    var exercise    : Exercise
 ){
     fun asNetworkModel() : NetworkCycleExercise {
         return NetworkCycleExercise(

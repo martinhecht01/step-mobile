@@ -8,7 +8,7 @@ class NetworkCycleExercise (
     @SerializedName("order"       ) var order       : Int      ,
     @SerializedName("duration"    ) var duration    : Int      ,
     @SerializedName("repetitions" ) var repetitions : Int    ,
-    @SerializedName("exercise"    ) var exercise    : Exercise? = null
+    @SerializedName("exercise"    ) var exercise    : Exercise
 
 ){
     fun asModel() : CycleExercise {

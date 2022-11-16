@@ -17,13 +17,13 @@ class CycleRepository(
     private var cycles: List<Cycle> = emptyList()
 
     suspend fun getCycles(routineId: Int): List<Cycle> {
-        if (cycles.isEmpty()) {
+
             val result = remoteDataSource.getCycles(routineId)
             // Thread-safe write to latestNews
             cyclesMutex.withLock {
                 this.cycles = result.content.map { it.asModel() }
             }
-        }
+
         return cyclesMutex.withLock { this.cycles }
     }
 }

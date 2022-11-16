@@ -138,13 +138,20 @@ fun RoutineInfo(mainViewModel: MainViewModel){
                             }
                         else {
                            mainViewModel.uiState.currentCycles.forEachIndexed() { index, _ ->
-                                item {
-                                    CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
-                                }
-                                items(mainViewModel.uiState.currentCycleExercises.size) { index2 ->
-                                    ExerciseCardTM(mainViewModel.uiState.currentCycles[index2].name, 5)
-                                }
-                            }
+                               item {
+                                   CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
+                               }
+                               if (mainViewModel.uiState.currentCycleExercises.isEmpty()) {
+                                        item{ Text(text = "Seems like this cycle is empty!", textAlign = TextAlign.Center)}
+                               } else {
+                                   items(mainViewModel.uiState.currentCycleExercises.size) { index2 ->
+                                       ExerciseCardTM(
+                                           mainViewModel.uiState.currentCycleExercises[index2].exercise.name,
+                                           5
+                                       )
+                                   }
+                               }
+                           }
                         }
 
 
