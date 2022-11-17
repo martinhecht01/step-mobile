@@ -13,7 +13,8 @@ data class MainUiState(
     val currentRoutine: Routine? = null,
     val message: String? = null,
     val currentCycles: List<Cycle> = listOf(),
-    val currentCycleExercises: List<CycleExercise> = listOf()
+    val currentCycleExercises: List<CycleExercise> = listOf(),
+    val currentWorkout: List<FullCycle> = listOf()
 )
 
 val MainUiState.canGetCurrentUser: Boolean get() = isAuthenticated

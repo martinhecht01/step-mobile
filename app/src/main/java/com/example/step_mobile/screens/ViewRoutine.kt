@@ -130,13 +130,13 @@ fun RoutineInfo(mainViewModel: MainViewModel){
                                item {
                                    CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
                                }
-                               if (mainViewModel.uiState.currentCycleExercises.isEmpty()) {
+                               if (mainViewModel.uiState.currentWorkout[index].exercises.isEmpty()) {
                                         item{ Text(text = "Seems like this cycle is empty!", textAlign = TextAlign.Center)}
                                } else {
-                                   items(mainViewModel.uiState.currentCycleExercises.size) { index2 ->
+                                   items(mainViewModel.uiState.currentWorkout[index].exercises.size) { index2 ->
                                        ExerciseCardTM(
-                                           mainViewModel.uiState.currentCycleExercises[index2].exercise.name,
-                                           5
+                                           mainViewModel.uiState.currentWorkout[index].exercises[index2].exercise.name,
+                                           mainViewModel.uiState.currentWorkout[index].exercises[index2].repetitions
                                        )
                                    }
                                }

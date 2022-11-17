@@ -78,7 +78,7 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
                  Box(modifier = Modifier.clickable {
                      scope.launch {
                          mainViewModel.getRoutine(routines[idx].id).invokeOnCompletion {
-                             mainViewModel.getCycles(routines[idx].id).invokeOnCompletion {
+                             mainViewModel.getFullCyclesExercises(routines[idx].id).invokeOnCompletion {
                                  navController.navigate("view_routine_screen")
                              }
                          }

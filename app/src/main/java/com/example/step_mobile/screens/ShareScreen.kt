@@ -31,7 +31,7 @@ fun ShareScreen(navController: NavController, mainViewModel: MainViewModel, id: 
     if(mainViewModel.uiState.isAuthenticated) {
         LaunchedEffect(key1 = true) {
             mainViewModel.getRoutine(id).invokeOnCompletion {
-                mainViewModel.getCycles(id).invokeOnCompletion {
+                mainViewModel.getFullCyclesExercises(id).invokeOnCompletion {
                     navController.navigate("view_routine_screen")
                 }
             }
