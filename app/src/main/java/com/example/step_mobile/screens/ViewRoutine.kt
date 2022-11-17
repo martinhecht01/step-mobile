@@ -76,10 +76,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                 Row(horizontalArrangement = Arrangement.Center) {
                     Button(
                         onClick = {
-                            scope.launch {
-                                //TODO: star review listener (score hardcoded)
-                                mainViewModel.reviewRoutine(Review(1, ""), routine.id)
-                            }
+                                  navController.navigate("play_screen")
                         },
                         modifier = Modifier
                             .align(alignment = Alignment.Bottom)

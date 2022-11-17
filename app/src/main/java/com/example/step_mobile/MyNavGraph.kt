@@ -30,11 +30,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             SearchScreen(navController, mainViewModel )
         }
         composable(Screen.PlayScreen.route) {
-//            PlayScreen(routine = Routine(1,"Press Day", "Rutina de pecho", listOf( TODO:TIENE QUE RECIBIR MAINviewmodel (creo)
-//                Cycle("Pecho", listOf<Exercise>(Exercise("Piernas", "de piernas")),
-//                )
-//            ), 5.0), viewModel = PlayViewModel()
-//            )
+            PlayScreen(navController, mainViewModel)
         }
         composable(Screen.MyWorkoutsScreen.route) {
             MyWorkoutsScreen(navController, mainViewModel)

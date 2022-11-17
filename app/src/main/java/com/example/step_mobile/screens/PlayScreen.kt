@@ -30,11 +30,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
+import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.data.model.Exercise
 import com.example.step_mobile.classes.PlayViewModel
 import com.example.step_mobile.data.model.Routine
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -42,8 +46,8 @@ import kotlin.math.sin
 @Composable
 fun Timer(
 
-    viewModel: PlayViewModel,
-
+    viewModel: MainViewModel,
+    navController: NavController,
     totalTime: Long,
 
 
@@ -69,7 +73,7 @@ fun Timer(
     }
 
     var currentTime by remember {
-        mutableStateOf(totalTime)
+        mutableStateOf((viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong())
     }
 
     var isTimerRunning by remember {
@@ -79,17 +83,30 @@ fun Timer(
         if(currentTime > 0 && isTimerRunning) {
             delay(100L)
             currentTime -= 100L
-            value = currentTime / totalTime.toFloat()
-            if(currentTime<=0 && viewModel.currentIndex() != 1){//TODO:esto esta mal adaptar a cada rutina
-
-
-
-                currentTime = totalTime
+            value = currentTime / (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toFloat()
+//            if(currentTime<=0 && viewModel.uiState.currentExIdx >= viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1 && viewModel.uiState.currentCycleIdx >= viewModel.uiState.currentWorkout.size) {
+//                isTimerRunning = !isTimerRunning
+            if(currentTime<=0 && viewModel.uiState.currentExIdx < viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1){//TODO:esto esta mal adaptar a cada rutina
+                viewModel.uiState.currentExIdx++
+                currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
+                //currentTime = totalTime
                 isTimerRunning = true
-                viewModel.incIndex()
-            }else if(currentTime<=0 && viewModel.currentIndex() == 1){
+            }else if(currentTime<=0 && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                    viewModel.uiState.currentCycleIdx++
+                }
+                if(viewModel.uiState.currentCycleIdx >= viewModel.uiState.currentWorkout.size-1){
+                    navController.navigate("search_screen")
+                }
+                viewModel.uiState.currentExIdx =0 //TODO: !!!!!!!!!!que pasa si el ciclo no tiene exercises!!!!!!!!!!!!!
+                currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
+                //currentTime = totalTime
+                isTimerRunning = true
+            }else if(currentTime<=0){
                 isTimerRunning = !isTimerRunning
-            }
+                navController.navigate("search_screen")
+            }//TODO: confirmacion para empezar otro ciclo(mega opcional)
+
         }
     }
     Box(
@@ -149,9 +166,13 @@ fun Timer(
         Button(
             onClick = {
                 if(currentTime <= 0L) {
-                    currentTime = totalTime
+
+                    while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                        viewModel.uiState.currentCycleIdx++
+                    }
+                    viewModel.uiState.currentExIdx =0
+                    viewModel.uiState.currentCycleIdx =0
                     isTimerRunning = true
-                    viewModel.incIndex()
                 } else {
                     isTimerRunning = !isTimerRunning
                 }
@@ -173,20 +194,23 @@ fun Timer(
             )
         }
     }
+   ExerciseCard(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].exercise, viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration)
 }
 
 @Composable
-fun PlayScreen(routine: Routine, viewModel : PlayViewModel) {
+fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
+    if(viewModel.uiState.currentCycles.isEmpty()){
+        myNavController.navigate("search_screen")//TODO: manejarlo mejor /medio opcional ARREGLAR NO FUNCIONADFASDFASDFASDFASDFASDF
+    }
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
-//        val iterator = routine.exercises.listIterator() TODO: las routines ahora tienen cycles
-        Box {
+       Box {
             val contentPaddingModifier = Modifier.padding(16.dp)
             val configuration = LocalConfiguration.current
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
                     Row(modifier = Modifier.fillMaxSize()) {
-                        mainContent(routine, viewModel)
+                        mainContent(viewModel, myNavController)
                     }
                 }
                 else -> {
@@ -194,17 +218,17 @@ fun PlayScreen(routine: Routine, viewModel : PlayViewModel) {
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally) {
-                        mainContent(routine, viewModel)
+                        mainContent(viewModel, myNavController)
 
 
                     }
                 }
             }
-        }
+      }
     }
 }
 @Composable
-fun mainContent(routine: Routine, viewModel : PlayViewModel) {
+fun mainContent( viewModel : MainViewModel, navController: NavController,) {
 
 
     Text(
@@ -218,6 +242,7 @@ fun mainContent(routine: Routine, viewModel : PlayViewModel) {
     ) {
         Timer(
             totalTime = 10L * 1000L,
+            navController = navController,
             handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
             inactiveBarColor = Color.DarkGray,
             activeBarColor = Color(0xFF37B900),
@@ -225,7 +250,6 @@ fun mainContent(routine: Routine, viewModel : PlayViewModel) {
             viewModel = viewModel
         )
 
-       //TODO: tiene q renderear este composable de vuelta desp de que timer adelante el iterator
 
 
     }
