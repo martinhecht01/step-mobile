@@ -23,6 +23,10 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             ProfileScreen(navController, mainViewModel)
         }
 
+        composable(Screen.ReviewScreen.route){
+            ReviewRoutine(navController, mainViewModel)
+        }
+
         composable(Screen.HomeScreen.route) {
             HomeScreen(navController, mainViewModel)
         }

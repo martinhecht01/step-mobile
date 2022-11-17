@@ -14,4 +14,5 @@ sealed class Screen(val title: String, val icon: ImageVector, val route: String,
     object ViewRoutineScreen: Screen("View Routine", Icons.Rounded.Person, "view_routine_screen", false, false)
     object ProfileScreen: Screen("Profile", Icons.Rounded.Person, "profile_screen", false, false)
     object ShareScreen: Screen("Share", Icons.Rounded.Person, "share_screen?id={id}", false, false)
+    object ReviewScreen: Screen("Share", Icons.Rounded.Person, "review_screen", false, false)
 }
