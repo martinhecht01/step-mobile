@@ -1,6 +1,6 @@
 package com.example.step_mobile
 
-import RatingBar
+import StarBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -143,7 +143,7 @@ fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
                         fontSize = 20.sp,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
-                    RatingBar(
+                    StarBar(
                         rating = (routine.score ?: 0).toDouble() / 2,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
