@@ -46,12 +46,10 @@ class MainActivity : ComponentActivity() {
             StepmobileTheme{}
             BottomNavigationTheme {
                 val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val showBottomBar = when (viewModel.uiState.isAuthenticated){
                     false -> false
                     else -> true
                 }
-
                 Scaffold(
                     bottomBar = { if(showBottomBar) BottomBar(navController = navController, viewModel(factory = getViewModelFactory())) }
                 ) {

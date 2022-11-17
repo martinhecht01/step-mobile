@@ -17,7 +17,6 @@ data class Routine(
     var category   : Category?,
     var metadata   : String?
 ) {
-
     fun asNetworkModel(): NetworkRoutine {
         return NetworkRoutine(
             id = id,

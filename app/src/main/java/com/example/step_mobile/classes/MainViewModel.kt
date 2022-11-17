@@ -368,7 +368,6 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = false,
                 currentCycles = response,
-                currentCycleExercises = listOf()
             )
             response.forEach{elem ->
                 getCycleExercises(elem.id)
@@ -383,13 +382,12 @@ class MainViewModel(
         }
     }
 
-    fun getCycleExercises(cycleId: Int) = viewModelScope.launch {
+    private suspend fun getCycleExercises(cycleId: Int) {
         runCatching {
             cycleExerciseRepository.getCycleExercises(cycleId)
         }.onSuccess { response ->
             Log.d("exer", response.toString())
             uiState = uiState.copy(
-                currentCycleExercises = response ,
                 currentWorkout = uiState.currentWorkout.plus(FullCycle(cycleId,response))
             )
         }.onFailure { e ->
@@ -402,6 +400,8 @@ class MainViewModel(
     fun getFullCyclesExercises(routineId: Int) = viewModelScope.launch{
         uiState = uiState.copy(
             isFetching = true,
+            currentWorkout = listOf(),
+            currentCycles = listOf(),
             message = null
         )
         runCatching {
@@ -410,25 +410,18 @@ class MainViewModel(
             Log.d("response", response.toString())
             uiState = uiState.copy(
                 currentCycles = response,
-                currentCycleExercises = listOf()
             )
             response.forEach{elem ->
                 getCycleExercises(elem.id)
             }
-
-
+            uiState = uiState.copy(
+                isFetching = false
+            )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
             uiState = uiState.copy(
                 message = e.message,
                 isFetching = false)
         }
-        uiState = uiState.copy(
-            isFetching = false
-        )
-
     }
-
-
-
 }
