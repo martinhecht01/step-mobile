@@ -30,7 +30,7 @@ import com.example.step_mobile.data.model.User
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.launch
 @Composable
-fun HomeScreen(mainViewModel: MainViewModel) {
+fun HomeScreen(navController: NavController, mainViewModel: MainViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.fondonp),
@@ -54,7 +54,7 @@ fun HomeScreen(mainViewModel: MainViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 WelcomeCard(name)
-                TopWorkoutCard(mainViewModel);
+                TopWorkoutCard(navController, mainViewModel);
             }
         }
     }
@@ -87,7 +87,8 @@ fun WelcomeCard(name: String){
 }
 
 @Composable
-fun TopWorkoutCard(mainViewModel: MainViewModel){
+fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
+    var scope = rememberCoroutineScope()
     if(!mainViewModel.uiState.isFetching) {
         Text(
             stringResource(R.string.top_workout),
@@ -113,14 +114,22 @@ fun TopWorkoutCard(mainViewModel: MainViewModel){
                         .width(200.dp)
                 )
             }
+            var routine = mainViewModel.getTopRoutine()
+            if(routine != null) {
+                Column(verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .clickable {
+                            scope.launch {
+                                mainViewModel.getRoutine(routine.id).invokeOnCompletion {
+                                    mainViewModel.getFullCyclesExercises(routine.id)
+                                }
+                            }
+                            navController.navigate("view_routine_screen")
+                        }
+                        .padding(horizontal = 35.dp, vertical = 10.dp)) {
 
-            Column(verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.Start,
-                modifier = Modifier
-                    .clickable { /*TODO*/ }
-                    .padding(horizontal = 35.dp, vertical = 10.dp)) {
-                var routine = mainViewModel.getTopRoutine()
-                if(routine != null) {
+
                     Text(
                         text = routine.name,
                         color = Color.DarkGray,
@@ -134,15 +143,21 @@ fun TopWorkoutCard(mainViewModel: MainViewModel){
                         fontSize = 20.sp,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
-                    RatingBar(rating = (routine.score ?: 0).toDouble()/2, modifier = Modifier.padding(vertical = 10.dp))
-                } else{
-                    Text(
-                        text = "No routines available",
+                    RatingBar(
+                        rating = (routine.score ?: 0).toDouble() / 2,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                }
+            } else{
+                Column(verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 35.dp, vertical = 10.dp)) {
+                    Text(text = "Ups! No routines available",
                         color = Color.DarkGray,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(vertical = 10.dp)
-                    )
+                        modifier = Modifier.padding(vertical = 10.dp))
                 }
             }
         }

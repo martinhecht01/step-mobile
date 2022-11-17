@@ -24,7 +24,7 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
         }
 
         composable(Screen.HomeScreen.route) {
-            HomeScreen(mainViewModel)
+            HomeScreen(navController, mainViewModel)
         }
         composable(Screen.SearchScreen.route) {
             SearchScreen(navController, mainViewModel )
