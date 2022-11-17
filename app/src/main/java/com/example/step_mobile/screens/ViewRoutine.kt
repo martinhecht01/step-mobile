@@ -1,28 +1,40 @@
 package com.example.step_mobile.screens
 
+import StarBar
 import android.annotation.SuppressLint
 import android.app.FragmentManager.BackStackEntry
 import android.util.Log
 import androidx.annotation.RestrictTo
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
@@ -56,13 +68,12 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
         contentScale = ContentScale.Crop
     )
     StepmobileTheme() {
-        ScreenTitle("", false, navController)
+        ScreenTitle("", true, navController)
     }
     if(mainViewModel.uiState.isFetching){
         ScreenLoader()
     } else {
         var routine = mainViewModel.uiState.currentRoutine
-        var scope = rememberCoroutineScope()
         if (routine != null) {
             var showArrow = mainViewModel.uiState.isAuthenticated
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -72,7 +83,9 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                 Card(
                     modifier = Modifier
                         .padding(20.dp)
-                        .height(400.dp),
+                        .height(400.dp)
+                        .fillMaxWidth(),
+
                     shape = RoundedCornerShape(20.dp),
                     elevation = 10.dp,
 
@@ -80,26 +93,53 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                     RoutineInfo(mainViewModel)
                 }
                 Row(horizontalArrangement = Arrangement.Center) {
-                    Button(
-                        onClick = {
-                            if (mainViewModel.uiState.currentWorkout.isEmpty()){
-                                navController.navigate("search_screen")
-                                return@Button
-                            }
-                            navController.navigate("play_screen")
-                        },
-                        modifier = Modifier
-                            .align(alignment = Alignment.Bottom)
-                            .padding(20.dp)
-                            .size(60.dp),
-                        shape = RoundedCornerShape(100),
-                        elevation = ButtonDefaults.elevation(5.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = PlayGreen,
-                            contentColor = Color.White
-                        )
-                    ) {
-                        Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
+                        Button(
+                            onClick = {
+                                if (mainViewModel.uiState.currentWorkout.isEmpty()){
+                                    navController.navigate("search_screen")
+                                    return@Button
+                                }
+                                for (cycle in mainViewModel.uiState.currentWorkout){
+                                    if (cycle.exercises.isEmpty()){
+                                        navController.navigate("search_screen") //TODO: llevar a otra pantalla donde indique error?
+                                        return@Button
+                                    }
+                                }
+                                navController.navigate("play_screen")
+                            },
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .size(60.dp),
+                            shape = RoundedCornerShape(100),
+                            elevation = ButtonDefaults.elevation(5.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = PlayGreen,
+                                contentColor = Color.White
+                            )
+                        ) {
+                            Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
+                        }
+                        Text(text = "PLAY", fontSize = 15.sp, color = Color.White)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
+                        Button(
+                            onClick = {
+                                navController.navigate("review_screen")
+                            },
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .size(60.dp),
+                            shape = RoundedCornerShape(100),
+                            elevation = ButtonDefaults.elevation(5.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.White,
+                                contentColor = DarkBlue
+                            )
+                        ) {
+                            Icon(painterResource(id = R.drawable.ic_star), contentDescription = null)
+                        }
+                        Text(text = "REVIEW", fontSize = 15.sp, color = Color.White)
                     }
                 }
             }
@@ -114,44 +154,40 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
 
 @Composable
 fun RoutineInfo(mainViewModel: MainViewModel){
-    val paddingModifier = Modifier.padding(10.dp)
-    val list = (1..9).map { it.toString() }
-        Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Row(verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ){
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(200.dp),
-                    contentPadding = PaddingValues(
-                        start = 12.dp,
-                        top = 16.dp,
-                        end = 12.dp,
-                        bottom = 16.dp
-                    ),
-                    content = {
-                       if (mainViewModel.uiState.currentCycles.isEmpty())
-                            item{
-                                Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
-                            }
-                        else {
-                           mainViewModel.uiState.currentCycles.forEachIndexed() { index, _ ->
-                               item {
-                                   CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
-                               }
-                               if (mainViewModel.uiState.currentWorkout[index].exercises.isEmpty()) {
-                                        item{ Text(text = "Seems like this cycle is empty!", textAlign = TextAlign.Center)}
-                               } else {
-                                   items(mainViewModel.uiState.currentWorkout[index].exercises.size) { index2 ->
-                                       ExerciseCardTM(
-                                           mainViewModel.uiState.currentWorkout[index].exercises[index2].exercise.name,
-                                           mainViewModel.uiState.currentWorkout[index].exercises[index2].repetitions
-                                       )
-                                   }
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(200.dp),
+                contentPadding = PaddingValues(
+                    start = 12.dp,
+                    top = 16.dp,
+                    end = 12.dp,
+                    bottom = 16.dp
+                ),
+                content = {
+                   if (mainViewModel.uiState.currentCycles.isEmpty())
+                        item{
+                            Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
+                        }
+                   else {
+                       mainViewModel.uiState.currentCycles.forEachIndexed() { index, _ ->
+                           item {
+                               CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
+                           }
+                           if (mainViewModel.uiState.currentWorkout[index].exercises.isEmpty()) {
+                                    item{ Text(text = "Seems like this cycle is empty!", textAlign = TextAlign.Center)}
+                           } else {
+                               items(mainViewModel.uiState.currentWorkout[index].exercises.size) { index2 ->
+                                   ExerciseCardTM(
+                                       mainViewModel.uiState.currentWorkout[index].exercises[index2].exercise.name,
+                                       mainViewModel.uiState.currentWorkout[index].exercises[index2].repetitions
+                                   )
                                }
                            }
-                        }
-
-
-                    }
-                )
+                       }
+                   }
+                }
+            )
         }
 }

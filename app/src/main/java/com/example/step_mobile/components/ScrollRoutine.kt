@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, mainViewModel: MainViewModel, order: String, reversed: Boolean, height: Int){
     var routines by remember { mutableStateOf(noOrderRoutines) }
-
+    var state = rememberLazyListState();
     when(order){
             "Date" -> routines = noOrderRoutines.sortedBy { it.date }
             "Difficulty" -> routines = noOrderRoutines.sortedBy { it.difficulty }
