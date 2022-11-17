@@ -88,7 +88,7 @@ fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boo
                 modifier = Modifier.padding(horizontal = 10.dp).padding(bottom = 10.dp),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,)
-            RatingBar(rating = score.toDouble(), modifier = Modifier.padding(horizontal = 10.dp))
+            RatingBar(rating = score.toDouble()/2, modifier = Modifier.padding(horizontal = 10.dp))
         }
     }
 }
