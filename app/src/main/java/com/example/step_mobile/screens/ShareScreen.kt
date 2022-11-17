@@ -30,10 +30,9 @@ import kotlinx.coroutines.launch
 fun ShareScreen(navController: NavController, mainViewModel: MainViewModel, id: Int){
     if(mainViewModel.uiState.isAuthenticated) {
         LaunchedEffect(key1 = true) {
-            mainViewModel.getRoutine(id).invokeOnCompletion {
-                mainViewModel.getFullCyclesExercises(id).invokeOnCompletion {
-                    navController.navigate("view_routine_screen")
-                }
+            navController.navigate("view_routine_screen")
+            mainViewModel.getRoutine(routine.id).invokeOnCompletion {
+                mainViewModel.getFullCyclesExercises(routine.id)
             }
         }
     } else{
