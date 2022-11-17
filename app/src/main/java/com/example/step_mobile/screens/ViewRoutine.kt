@@ -51,7 +51,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
         contentScale = ContentScale.Crop
     )
     StepmobileTheme() {
-        ScreenTitle("")
+        ScreenTitle("", false, navController)
     }
     if(mainViewModel.uiState.isFetching){
         ScreenLoader()
@@ -59,9 +59,10 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
         var routine = mainViewModel.uiState.currentRoutine
         var scope = rememberCoroutineScope()
         if (routine != null) {
+            var showArrow = mainViewModel.uiState.isAuthenticated
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 StepmobileTheme() {
-                    ScreenTitle(title = routine.name)
+                    ScreenTitle(title = routine.name, showArrow, navController)
                 }
                 Card(
                     modifier = Modifier

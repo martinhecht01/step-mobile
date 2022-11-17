@@ -46,7 +46,7 @@ fun HomeScreen(navController: NavController, mainViewModel: MainViewModel) {
                 name = user.firstName
             }
             Column(verticalArrangement = Arrangement.Top) {
-                ScreenTitle(stringResource(R.string.home))
+                ScreenTitle(stringResource(R.string.home), false, navController)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
