@@ -86,17 +86,21 @@ fun Timer(
             value = currentTime / (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toFloat()
 //            if(currentTime<=0 && viewModel.uiState.currentExIdx >= viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1 && viewModel.uiState.currentCycleIdx >= viewModel.uiState.currentWorkout.size) {
 //                isTimerRunning = !isTimerRunning
-            if(currentTime<=0 && viewModel.uiState.currentExIdx < viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1){//TODO:esto esta mal adaptar a cada rutina
+//            }
+            if(currentTime<=0 && viewModel.uiState.currentExIdx < viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1){
                 viewModel.uiState.currentExIdx++
                 currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
                 //currentTime = totalTime
                 isTimerRunning = true
             }else if(currentTime<=0 && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
-                while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                viewModel.uiState.currentCycleIdx++
+                while(viewModel.uiState.currentCycleIdx <= viewModel.uiState.currentWorkout.size-1 && viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty()){
                     viewModel.uiState.currentCycleIdx++
                 }
-                if(viewModel.uiState.currentCycleIdx >= viewModel.uiState.currentWorkout.size-1){
+                if(viewModel.uiState.currentCycleIdx > viewModel.uiState.currentWorkout.size-1){
+                    isTimerRunning = false
                     navController.navigate("search_screen")
+                    return@LaunchedEffect
                 }
                 viewModel.uiState.currentExIdx =0 //TODO: !!!!!!!!!!que pasa si el ciclo no tiene exercises!!!!!!!!!!!!!
                 currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
@@ -194,14 +198,12 @@ fun Timer(
             )
         }
     }
-   ExerciseCard(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].exercise, viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration)
+    if (viewModel.uiState.currentCycleIdx <= viewModel.uiState.currentWorkout.size-1 && viewModel.uiState.currentExIdx <= viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1)
+        ExerciseCard(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].exercise, viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration)
 }
 
 @Composable
 fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
-    if(viewModel.uiState.currentCycles.isEmpty()){
-        myNavController.navigate("search_screen")//TODO: manejarlo mejor /medio opcional ARREGLAR NO FUNCIONADFASDFASDFASDFASDFASDF
-    }
     Surface(modifier = Modifier.fillMaxSize()){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
        Box {

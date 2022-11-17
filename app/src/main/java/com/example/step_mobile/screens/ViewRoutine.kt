@@ -5,6 +5,7 @@ import android.app.FragmentManager.BackStackEntry
 import android.util.Log
 import androidx.annotation.RestrictTo
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,12 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -34,7 +37,9 @@ import com.example.step_mobile.components.CycleCard
 import com.example.step_mobile.components.ExerciseCardTM
 import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.components.ScreenTitle
+import com.example.step_mobile.data.model.Name
 import com.example.step_mobile.data.model.Review
+import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StepmobileTheme
 import kotlinx.coroutines.delay
@@ -77,7 +82,11 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                 Row(horizontalArrangement = Arrangement.Center) {
                     Button(
                         onClick = {
-                                  navController.navigate("play_screen")
+                            if (mainViewModel.uiState.currentWorkout.isEmpty()){
+                                navController.navigate("search_screen")
+                                return@Button
+                            }
+                            navController.navigate("play_screen")
                         },
                         modifier = Modifier
                             .align(alignment = Alignment.Bottom)
