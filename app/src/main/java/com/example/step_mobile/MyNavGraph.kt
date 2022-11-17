@@ -75,6 +75,10 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             ViewRoutine(navController, mainViewModel)
         }
 
+        composable(Screen.PlayScreenNT.route){
+            PlayScreenNT(navController = navController, viewModel = mainViewModel)
+        }
+
 
     }
 

@@ -106,7 +106,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                                         return@Button
                                     }
                                 }
-                                navController.navigate("play_screen")
+                                navController.navigate("play_screenNT")
                             },
                             modifier = Modifier
                                 .padding(10.dp)
