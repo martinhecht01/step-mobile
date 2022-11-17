@@ -97,7 +97,9 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = viewModel.uiState.isAuthenticated){
         if(viewModel.uiState.isAuthenticated) {
-            viewModel.getCurrentUser()
+            viewModel.getCurrentUser().invokeOnCompletion {
+                viewModel.getRoutines()
+            }
             if(id == -1) {
                 navController.navigate(route) {
                     popUpTo("welcome_screen") { inclusive = true }

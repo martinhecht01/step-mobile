@@ -41,7 +41,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel = viewModel<MainViewModel>(factory = getViewModelFactory())
             LaunchedEffect(key1 = true){
-                viewModel.getCurrentUser()
+                if(viewModel.uiState.isAuthenticated){
+                    viewModel.getCurrentUser().invokeOnCompletion {
+                        viewModel.getRoutines()
+                    }
+                }
             }
             StepmobileTheme{}
             BottomNavigationTheme {

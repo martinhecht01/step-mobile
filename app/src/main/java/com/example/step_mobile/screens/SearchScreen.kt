@@ -49,7 +49,7 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
-            ScreenTitle(stringResource(R.string.search))
+            ScreenTitle(stringResource(R.string.search), false, navController)
             Row(verticalAlignment = Alignment.Top) {
                 Card(modifier = Modifier
                     .padding(25.dp)

@@ -19,7 +19,7 @@ import kotlin.math.floor
 
 
 @Composable
-fun RatingBar(
+fun StarBar(
     modifier: Modifier = Modifier,
     rating: Double = 0.0,
     stars: Int = 5,

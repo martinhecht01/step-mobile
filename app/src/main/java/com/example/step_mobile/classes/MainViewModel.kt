@@ -248,6 +248,18 @@ class MainViewModel(
         }
     }
 
+    fun getTopRoutine() : Routine?{
+        var routine: Routine? = null
+        var maxRating = -1;
+        for(curr in uiState.routines){
+            if((curr.score ?: 0) > maxRating){
+                routine = curr
+                maxRating = (curr.score ?: 0)
+            }
+        }
+        return routine;
+    }
+
     suspend fun reviewRoutine(review: Review, id : Int) = viewModelScope.launch{
         uiState = uiState.copy(
             isFetching = true,

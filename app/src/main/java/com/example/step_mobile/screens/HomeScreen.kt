@@ -1,6 +1,6 @@
 package com.example.step_mobile
 
-import RatingBar
+import StarBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +30,7 @@ import com.example.step_mobile.data.model.User
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.launch
 @Composable
-fun HomeScreen(mainViewModel: MainViewModel) {
+fun HomeScreen(navController: NavController, mainViewModel: MainViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.fondonp),
@@ -38,15 +38,15 @@ fun HomeScreen(mainViewModel: MainViewModel) {
             contentScale = ContentScale.Crop
         )
         if (mainViewModel.uiState.isFetching) {
-
+            ScreenLoader()
         } else {
             var user = mainViewModel.uiState.currentUser
             var name by remember { mutableStateOf("") }
-            if(user != null){
+            if (user != null) {
                 name = user.firstName
             }
             Column(verticalArrangement = Arrangement.Top) {
-                ScreenTitle(stringResource(R.string.home))
+                ScreenTitle(stringResource(R.string.home), false, navController)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -54,7 +54,7 @@ fun HomeScreen(mainViewModel: MainViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 WelcomeCard(name)
-                TopWorkoutCard(viewModel(factory = getViewModelFactory()));
+                TopWorkoutCard(navController, mainViewModel);
             }
         }
     }
@@ -87,54 +87,79 @@ fun WelcomeCard(name: String){
 }
 
 @Composable
-fun TopWorkoutCard(mainViewModel: MainViewModel){
-    var routine = Routine(
-        name = "Hombros de acero",
-        detail = "Tebi chupado",
-        category = null,
-        id = 100,
-        date = null,
-        score = 5,
-        isPublic = true,
-        difficulty = "Modo tobi",
-        user = null,
-        metadata = null
-    )
-    Text(
-        stringResource(R.string.top_workout),
-        color = Color.DarkGray,
-        fontSize = 25.sp,
-        fontWeight = FontWeight.Bold
-    )
-    Card(modifier = Modifier
-        .padding(20.dp)
-        .clip(shape = RoundedCornerShape(30.dp))
-        .background(Color.White)
-        .fillMaxWidth()
-        .height(300.dp)) {
-        Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.End) {
-            Image(painter = painterResource(R.drawable.trainers), contentDescription = null, contentScale = ContentScale.FillBounds, modifier = Modifier
-                .height(200.dp)
-                .width(200.dp))
-        }
+fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
+    var scope = rememberCoroutineScope()
+    if(!mainViewModel.uiState.isFetching) {
+        Text(
+            stringResource(R.string.top_workout),
+            color = Color.DarkGray,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Card(
+            modifier = Modifier
+                .padding(20.dp)
+                .clip(shape = RoundedCornerShape(30.dp))
+                .background(Color.White)
+                .fillMaxWidth()
+                .height(300.dp)
+        ) {
+            Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.End) {
+                Image(
+                    painter = painterResource(R.drawable.trainers),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .height(200.dp)
+                        .width(200.dp)
+                )
+            }
+            var routine = mainViewModel.getTopRoutine()
+            if(routine != null) {
+                Column(verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .clickable {
+                            scope.launch {
+                                mainViewModel.getRoutine(routine.id).invokeOnCompletion {
+                                    mainViewModel.getFullCyclesExercises(routine.id)
+                                }
+                            }
+                            navController.navigate("view_routine_screen")
+                        }
+                        .padding(horizontal = 35.dp, vertical = 10.dp)) {
 
-        Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.Start, modifier = Modifier
-            .clickable { /*TODO*/ }
-            .padding(horizontal = 35.dp, vertical = 10.dp)){
-            Text(
-                text = routine.name,
-                color = Color.DarkGray,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-            Text(
-                text = routine.detail,
-                color = Color.DarkGray,
-                fontSize = 20.sp,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-            RatingBar(rating = 5.0, modifier = Modifier.padding(vertical = 10.dp))
+
+                    Text(
+                        text = routine.name,
+                        color = Color.DarkGray,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    Text(
+                        text = routine.detail,
+                        color = Color.DarkGray,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    StarBar(
+                        rating = (routine.score ?: 0).toDouble() / 2,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                }
+            } else{
+                Column(verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 35.dp, vertical = 10.dp)) {
+                    Text(text = "Ups! No routines available",
+                        color = Color.DarkGray,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 10.dp))
+                }
+            }
         }
     }
 }
