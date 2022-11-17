@@ -106,6 +106,8 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                                         return@Button
                                     }
                                 }
+                                mainViewModel.uiState.currentCycleIdx = 0
+                                mainViewModel.uiState.currentExIdx = 0
                                 navController.navigate("play_screen")
                             },
                             modifier = Modifier
