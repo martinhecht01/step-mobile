@@ -84,31 +84,19 @@ fun Timer(
             delay(100L)
             currentTime -= 100L
             value = currentTime / (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toFloat()
-//            if(currentTime<=0 && viewModel.uiState.currentExIdx >= viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1 && viewModel.uiState.currentCycleIdx >= viewModel.uiState.currentWorkout.size) {
-//                isTimerRunning = !isTimerRunning
-//            }
             if(currentTime<=0 && viewModel.uiState.currentExIdx < viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.size -1){
                 viewModel.uiState.currentExIdx++
                 currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
-                //currentTime = totalTime
                 isTimerRunning = true
             }else if(currentTime<=0 && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
                 viewModel.uiState.currentCycleIdx++
-                while(viewModel.uiState.currentCycleIdx <= viewModel.uiState.currentWorkout.size-1 && viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty()){
-                    viewModel.uiState.currentCycleIdx++
-                }
-                if(viewModel.uiState.currentCycleIdx > viewModel.uiState.currentWorkout.size-1){
-                    isTimerRunning = false
-                    navController.navigate("search_screen")
-                    return@LaunchedEffect
-                }
-                viewModel.uiState.currentExIdx =0 //TODO: !!!!!!!!!!que pasa si el ciclo no tiene exercises!!!!!!!!!!!!!
+                viewModel.uiState.currentExIdx =0
                 currentTime = (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises[viewModel.uiState.currentExIdx].duration * 1000).toLong()
-                //currentTime = totalTime
                 isTimerRunning = true
             }else if(currentTime<=0){
                 isTimerRunning = !isTimerRunning
                 navController.navigate("search_screen")
+                return@LaunchedEffect
             }//TODO: confirmacion para empezar otro ciclo(mega opcional)
 
         }
