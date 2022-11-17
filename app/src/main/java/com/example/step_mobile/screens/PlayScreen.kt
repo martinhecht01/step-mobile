@@ -174,6 +174,10 @@ fun Timer(
                     while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
                         viewModel.uiState.currentCycleIdx++
                     }
+                    if (viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                        navController.navigate("search_screen")
+                        return@Button
+                    }
                     viewModel.uiState.currentExIdx =0
                     viewModel.uiState.currentCycleIdx =0
                     isTimerRunning = true
