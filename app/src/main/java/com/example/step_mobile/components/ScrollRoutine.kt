@@ -25,18 +25,19 @@ import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.R.*
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.data.model.Category
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, mainViewModel: MainViewModel, order: String, reversed: Boolean){
+fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, mainViewModel: MainViewModel, order: String, reversed: Boolean, height: Int){
     var routines by remember { mutableStateOf(noOrderRoutines) }
 
     when(order){
             "Date" -> routines = noOrderRoutines.sortedBy { it.date }
-            "Name" -> routines = noOrderRoutines.sortedBy { it.name }
-            "Details" -> routines = noOrderRoutines.sortedBy { it.detail }
+            "Difficulty" -> routines = noOrderRoutines.sortedBy { it.difficulty }
+            "Category" -> routines = noOrderRoutines.sortedBy { (it.category ?: Category(-1, "No Category", "")).name }
     }
     if(reversed)
         routines = routines.reversed();
@@ -64,7 +65,7 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
         LazyVerticalGrid(
             //minimo width que tiene que tener una columna
             columns = GridCells.Adaptive(200.dp),
-            modifier = Modifier.height(530.dp),
+            modifier = Modifier.height(height.dp),
 
             // content padding
             contentPadding = PaddingValues(
@@ -84,8 +85,7 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
                          }
                      }
                  }){
-                        var isFav = mainViewModel.isFavourite(routines[idx].id)
-                        RoutineCard(routines[idx].name, routines[idx].detail, routines[idx].score ?: 0 , isFav, routines[idx].id, mainViewModel)
+                        RoutineCard(routines[idx], mainViewModel)
                  }
                 }
 

@@ -27,11 +27,11 @@ fun MyWorkoutsScreen(navController: NavController, mainViewModel : MainViewModel
     Surface(modifier = Modifier.fillMaxSize() ){
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
-            ScreenTitle(title = stringResource(id = R.string.my_favourites), true, navController)
+            ScreenTitle(title = stringResource(id = R.string.my_favourites), false, navController)
             if(state.isFetching){
                 ScreenLoader()
             } else{
-                ScrollRoutine(navController, state.favRoutines, mainViewModel, "Date", false)
+                ScrollRoutine(navController, state.favRoutines, mainViewModel, "Date", false, 650)
             }
         }
     }

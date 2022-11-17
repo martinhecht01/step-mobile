@@ -20,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,21 +36,21 @@ import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boolean, id: Int, mainViewModel: MainViewModel) {
+fun RoutineCard(routine: Routine, mainViewModel: MainViewModel) {
     var uri = "https://www.stepapp.me"
 
 
     val context = LocalContext.current
     val deepLinkIntent = Intent(
         Intent.ACTION_SEND,
-        "https://www.stepapp.me/${id}".toUri(),
+        "https://www.stepapp.me/${routine.id}".toUri(),
         context,
         Routine::class.java
     )
 
     val deepLinkIntent2 : Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT,"https://www.stepapp.me/${id}")
+        putExtra(Intent.EXTRA_TEXT,"https://www.stepapp.me/${routine.id}")
         type = "text/plain"
     }
 
@@ -63,8 +65,8 @@ fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boo
         Column(Modifier.padding(10.dp)) {
             Row(Modifier.align(Alignment.End)) {
                 Text(
-                    text = title,
-                    maxLines = 2,
+                    text = routine.name.toUpperCase(),
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = androidx.compose.ui.text.TextStyle(
                         fontWeight = FontWeight.Bold,
@@ -72,7 +74,7 @@ fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boo
                     ),
                     modifier = paddingModifier.weight(1f)
                 )
-                FavoriteButton(isFavorite, mainViewModel = mainViewModel, id = id)
+                FavoriteButton(mainViewModel.isFavourite(routine.id), mainViewModel = mainViewModel, id = routine.id)
                 Icon(
                     imageVector = Icons.Rounded.Share,
                     contentDescription = null,
@@ -84,11 +86,23 @@ fun RoutineCard(title: String, description: String, score: Int , isFavorite: Boo
                 )
             }
             Text(
-                text = description,
-                modifier = Modifier.padding(horizontal = 10.dp).padding(bottom = 10.dp),
+                text = (routine.difficulty ?: "").toUpperCase(),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .padding(bottom = 10.dp, top = 0.dp),
+                maxLines = 1,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis)
+            Text(
+                text = routine.detail,
+                fontSize = 15.sp,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .padding(bottom = 10.dp),
                 maxLines = 3,
-                overflow = TextOverflow.Ellipsis,)
-            StarBar(rating = score.toDouble()/2, modifier = Modifier.padding(horizontal = 10.dp))
+                overflow = TextOverflow.Ellipsis)
+            StarBar(rating = (routine.score ?: 0).toDouble()/2, modifier = Modifier.padding(horizontal = 10.dp))
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.step_mobile
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,20 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.step_mobile.components.ScrollRoutine
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.components.ScreenTitle
-import com.example.step_mobile.data.model.Routine
-import com.example.step_mobile.util.getViewModelFactory
-import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) {
@@ -82,18 +74,18 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
                             modifier = Modifier.clip(shape = RoundedCornerShape(15.dp)),
 
                             ) {
-                            var dateString = stringResource(R.string.date)
+                            var dateString = "Date"
                             DropdownMenuItem(onClick = { title = dateString; expanded = false }) {
                                 Text(text = stringResource(R.string.date))
                             }
 
-                            var nameString = "Name"
-                            DropdownMenuItem(onClick = { title = nameString; expanded = false }) {
-                                Text(text = nameString)
+                            var difficultyString = "Difficulty"
+                            DropdownMenuItem(onClick = { title = difficultyString; expanded = false }) {
+                                Text(text = difficultyString)
                             }
-                            var detailsString = "Details"
-                            DropdownMenuItem(onClick = { title = detailsString; expanded = false }) {
-                                Text(text = detailsString)
+                            var categoryString = "Category"
+                            DropdownMenuItem(onClick = { title = categoryString; expanded = false }) {
+                                Text(text = categoryString)
                             }
                         }
                     }
@@ -123,7 +115,7 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
             if(state.isFetching){
                 ScreenLoader()
             } else{
-                ScrollRoutine(navController, state.routines, mainViewModel, title, order)
+                ScrollRoutine(navController, state.routines, mainViewModel, title, order, 530)
             }
         }
     }
