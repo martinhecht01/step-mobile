@@ -108,7 +108,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                                 }
                                 mainViewModel.uiState.currentCycleIdx = 0
                                 mainViewModel.uiState.currentExIdx = 0
-                                navController.navigate("play_screen")
+                                navController.navigate("play_screenNT")
                             },
                             modifier = Modifier
                                 .padding(10.dp)
