@@ -10,36 +10,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.step_mobile.components.ExerciseCard
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.PointMode
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import com.example.step_mobile.R
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenTitle
@@ -160,7 +147,6 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                 .width(160.dp)
                                 .padding(end = 30.dp, top = 10.dp)
                                 .clip(RoundedCornerShape(15.dp))) {
-                                //Text(text = "Previous",modifier = Modifier.padding(top=15.dp, bottom=15.dp), fontSize = 18.sp)
                                 Icon(painterResource(R.drawable.fast_rewind), contentDescription = null, tint = DarkBlue)
 
                             }
@@ -211,10 +197,8 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     .padding(start = 30.dp, top = 10.dp)
                                     .clip(RoundedCornerShape(15.dp))){
                                 if(endFlag)
-                                    //Text(text = "Finish",modifier = Modifier.padding(vertical=15.dp), fontSize = 18.sp)
                                     Icon(Icons.Rounded.Done, contentDescription = null, tint = DarkBlue)
                                 else
-                                    //Text(text = "Next",modifier = Modifier.padding(vertical=15.dp), fontSize = 18.sp)
                                     Icon(painterResource(R.drawable.fast_forward), contentDescription = null, tint = DarkBlue)
                             }
 
