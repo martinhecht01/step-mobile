@@ -120,6 +120,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                 else if (state.currentCycleIdx > 0){
                                     state.currentCycleIdx--
                                     state.currentExIdx = state.currentWorkout[state.currentCycleIdx].exercises.size-1
+                                    currentCycle = state.currentCycles[state.currentCycleIdx].name
                                     currentExerciseText = state.currentWorkout[state.currentCycleIdx].exercises[state.currentExIdx].exercise.name
                                     currentExerciseDetail = state.currentWorkout[state.currentCycleIdx].exercises[state.currentExIdx].exercise.detail
 
