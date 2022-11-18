@@ -28,11 +28,16 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ShareScreen(navController: NavController, mainViewModel: MainViewModel, id: Int){
-    if(mainViewModel.uiState.isAuthenticated) {
+    if(mainViewModel.uiState.isAuthenticated ) {
         LaunchedEffect(key1 = true) {
-            navController.navigate("view_routine_screen")
             mainViewModel.getRoutine(id).invokeOnCompletion {
-                mainViewModel.getFullCyclesExercises(id)
+                if (mainViewModel.uiState.currentRoutine == null){
+                    navController.navigate("search_screen")
+                    return@invokeOnCompletion
+                }
+                mainViewModel.getFullCyclesExercises(id).invokeOnCompletion {
+                    navController.navigate("view_routine_screen")
+                }
             }
         }
     } else{

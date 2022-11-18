@@ -244,6 +244,7 @@ class MainViewModel(
             // Handle the error and notify the UI when appropriate.
             uiState = uiState.copy(
                 message = e.message,
+                currentRoutine = null,
                 isFetching = false)
         }
     }

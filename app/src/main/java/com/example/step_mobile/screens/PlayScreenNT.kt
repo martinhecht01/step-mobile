@@ -57,10 +57,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                         if (state.currentExIdx < state.currentWorkout[state.currentCycleIdx].exercises.size-1)
                             comingUpNext = state.currentWorkout[0].exercises[1].exercise.name
                         else if (state.currentCycleIdx < state.currentWorkout.size-1) {
-                            comingUpNext = "Next Cycle = ${state.currentCycles[1].name}"
+                            comingUpNext = state.currentCycles[1].name
                         }
                         else
-                            comingUpNext = "Nothing! You're almost there!"
+                            comingUpNext = "Nothing!"
                         if(viewModel.uiState.currentRoutine != null)
                             ScreenTitle(title = viewModel.uiState.currentRoutine!!.name , showArrow = true, navController = navController)
                         Card(shape = RoundedCornerShape(15),

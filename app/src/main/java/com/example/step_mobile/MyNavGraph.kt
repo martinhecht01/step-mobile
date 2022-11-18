@@ -2,11 +2,14 @@ package com.example.step_mobile
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.step_mobile.classes.*
 import com.example.step_mobile.screens.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
@@ -64,10 +67,12 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             ),
             deepLinks = listOf(navDeepLink { uriPattern = "$uri/{id}" })
         ) { backStackEntry ->
-            var string = backStackEntry.arguments?.getString("id")
-            var num = Integer.parseInt(string)
-            mainViewModel.getRoutines()
+            val string = backStackEntry.arguments?.getString("id")
+            val num = Integer.parseInt(string)
+
+
             ShareScreen(navController, mainViewModel, num)
+
         }
 
         composable(Screen.ViewRoutineScreen.route)
