@@ -53,7 +53,7 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
                     Column(
                         modifier = Modifier
                             .background(color = Color.White)
-                            .width(120.dp),
+                            .width(140.dp),
                     ) {
                         Row(
                             modifier = Modifier
@@ -63,7 +63,7 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
                         ) {
                             Text(
                                 text = title,
-                                fontSize = (20 / LocalDensity.current.fontScale).sp,
+                                fontSize = 25.sp,
                                 color = Color.DarkGray,
                                 modifier = Modifier.padding(5.dp)
                             )
