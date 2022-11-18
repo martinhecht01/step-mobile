@@ -31,7 +31,7 @@ fun MyWorkoutsScreen(navController: NavController, mainViewModel : MainViewModel
             if(state.isFetching){
                 ScreenLoader()
             } else{
-                ScrollRoutine(navController, state.favRoutines, mainViewModel, "Date", false, 650)
+                ScrollRoutine(navController, state.favRoutines, mainViewModel, "Date", false, 625)
             }
         }
     }

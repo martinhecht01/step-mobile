@@ -115,7 +115,7 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
             if(state.isFetching){
                 ScreenLoader()
             } else{
-                ScrollRoutine(navController, state.routines, mainViewModel, title, order, 530)
+                ScrollRoutine(navController, state.routines, mainViewModel, title, order, 520)
             }
         }
     }

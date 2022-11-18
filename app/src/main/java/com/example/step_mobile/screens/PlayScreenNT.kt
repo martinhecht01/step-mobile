@@ -62,6 +62,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                         var currentExerciseDetail by remember { mutableStateOf(state.currentWorkout[0].exercises[0].exercise.detail)}
                         var comingUpNext by remember { mutableStateOf("")}
                         var currentCycle by remember { mutableStateOf(state.currentCycles[0].name) }
+                        var endFlag by remember { mutableStateOf(false) }
                         var comingUpNextFlag by remember { mutableStateOf(state.currentWorkout[0].exercises.size <= 1) }
                         if (state.currentExIdx < state.currentWorkout[state.currentCycleIdx].exercises.size-1)
                             comingUpNext = state.currentWorkout[0].exercises[1].exercise.name
@@ -73,14 +74,20 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                         if(viewModel.uiState.currentRoutine != null)
                             ScreenTitle(title = viewModel.uiState.currentRoutine!!.name , showArrow = true, navController = navController)
                         Card(shape = RoundedCornerShape(15),
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp).padding(top = 30.dp, bottom = 15.dp))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 25.dp)
+                                .padding(top = 30.dp, bottom = 15.dp))
                         {
                             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.background(Color.White)) {
                                 Text(text = currentCycle, fontSize = 30.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(15.dp), fontWeight = FontWeight.ExtraBold, color = DarkBlue)
                             }
                         }
                         Card(shape = RoundedCornerShape(15),
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 25.dp).padding(bottom = 15.dp))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 25.dp)
+                                .padding(bottom = 15.dp))
                         {
                             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.background(DarkBlue)) {
                                 Text(text = currentExerciseText, fontSize = 45.sp, textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 10.dp, top = 30.dp), fontWeight = FontWeight.ExtraBold, color = Color.White)
@@ -92,11 +99,17 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                             .padding(bottom = 25.dp)
                             .padding(horizontal = 25.dp)) {
                             Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(text = "Coming up next:", textAlign = TextAlign.Center,  fontSize = 20.sp, modifier = Modifier.padding(top = 30.dp, bottom = 15.dp).padding(horizontal = 15.dp))
+                                Text(text = "Coming up next:", textAlign = TextAlign.Center,  fontSize = 20.sp, modifier = Modifier
+                                    .padding(top = 30.dp, bottom = 15.dp)
+                                    .padding(horizontal = 15.dp))
                                 if(comingUpNextFlag){
-                                    Text(text = comingUpNext, textAlign = TextAlign.Center, fontSize = 30.sp, modifier = Modifier.padding(bottom = 30.dp).padding(horizontal = 15.dp), fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
+                                    Text(text = comingUpNext, textAlign = TextAlign.Center, fontSize = 30.sp, modifier = Modifier
+                                        .padding(bottom = 30.dp)
+                                        .padding(horizontal = 15.dp), fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline)
                                 } else{
-                                    Text(text = comingUpNext, textAlign = TextAlign.Center, fontSize = 30.sp, modifier = Modifier.padding(bottom = 30.dp).padding(horizontal = 15.dp), fontWeight = FontWeight.Bold)
+                                    Text(text = comingUpNext, textAlign = TextAlign.Center, fontSize = 30.sp, modifier = Modifier
+                                        .padding(bottom = 30.dp)
+                                        .padding(horizontal = 15.dp), fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -114,8 +127,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNext = state.currentCycles[state.currentCycleIdx+1].name
                                         comingUpNextFlag = true
                                     }
-                                    else
-                                        comingUpNext = "Nothing! You're almost there!"
+                                    else {
+                                        comingUpNext = "Nothing!"
+                                        endFlag = true
+                                    }
                                 }
                                 else if (state.currentCycleIdx > 0){
                                     state.currentCycleIdx--
@@ -128,8 +143,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNext = state.currentCycles[state.currentCycleIdx+1].name
                                         comingUpNextFlag = true
                                     }
-                                    else
-                                        comingUpNext = "Nothing! You're almost there!"
+                                    else {
+                                        comingUpNext = "Nothing!"
+                                        endFlag = true
+                                    }
                                 }
                             },
                             modifier = Modifier
@@ -150,8 +167,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNext = state.currentCycles[state.currentCycleIdx+1].name
                                         comingUpNextFlag = true
                                     }
-                                    else
-                                        comingUpNext = "Nothing! You're almost there!"
+                                    else {
+                                        comingUpNext = "Nothing!"
+                                        endFlag = true
+                                    }
                                 }
                                 else if (state.currentCycleIdx < state.currentWorkout.size-1){
                                     state.currentCycleIdx++
@@ -165,8 +184,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNext = state.currentCycles[state.currentCycleIdx+1].name
                                         comingUpNextFlag = true
                                     }
-                                    else
-                                        comingUpNext = "Nothing! You're almost there!"
+                                    else {
+                                        comingUpNext = "Nothing!"
+                                        endFlag = true
+                                    }
                                 }
                                 else{
                                     navController.navigate("review_screen")
@@ -178,7 +199,10 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     .width(160.dp)
                                     .padding(start = 30.dp, top = 25.dp)
                                     .clip(RoundedCornerShape(15.dp))){
-                                Text(text = "Next",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
+                                if(endFlag)
+                                    Text(text = "Finish",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
+                                else
+                                    Text(text = "Next",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
                             }
                         }
                     }

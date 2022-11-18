@@ -89,7 +89,7 @@ fun ReviewRoutine(navController: NavController, mainViewModel: MainViewModel){
                     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom){
                         Button(
                             onClick = { scope.launch {
-                                navController.popBackStack()
+                                navController.navigate("home_screen")
                                 mainViewModel.reviewRoutine(Review((rating*2).toInt(), ""), routine.id)
                             } },
                             colors = ButtonDefaults.buttonColors(backgroundColor = DarkBlue, contentColor = Color.White),
