@@ -17,8 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) { //TODO: para pasar viewmodels: min 2:14 de la clase o
-// TODO: screeenX(viewModel : MainViewModel = factory = getViewModelFactory())) en la declaracion PS:que facha que es manu
+fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
     var start = Screen.WelcomeScreen.route
     if(mainViewModel.uiState.isAuthenticated)
         start = Screen.HomeScreen.route

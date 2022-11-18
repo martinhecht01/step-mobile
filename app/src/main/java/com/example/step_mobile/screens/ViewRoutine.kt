@@ -177,7 +177,6 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                     }
                 }
             } else {
-                //TODO: Error management? Tirar error screen?
                 scope.launch {
                     snackbarHostState.showSnackbar("Couldn't fetch Routine")
                 }

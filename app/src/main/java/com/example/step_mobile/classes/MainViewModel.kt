@@ -28,7 +28,6 @@ class MainViewModel(
     var lastGetSportsTimestamp = 0
 
     // --------------------- USER ----------------------
-    //TODO try with suspend
     suspend fun login(username: String, password: String) = viewModelScope.launch {
 
             uiState = uiState.copy(
@@ -215,7 +214,6 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = false,
                 currentSport = response,
-                //TODO: MODIFY sports state
             )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.
@@ -236,7 +234,6 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = false,
                 currentSport = null,
-                //TODO: REMOVE SPORT FROM STATE
             )
         }.onFailure { e ->
             // Handle the error and notify the UI when appropriate.

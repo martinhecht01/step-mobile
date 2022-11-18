@@ -90,7 +90,7 @@ fun Timer(
                     popUpTo("view_routine_screen")
                 }
                 return@LaunchedEffect
-            }//TODO: confirmacion para empezar otro ciclo(mega opcional)
+            }
 
         }
     }

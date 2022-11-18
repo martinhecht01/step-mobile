@@ -40,7 +40,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
         Box {
             val configuration = LocalConfiguration.current
             when (configuration.orientation) {
-                Configuration.ORIENTATION_LANDSCAPE -> {  //TODO: DO THIS
+                Configuration.ORIENTATION_LANDSCAPE -> {
 
                 }
                 else -> {

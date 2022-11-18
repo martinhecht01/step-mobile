@@ -20,7 +20,7 @@ fun CycleCard(title: String) {
     val paddingModifier = Modifier.padding(10.dp)
     //val paddingLeft = Modifier.padding(start =  10.dp).padding(5.dp)
 
-Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier, backgroundColor = DarkBlue) { //TODO: cambiar color
+Card(shape = RoundedCornerShape(20.dp),elevation = 10.dp, modifier = paddingModifier, backgroundColor = DarkBlue) {
         //Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally)
         //{
         Row(modifier = Modifier.width(10.dp), verticalAlignment =  Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
