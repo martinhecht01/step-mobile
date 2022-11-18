@@ -167,23 +167,25 @@ fun Timer(
                     else  painterResource(R.drawable.fast_forward) ,
                     contentDescription = null,
                     tint = if(!isTimerRunning || currentTime <= 0L){ DarkBlue }else{ StopRed },
-                    modifier = Modifier.size(60.dp).clickable {
-                        if(currentTime <= 0L) {
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clickable {
+                            if (currentTime <= 0L) {
 
-                            while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
-                                viewModel.uiState.currentCycleIdx++
+                                while (viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size - 1) {
+                                    viewModel.uiState.currentCycleIdx++
+                                }
+                                if (viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size - 1) {
+                                    navController.navigate("search_screen")
+                                    return@clickable
+                                }
+                                viewModel.uiState.currentExIdx = 0
+                                viewModel.uiState.currentCycleIdx = 0
+                                isTimerRunning = true
+                            } else {
+                                isTimerRunning = !isTimerRunning
                             }
-                            if (viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
-                                navController.navigate("search_screen")
-                                return@clickable
-                            }
-                            viewModel.uiState.currentExIdx =0
-                            viewModel.uiState.currentCycleIdx =0
-                            isTimerRunning = true
-                        } else {
-                            isTimerRunning = !isTimerRunning
                         }
-                    }
                 )
         }
 
@@ -293,7 +295,7 @@ fun mainContent( viewModel : MainViewModel, navController: NavController,) {
             )
         ) {
             Text(
-                "To Step Workout",
+                stringResource(id = R.string.to_step_mode),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Justify

@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
@@ -122,7 +123,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                         ) {
                             Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
                         }
-                        Text(text = "PLAY", fontSize = 15.sp, color = Color.White)
+                        Text(text = stringResource(id = R.string.play), fontSize = 15.sp, color = Color.White)
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
                         Button(
@@ -141,7 +142,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                         ) {
                             Icon(painterResource(id = R.drawable.ic_star), contentDescription = null)
                         }
-                        Text(text = "REVIEW", fontSize = 15.sp, color = Color.White)
+                        Text(text = stringResource(id = R.string.review), fontSize = 15.sp, color = Color.White)
                     }
                 }
             }
@@ -170,7 +171,7 @@ fun RoutineInfo(mainViewModel: MainViewModel){
                 content = {
                    if (mainViewModel.uiState.currentCycles.isEmpty())
                         item{
-                            Text(text = "Seems like this routine is empty!", textAlign = TextAlign.Center)
+                            Text(stringResource(id = R.string.empty_routine), textAlign = TextAlign.Center)
                         }
                    else {
                        mainViewModel.uiState.currentCycles.forEachIndexed() { index, _ ->
@@ -178,7 +179,7 @@ fun RoutineInfo(mainViewModel: MainViewModel){
                                CycleCard(title = mainViewModel.uiState.currentCycles[index].name)
                            }
                            if (mainViewModel.uiState.currentWorkout[index].exercises.isEmpty()) {
-                                    item{ Text(text = "Seems like this cycle is empty!", textAlign = TextAlign.Center)}
+                                    item{ Text(stringResource(id = R.string.empty_cycle), textAlign = TextAlign.Center)}
                            } else {
                                items(mainViewModel.uiState.currentWorkout[index].exercises.size) { index2 ->
                                    ExerciseCardTM(

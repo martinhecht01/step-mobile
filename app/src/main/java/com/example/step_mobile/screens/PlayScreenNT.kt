@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -60,7 +61,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                             comingUpNext = state.currentCycles[1].name
                         }
                         else
-                            comingUpNext = "Nothing!"
+                            comingUpNext = stringResource(id = R.string.nothing)
                         if(viewModel.uiState.currentRoutine != null)
                             ScreenTitle(title = viewModel.uiState.currentRoutine!!.name , showArrow = true, navController = navController)
                         Card(shape = RoundedCornerShape(15),
@@ -89,7 +90,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                             .padding(bottom = 25.dp)
                             .padding(horizontal = 25.dp)) {
                             Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(text = "Coming up next:", textAlign = TextAlign.Center,  fontSize = 20.sp, modifier = Modifier
+                                Text(text = stringResource(id = R.string.coming_up_next), textAlign = TextAlign.Center,  fontSize = 20.sp, modifier = Modifier
                                     .padding(top = 30.dp, bottom = 15.dp)
                                     .padding(horizontal = 15.dp))
                                 if(comingUpNextFlag){
@@ -105,6 +106,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally){
                         Row(horizontalArrangement = Arrangement.SpaceEvenly){
+                            var nothing = stringResource(id = R.string.nothing)
                             Button(onClick = {
                                 comingUpNextFlag = false
                                 if (state.currentExIdx > 0){
@@ -119,7 +121,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNextFlag = true
                                     }
                                     else {
-                                        comingUpNext = "Nothing!"
+                                        comingUpNext = nothing
                                         endFlag = true
                                     }
                                 }
@@ -135,7 +137,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNextFlag = true
                                     }
                                     else {
-                                        comingUpNext = "Nothing!"
+                                        comingUpNext = nothing
                                         endFlag = true
                                     }
                                 }
@@ -163,7 +165,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNextFlag = true
                                     }
                                     else {
-                                        comingUpNext = "Nothing!"
+                                        comingUpNext = nothing
                                         endFlag = true
                                     }
                                 }
@@ -180,7 +182,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         comingUpNextFlag = true
                                     }
                                     else {
-                                        comingUpNext = "Nothing!"
+                                        comingUpNext = nothing
                                         endFlag = true
                                     }
                                 }
@@ -210,7 +212,8 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     },
                                     modifier = Modifier
                                         .width(250.dp)
-                                        .height(60.dp).padding(top = 20.dp),
+                                        .height(60.dp)
+                                        .padding(top = 20.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         contentColor = DarkBlue,
                                         backgroundColor = Color.White
@@ -222,7 +225,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     )
                                 ) {
                                     Text(
-                                        "To Timer Screen",
+                                        stringResource(id = R.string.to_timer_mode),
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Justify

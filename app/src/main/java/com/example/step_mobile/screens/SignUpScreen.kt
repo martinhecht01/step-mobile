@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +40,7 @@ import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.data.model.SignUp
 import com.example.step_mobile.mainContent
 import com.example.step_mobile.ui.theme.DarkBlue
+import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -62,25 +64,34 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
                     .background(color = White)
                     .padding(30.dp)){
                     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            Text("Sign Up", fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
+                            Text(
+                                stringResource(id = R.string.signup),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 25.sp,
+                                color = Color.DarkGray)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            Text("Already a user? Sign In", fontSize = 15.sp, color = Color.DarkGray, modifier = Modifier.clickable {
+                            Text(
+                                stringResource(id = R.string.already_user),
+                                fontSize = 20.sp,
+                                color = PlayGreen,
+                                style = TextStyle(textDecoration = TextDecoration.Underline),
+                                modifier = Modifier.clickable {
                                 navController.navigate("login_screen?id=${-1}")
                             })
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            firstName = InputField(label = "First Name")
+                            firstName = InputField(stringResource(id = R.string.first_name))
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            lastName = InputField(label = "First Name")
+                            lastName = InputField(stringResource(id = R.string.last_name))
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
                             email = InputField(label = "Email")
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            username = InputField(label = "Username")
+                            username = InputField(label = stringResource(id = R.string.username))
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
                             password = PasswordTextField()
@@ -108,7 +119,7 @@ fun signUpButton(navController: NavController,viewModel : MainViewModel, usernam
             } },
         modifier = Modifier
             .width(250.dp)
-            .height(40.dp),
+            .height(60.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = White,
             backgroundColor = DarkBlue
@@ -116,6 +127,10 @@ fun signUpButton(navController: NavController,viewModel : MainViewModel, usernam
         shape = RoundedCornerShape(40.dp),
         elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
     ) {
-        Text("Sign Up", fontSize = 15.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+        Text(
+            stringResource(id = R.string.signup),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Justify)
     }
 }

@@ -16,6 +16,11 @@
     <string name="play_screen">Time to workout!</string>
     <string name="cycle">Cycle: %1$s</string>
     <string name="time_left">Time left: %1$s</string>
+    <string name="coming_up_next">"Coming up next:"</string>
+    <string name="nothing">"Nothing!"</string>
+    <string name="to_timer_mode">"To Timer Mode"</string>
+    <string name="to_step_mode">"To Step Mode"</string>
+
 
 
 
@@ -31,8 +36,24 @@
 
     <!-- Login screen -->
     <string name="password">Password</string>
+    <string name="username">Username</string>
     <string name="login">Log in</string>
     <string name="signin">Sign In</string>
+    <string name="signup_for_free">Sign up for free</string>
+
+    <!-- Signup screen -->
+    <string name="already_user">Already a user? Sign In</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="signup">Sign Up</string>
+
+    <!-- View routine screen -->
+    <string name="review">REVIEW</string>
+    <string name="play">PLAY</string>
+    <string name="empty_routine">Seems like this routine is empty!</string>
+    <string name="empty_cycle">Seems like this cycle is empty!</string>
+
+
 
     <!-- Home screen -->
     <string name="home_screen">Home Screen</string>

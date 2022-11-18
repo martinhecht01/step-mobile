@@ -1,5 +1,6 @@
 package com.example.step_mobile.screens
 
+import android.text.style.UnderlineSpan
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +38,7 @@ import com.example.step_mobile.R
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.mainContent
 import com.example.step_mobile.ui.theme.DarkBlue
+import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -59,16 +62,21 @@ fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int
                     .background(color = White)
                     .padding(30.dp)){
                     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
                             Text(stringResource(R.string.signin), fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            Text("Sign up for free", fontSize = 15.sp, color = Color.DarkGray, modifier = Modifier.clickable {
+                            Text(
+                                stringResource(id = R.string.signup_for_free),
+                                fontSize = 20.sp,
+                                color = PlayGreen,
+                                style = TextStyle(textDecoration = TextDecoration.Underline),
+                                modifier = Modifier.clickable {
                                 navController.navigate("sign_up_screen")
                             })
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                             username = InputField(label = "Username")
+                             username = InputField(label = stringResource(id = R.string.username))
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
                              password = PasswordTextField()
@@ -126,7 +134,7 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
             } },
         modifier = Modifier
             .width(250.dp)
-            .height(40.dp),
+            .height(60.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = White,
             backgroundColor = DarkBlue
@@ -134,7 +142,7 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
         shape = RoundedCornerShape(40.dp),
         elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
     ) {
-        Text(stringResource(R.string.login), fontSize = 15.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+        Text(stringResource(R.string.login), fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
     }
 }
 

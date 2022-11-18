@@ -33,8 +33,26 @@
 
     <!-- Login screen -->
     <string name="password">Clave</string>
+    <string name="username">Usuario</string>
     <string name="login">Ingresar</string>
     <string name="signin">Iniciar Sesion</string>
+    <string name="signup_for_free">Registrarse gratuitamente</string>
+
+    <!-- Signup screen -->
+    <string name="already_user">Ya tienes usuario? Ingresar</string>
+    <string name="first_name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="signup">Registrarse</string>
+
+    <!-- View routine screen -->
+    <string name="review">PUNTUAR</string>
+    <string name="play">COMENZAR</string>
+    <string name="empty_routine">Parece que esta rutina está vacía!</string>
+    <string name="empty_cycle">Parece que este ciclo está vacío!</string>
+    <string name="coming_up_next">"Próximo ciclo:"</string>
+    <string name="nothing">"Nada!"</string>
+    <string name="to_timer_mode">"Ir a Modo Timer"</string>
+    <string name="to_step_mode">"Ir a Modo Step"</string>
 
     <!-- Home screen -->
     <string name="home_screen">Pantalla de inicio</string>
