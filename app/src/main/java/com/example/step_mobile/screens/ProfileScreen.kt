@@ -39,20 +39,29 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var userName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var edit by remember { mutableStateOf(false) }
     Surface(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.fondonp),
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
-        Column(verticalArrangement = Arrangement.Top) {
-            ScreenLogoutTitle(navController,  "Profile", mainViewModel)
-        }
+        if (mainViewModel.uiState.isFetching) {
+        } else {
+            var user = mainViewModel.uiState.currentUser
+            var firstName by remember { mutableStateOf("") }
+            var lastName by remember { mutableStateOf("") }
+            var userName by remember { mutableStateOf("") }
+            var email by remember { mutableStateOf("") }
+            var edit by remember { mutableStateOf(false) }
+            if(user != null){
+                firstName = user.firstName
+                lastName = user.lastName
+                userName = user.username
+                email = user.email
+            }
+            Column(verticalArrangement = Arrangement.Top) {
+                ScreenLogoutTitle(navController,  "Profile", mainViewModel)
+            }
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -64,121 +73,77 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                     .background(Color.White)
                     .fillMaxWidth()
                     .height(500.dp)) {
-                    if (mainViewModel.uiState.isFetching) {
-                        ScreenLoader()
-                    } else {
-                        var user = mainViewModel.uiState.currentUser
-                        if (user != null) {
-                            firstName = user.firstName
-                            lastName = user.lastName
-                            userName = user.username
-                            email = user.email
-                        }
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.height(100.dp)
-                        ) {
-                            OutlinedTextField(
-                                value = email,
-                                onValueChange = { },
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                label = { Text("Email", fontSize = 15.sp) },
-                                enabled = false,
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedBorderColor = DarkBlue,
-                                    focusedLabelColor = DarkBlue,
-                                    disabledBorderColor = Color.White,
-                                    disabledLabelColor = Color.DarkGray,
-                                    disabledTextColor = DarkBlue
-                                )
-                            )
+                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.height(100.dp) ) {
+                        OutlinedTextField(
+                            value = email,
+                            onValueChange = {  },
+                            modifier = Modifier.padding(vertical = 10.dp),
+                            label = { Text("Email", fontSize = 15.sp) },
+                            enabled = false,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
+                        )
+                        OutlinedTextField(
+                            value = userName,
+                            onValueChange = {  },
+                            modifier = Modifier.padding(vertical = 10.dp),
+                            label = { Text("Username", fontSize = 15.sp) },
+                            enabled = false,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
+                        )
+                        OutlinedTextField(
+                            value = firstName,
+                            onValueChange = { firstName = it },
+                            modifier = Modifier.padding(vertical = 10.dp),
+                            label = { Text("First Name", fontSize = 15.sp) },
+                            enabled = edit,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
+                        )
+                        OutlinedTextField(
+                            value = lastName,
+                            onValueChange = { lastName = it },
+                            modifier = Modifier.padding(vertical = 10.dp),
+                            label = { Text("Last Name", fontSize = 15.sp) },
+                            enabled = edit,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
+                        )
 
-                            OutlinedTextField(
-                                value = userName,
-                                onValueChange = { },
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                label = { Text("Username", fontSize = 15.sp) },
-                                enabled = false,
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedBorderColor = DarkBlue,
-                                    focusedLabelColor = DarkBlue,
-                                    disabledBorderColor = Color.White,
-                                    disabledLabelColor = Color.DarkGray,
-                                    disabledTextColor = DarkBlue
-                                )
-                            )
-
-                            OutlinedTextField(
-                                value = firstName,
-                                onValueChange = { firstName = it },
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                label = { Text("First Name", fontSize = 15.sp) },
-                                enabled = edit,
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedBorderColor = DarkBlue,
-                                    focusedLabelColor = DarkBlue,
-                                    disabledBorderColor = Color.White,
-                                    disabledLabelColor = Color.DarkGray,
-                                    disabledTextColor = DarkBlue
-                                )
-                            )
-
-                            OutlinedTextField(
-                                value = lastName,
-                                onValueChange = { lastName = it },
-                                modifier = Modifier.padding(vertical = 10.dp),
-                                label = { Text("Last Name", fontSize = 15.sp) },
-                                enabled = edit,
-                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedBorderColor = DarkBlue,
-                                    focusedLabelColor = DarkBlue,
-                                    disabledBorderColor = Color.White,
-                                    disabledLabelColor = Color.DarkGray,
-                                    disabledTextColor = DarkBlue
-                                )
-                            )
-                            val scope = rememberCoroutineScope()
-                            Button(
-                                onClick = {
-                                    if (edit) {
-                                        //TODO: loading animation
-                                        val name = Name(firstName, lastName)
-                                        scope.launch {
-                                            //TODO agregar loading animation
-                                            mainViewModel.modifyUser(newName = name)
-                                        }
+                        val scope = rememberCoroutineScope()
+                        Button(
+                            onClick = {
+                                if(edit){
+                                    //TODO: GUARDAR EL NUEVO PERFIL y getCurrentUser()
+                                    //TODO: loading animation
+                                    val name = Name(firstName, lastName)
+                                    scope.launch {
+                                        //TODO agregar loading animation
+                                        mainViewModel.modifyUser(newName = name )
                                     }
-                                    edit = !edit
-                                },
-                                modifier = Modifier
-                                    .align(alignment = Alignment.CenterHorizontally)
-                                    .padding(top = 20.dp)
-                                    .size(60.dp),
-                                shape = RoundedCornerShape(100),
-                                elevation = ButtonDefaults.elevation(5.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    backgroundColor = DarkBlue,
-                                    contentColor = Color.White
-                                )
-                            ) {
-                                if (edit)
-                                    Icon(
-                                        painterResource(id = R.drawable.ic_save),
-                                        contentDescription = null
-                                    )
-                                else
-                                    Icon(
-                                        painterResource(id = R.drawable.ic_edit),
-                                        contentDescription = null
-                                    )
-                            }
+                                }
+                                edit = !edit
+                            },
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                                .padding(top = 20.dp)
+                                .size(60.dp),
+                            shape = RoundedCornerShape(100),
+                            elevation = ButtonDefaults.elevation(5.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = DarkBlue,
+                                contentColor = Color.White
+                            )
+                        ) {
+                            if(edit)
+                                Icon(painterResource(id = R.drawable.ic_save), contentDescription = null)
+                            else
+                                Icon(painterResource(id = R.drawable.ic_edit), contentDescription = null)
                         }
                     }
                 }
+            }
         }
     }
 }
+
 
 @Composable
 fun ScreenLogoutTitle(navController: NavController, title: String, mainViewModel: MainViewModel){
