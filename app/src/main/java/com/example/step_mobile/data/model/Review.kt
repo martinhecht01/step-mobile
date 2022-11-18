@@ -13,7 +13,6 @@ data class Review(
         return NetworkReview(
             score = score,
             review = review,
-
         )
     }
 }

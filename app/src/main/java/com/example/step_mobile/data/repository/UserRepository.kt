@@ -2,7 +2,9 @@ package com.example.step_mobile.data.repository
 
 
 import com.example.step_mobile.data.model.Name
+import com.example.step_mobile.data.model.SignUp
 import com.example.step_mobile.data.model.User
+import com.example.step_mobile.data.model.Verify
 import com.example.step_mobile.data.network.UserRemoteDataSource
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -23,6 +25,15 @@ class UserRepository(
     suspend fun logout() {
         remoteDataSource.logout()
     }
+
+    suspend fun signUp(data: SignUp){
+        remoteDataSource.signUp(data.asNetworkModel())
+    }
+
+    suspend fun verify(data: Verify){
+        remoteDataSource.verify(data.asNetworkModel())
+    }
+
 
     suspend fun getCurrentUser(refresh: Boolean) : User? {//si refresh es true se llama a la api, sino no
         if (refresh || currentUser == null) {

@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,6 +28,7 @@ import com.example.step_mobile.components.ScreenLoader
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.data.model.User
+import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.util.getViewModelFactory
 import kotlinx.coroutines.launch
 @Composable
@@ -90,19 +92,14 @@ fun WelcomeCard(name: String){
 fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
     var scope = rememberCoroutineScope()
     if(!mainViewModel.uiState.isFetching) {
-        Text(
-            stringResource(R.string.top_workout),
-            color = Color.DarkGray,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold
-        )
+
         Card(
             modifier = Modifier
                 .padding(20.dp)
                 .clip(shape = RoundedCornerShape(30.dp))
                 .background(Color.White)
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(350.dp)
         ) {
             Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.End) {
                 Image(
@@ -128,6 +125,14 @@ fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
                             navController.navigate("view_routine_screen")
                         }
                         .padding(horizontal = 35.dp, vertical = 10.dp)) {
+                    Text(
+                        stringResource(R.string.top_workout),
+                        color = DarkBlue,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
 
 
                     Text(
