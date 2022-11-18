@@ -55,6 +55,7 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
         var lastName by remember{mutableStateOf("")}
         var username by remember{mutableStateOf("")}
         var password by remember{mutableStateOf("")}
+        var error by remember{mutableStateOf("")}
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Box(modifier = Modifier.clip(shape = RoundedCornerShape(30.dp)), contentAlignment = Alignment.Center){
             Column(verticalArrangement = Arrangement.Center,
@@ -64,14 +65,14 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
                     .background(color = White)
                     .padding(30.dp)){
                     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 5.dp), contentAlignment = Alignment.Center){
                             Text(
                                 stringResource(id = R.string.signup),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 25.sp,
                                 color = Color.DarkGray)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
                             Text(
                                 stringResource(id = R.string.already_user),
                                 fontSize = 20.sp,
@@ -81,23 +82,30 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
                                 navController.navigate("login_screen?id=${-1}")
                             })
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
+                            Text(
+                                error,
+                                fontSize = 20.sp,
+                                color = Color.Red,
+                            )
+                        }
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center) {
                             firstName = InputField(stringResource(id = R.string.first_name), false)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center) {
                             lastName = InputField(stringResource(id = R.string.last_name), false)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center) {
                             email = InputField(label = "Email", false)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
                             username = InputField(label = stringResource(id = R.string.username), false)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 30.dp), contentAlignment = Alignment.Center){
                             password = PasswordTextField(false)
                         }
-                        Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
-                            signUpButton(navController, viewModel, username, password, email, firstName, lastName)
+                        Box(modifier=Modifier.padding(bottom = 30.dp),contentAlignment = Alignment.Center){
+                            error = signUpButton(navController, viewModel, username, password, email, firstName, lastName)
                         }
                     }
                 }
@@ -106,11 +114,20 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
     }
 }
 
+fun isEmailValid(email: String): Boolean {
+    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
 @Composable
-fun signUpButton(navController: NavController,viewModel : MainViewModel, username : String, password : String, email: String, firstName: String, lastName: String){
+fun signUpButton(navController: NavController,viewModel : MainViewModel, username : String, password : String, email: String, firstName: String, lastName: String) : String{
     val scope = rememberCoroutineScope()
+    var error by remember { mutableStateOf(false) }
     Button(
         onClick = {
+            if(!isEmailValid(email) || password.length < 5 || firstName.length < 3 || lastName.length < 3 || username.length < 3) {
+                error = true
+                return@Button
+            }
             scope.launch{
                 viewModel.signUp(SignUp(username = username, email = email, firstName = firstName, password = password, lastName = lastName)).invokeOnCompletion {
                     if(viewModel.uiState.message == null)
@@ -133,4 +150,19 @@ fun signUpButton(navController: NavController,viewModel : MainViewModel, usernam
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Justify)
     }
+    if(error){
+        if(viewModel.uiState.message == null) {
+            if (!isEmailValid(email))
+                return stringResource(id = R.string.invalid_email)
+            else if (password.length < 5)
+                return stringResource(id = R.string.password_short)
+            else if (firstName.length < 3 || lastName.length < 3)
+                return stringResource(id = R.string.names_short)
+            else if (username.length < 3)
+                return stringResource(id = R.string.user_short)
+        } else{
+            return stringResource(id = R.string.user_email_taken)
+        }
+    }
+    return ""
 }

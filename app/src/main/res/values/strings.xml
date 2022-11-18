@@ -74,4 +74,10 @@
     <string name="cannot_routine">Error: couldn\'t fetch routine</string>
     <string name="cannot_empty_workout">Error: empty routine</string>
     <string name="cannot_empty_cycle">Error: empty cycle in routine</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_short">Password too short</string>
+    <string name="names_short">First or last name too short</string>
+    <string name="user_email_taken">User or email taken!</string>
+    <string name="user_short">Username too short</string>
+    
 </resources>

@@ -73,4 +73,9 @@
     <string name="cannot_routine">Error: no existe la rutina</string>
     <string name="cannot_empty_workout">Error: rutina vacía</string>
     <string name="cannot_empty_cycle">Error: rutina con ciclo vacío </string>
+    <string name="invalid_email">Email invalido</string>
+    <string name="password_short">Contrasena muy corta</string>
+    <string name="names_short">Nombre o apellido muy corto</string>
+    <string name="user_email_taken">Email o usuario en uso!</string>
+    <string name="user_short">Usuario muy corto</string>
 </resources>
