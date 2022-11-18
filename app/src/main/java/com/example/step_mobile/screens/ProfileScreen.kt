@@ -60,7 +60,7 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                 email = user.email
             }
             Column(verticalArrangement = Arrangement.Top) {
-                ScreenLogoutTitle(navController,  "Profile", mainViewModel)
+                ScreenLogoutTitle(navController,  stringResource(id = R.string.profile), mainViewModel)
             }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -86,7 +86,7 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                             value = userName,
                             onValueChange = {  },
                             modifier = Modifier.padding(vertical = 10.dp),
-                            label = { Text("Username", fontSize = 15.sp) },
+                            label = { Text(stringResource(id = R.string.username), fontSize = 15.sp) },
                             enabled = false,
                             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
                         )
@@ -94,7 +94,7 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                             value = firstName,
                             onValueChange = { firstName = it },
                             modifier = Modifier.padding(vertical = 10.dp),
-                            label = { Text("First Name", fontSize = 15.sp) },
+                            label = { Text(stringResource(id = R.string.first_name), fontSize = 15.sp) },
                             enabled = edit,
                             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
                         )
@@ -102,7 +102,7 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                             value = lastName,
                             onValueChange = { lastName = it },
                             modifier = Modifier.padding(vertical = 10.dp),
-                            label = { Text("Last Name", fontSize = 15.sp) },
+                            label = { Text(stringResource(id = R.string.last_name), fontSize = 15.sp) },
                             enabled = edit,
                             colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue, disabledBorderColor = Color.White, disabledLabelColor = Color.DarkGray, disabledTextColor = DarkBlue)
                         )
@@ -111,11 +111,8 @@ fun ProfileScreen(navController: NavController, mainViewModel: MainViewModel){
                         Button(
                             onClick = {
                                 if(edit){
-                                    //TODO: GUARDAR EL NUEVO PERFIL y getCurrentUser()
-                                    //TODO: loading animation
                                     val name = Name(firstName, lastName)
                                     scope.launch {
-                                        //TODO agregar loading animation
                                         mainViewModel.modifyUser(newName = name )
                                     }
                                 }

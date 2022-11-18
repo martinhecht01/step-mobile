@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
@@ -48,7 +49,7 @@ fun ReviewRoutine(navController: NavController, mainViewModel: MainViewModel){
             val routine = mainViewModel.uiState.currentRoutine!!
             var scope = rememberCoroutineScope()
             StepmobileTheme() {
-                ScreenTitle(title = "Review Routine", true, navController)
+                ScreenTitle(title = stringResource(id = R.string.review_routine), true, navController)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
                 var rating by remember { mutableStateOf(5.0) }
@@ -70,7 +71,9 @@ fun ReviewRoutine(navController: NavController, mainViewModel: MainViewModel){
                         Button(
                             onClick = { if (rating > 0.0) rating -= 0.5 },
                             colors = ButtonDefaults.buttonColors(backgroundColor = DarkBlue, contentColor = Color.White),
-                            modifier = Modifier.padding(horizontal = 15.dp).clip(RoundedCornerShape(15.dp))
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .clip(RoundedCornerShape(15.dp))
                         ) {
                             Icon(
                                 painterResource(id = R.drawable.ic_baseline_remove_24),
@@ -98,7 +101,7 @@ fun ReviewRoutine(navController: NavController, mainViewModel: MainViewModel){
                                 .height(60.dp)
                                 .clip(RoundedCornerShape(15.dp))
                         ) {
-                            Text(text = "Submit Review!", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                            Text(text = stringResource(id = R.string.submit_review), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                         }
                     }
                 }
