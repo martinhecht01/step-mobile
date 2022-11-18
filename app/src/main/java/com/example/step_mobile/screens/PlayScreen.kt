@@ -207,8 +207,13 @@ fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
             val configuration = LocalConfiguration.current
             when (configuration.orientation) {
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    Row(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally) {
                         mainContent(viewModel, myNavController)
+
+
                     }
                 }
                 else -> {

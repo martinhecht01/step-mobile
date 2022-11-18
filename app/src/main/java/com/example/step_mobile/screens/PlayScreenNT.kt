@@ -226,8 +226,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     },
                                     modifier = Modifier
                                         .width(250.dp)
-                                        .height(80.dp)
-                                        .padding(top = 20.dp),
+                                        .height(60.dp).padding(top = 20.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         contentColor = DarkBlue,
                                         backgroundColor = Color.White
