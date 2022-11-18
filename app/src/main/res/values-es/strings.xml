@@ -11,7 +11,7 @@
     <string name="search">Buscar</string>
     <string name="date">Fecha</string>
     <string name="difficulty">Dificultad</string>
-    <string name="category">Categoria</string>
+    <string name="category">Categoría</string>
     <string name="rating">Calificación</string>
 
 
@@ -19,7 +19,10 @@
     <string name="play_screen">Comenzar</string>
     <string name="cycle">Ciclo: %1$s</string>
     <string name="time_left">Tiempo restante: %1$s</string>
-
+    <string name="coming_up_next">"Próximo:"</string>
+    <string name="nothing">"Nada!"</string>
+    <string name="to_timer_mode">"Ir a Modo Timer"</string>
+    <string name="to_step_mode">"Ir a Modo Step"</string>
 
 
     <!-- My Workouts screen -->
@@ -51,10 +54,7 @@
     <string name="play">COMENZAR</string>
     <string name="empty_routine">Parece que esta rutina está vacía!</string>
     <string name="empty_cycle">Parece que este ciclo está vacío!</string>
-    <string name="coming_up_next">"Próximo ciclo:"</string>
-    <string name="nothing">"Nada!"</string>
-    <string name="to_timer_mode">"Ir a Modo Timer"</string>
-    <string name="to_step_mode">"Ir a Modo Step"</string>
+
 
     <!-- Home screen -->
     <string name="home_screen">Pantalla de inicio</string>

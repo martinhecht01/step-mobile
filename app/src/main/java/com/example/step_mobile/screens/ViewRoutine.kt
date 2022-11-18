@@ -216,7 +216,7 @@ fun RoutineInfo(mainViewModel: MainViewModel){
                                items(mainViewModel.uiState.currentWorkout[index].exercises.size) { index2 ->
                                    ExerciseCardTM(
                                        mainViewModel.uiState.currentWorkout[index].exercises[index2].exercise.name,
-                                       mainViewModel.uiState.currentWorkout[index].exercises[index2].repetitions
+                                       mainViewModel.uiState.currentWorkout[index].exercises[index2].duration
                                    )
                                }
                            }
