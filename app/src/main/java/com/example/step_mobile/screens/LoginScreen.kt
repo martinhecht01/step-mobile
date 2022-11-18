@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.step_mobile.R
 import com.example.step_mobile.classes.MainViewModel
+import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.mainContent
 import com.example.step_mobile.ui.theme.DarkBlue
 import com.example.step_mobile.ui.theme.PlayGreen
@@ -49,10 +50,11 @@ import kotlinx.coroutines.launch
 //@Preview
 fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int ) {
     Surface(
-        modifier = androidx.compose.ui.Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         var username by remember{mutableStateOf("")}
         var password by remember{mutableStateOf("")}
+        var error by remember{mutableStateOf("")}
         Image(painter = painterResource(id = R.drawable.fondonp), contentDescription = null, contentScale = ContentScale.Crop)
         Box(modifier = Modifier.clip(shape = RoundedCornerShape(30.dp)), contentAlignment = Alignment.Center){
             Column(verticalArrangement = Arrangement.Center,
@@ -62,10 +64,10 @@ fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int
                     .background(color = White)
                     .padding(30.dp)){
                     Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
-                        Box(modifier = Modifier.padding(bottom = 15.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 5.dp), contentAlignment = Alignment.Center){
                             Text(stringResource(R.string.signin), fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
                         }
-                        Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
+                        Box(modifier = Modifier.padding(bottom = 5.dp), contentAlignment = Alignment.Center){
                             Text(
                                 stringResource(id = R.string.signup_for_free),
                                 fontSize = 20.sp,
@@ -75,14 +77,21 @@ fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int
                                 navController.navigate("sign_up_screen")
                             })
                         }
+                        Box(modifier = Modifier.padding(bottom = 10.dp), contentAlignment = Alignment.Center){
+                            Text(
+                                error,
+                                fontSize = 20.sp,
+                                color = Color.Red,
+                            )
+                        }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                             username = InputField(label = stringResource(id = R.string.username))
+                             username = InputField(label = stringResource(id = R.string.username), error != "")
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                             password = PasswordTextField()
+                             password = PasswordTextField(error != "")
                         }
                         Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
-                            loginContinueButton(navController, viewModel,"home_screen", username, password, id)
+                            error = loginContinueButton(navController, viewModel,"home_screen", username, password, id)
                         }
                     }
                 }
@@ -92,13 +101,14 @@ fun LoginScreen(navController: NavController, viewModel : MainViewModel, id: Int
 }
 
 @Composable
-fun InputField(label : String) : String{
+fun InputField(label : String, error: Boolean) : String{
     var text by rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
         value = text,
         onValueChange = { text = it },
         label = { Text(label) },
+        isError = error,
         modifier = Modifier.background(Color.Transparent),
         colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
@@ -107,10 +117,10 @@ fun InputField(label : String) : String{
 }
 
 @Composable
-fun loginContinueButton(navController: NavController,viewModel : MainViewModel, route: String, username : String, password : String, id: Int){
+fun loginContinueButton(navController: NavController,viewModel : MainViewModel, route: String, username : String, password : String, id: Int) : String{
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = viewModel.uiState.isAuthenticated){
-    }
+    var error by remember{mutableStateOf("")}
+
     Button(
         onClick = {
             scope.launch{
@@ -129,6 +139,8 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
                                 }
                             }
                         }
+                    } else{
+                        error = viewModel.uiState.message!!
                     }
                 }
             } },
@@ -144,17 +156,22 @@ fun loginContinueButton(navController: NavController,viewModel : MainViewModel, 
     ) {
         Text(stringResource(R.string.login), fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
     }
+    if(error != ""){
+        return stringResource(id = R.string.invalid_fields)
+    }
+    return error
 }
 
 
 @Composable
-fun PasswordTextField() : String{
+fun PasswordTextField(error: Boolean) : String{
     var password by rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
         value = password,
         onValueChange = { password = it },
         label = { Text(stringResource(R.string.password)) },
+        isError = error,
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         colors = TextFieldDefaults.outlinedTextFieldColors(focusedBorderColor = DarkBlue, focusedLabelColor = DarkBlue)

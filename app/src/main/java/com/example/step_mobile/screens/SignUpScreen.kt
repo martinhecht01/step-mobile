@@ -82,19 +82,19 @@ fun SignUpScreen(navController: NavController, viewModel : MainViewModel) {
                             })
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            firstName = InputField(stringResource(id = R.string.first_name))
+                            firstName = InputField(stringResource(id = R.string.first_name), false)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            lastName = InputField(stringResource(id = R.string.last_name))
+                            lastName = InputField(stringResource(id = R.string.last_name), false)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            email = InputField(label = "Email")
+                            email = InputField(label = "Email", false)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            username = InputField(label = stringResource(id = R.string.username))
+                            username = InputField(label = stringResource(id = R.string.username), false)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center){
-                            password = PasswordTextField()
+                            password = PasswordTextField(false)
                         }
                         Box(modifier=Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
                             signUpButton(navController, viewModel, username, password, email, firstName, lastName)

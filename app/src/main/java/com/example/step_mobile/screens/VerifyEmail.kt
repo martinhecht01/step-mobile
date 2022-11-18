@@ -48,10 +48,10 @@ fun VerifyScreen(navController: NavController, viewModel : MainViewModel) {
                             Text("Verify Email", fontWeight = FontWeight.Bold, fontSize = 25.sp, color = Color.DarkGray)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            email = InputField(label = "Email")
+                            email = InputField(label = "Email", false)
                         }
                         Box(modifier = Modifier.padding(bottom = 25.dp), contentAlignment = Alignment.Center) {
-                            code = InputField(label = "Code")
+                            code = InputField(label = "Code", false)
                         }
                         Box(modifier= Modifier.padding(bottom = 10.dp),contentAlignment = Alignment.Center){
                             VerifyButton(navController, viewModel, email, code)
