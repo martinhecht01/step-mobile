@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.graphics.Paint
+import android.media.MicrophoneInfo.Coordinate3F
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,6 +73,7 @@ fun RoutineCard(routine: Routine, mainViewModel: MainViewModel) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     ),
+                    color = Color.DarkGray,
                     modifier = paddingModifier.weight(1f)
                 )
                 FavoriteButton(mainViewModel.isFavourite(routine.id), mainViewModel = mainViewModel, id = routine.id)
@@ -93,6 +95,7 @@ fun RoutineCard(routine: Routine, mainViewModel: MainViewModel) {
                 maxLines = 1,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
+                color = Color.DarkGray,
                 overflow = TextOverflow.Ellipsis)
             Text(
                 text = routine.detail,

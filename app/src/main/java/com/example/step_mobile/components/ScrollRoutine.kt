@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.step_mobile.R
 import com.example.step_mobile.SubtitleText
 import com.example.step_mobile.data.model.Routine
 import com.example.step_mobile.ui.theme.DarkBlue
@@ -34,11 +35,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, mainViewModel: MainViewModel, order: String, reversed: Boolean, height: Int){
     var routines by remember { mutableStateOf(noOrderRoutines) }
-    var state = rememberLazyListState();
     when(order){
-            "Date" -> routines = noOrderRoutines.sortedBy { it.date }
-            "Difficulty" -> routines = noOrderRoutines.sortedBy { it.difficulty }
-            "Category" -> routines = noOrderRoutines.sortedBy { (it.category ?: Category(-1, "No Category", "")).name }
+            stringResource(id = R.string.date) -> routines = noOrderRoutines.sortedBy { it.date }
+            stringResource(id = R.string.difficulty) -> routines = noOrderRoutines.sortedBy { it.difficulty }.reversed()
+            stringResource(id = R.string.category) -> routines = noOrderRoutines.sortedBy { (it.category ?: Category(-1, "No Category", "")).name }
     }
     if(reversed)
         routines = routines.reversed();
