@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavController
@@ -256,27 +257,53 @@ fun mainContent( viewModel : MainViewModel, navController: NavController,) {
 //        fontWeight = FontWeight.Bold,
 //        color = Color.White
 //    )
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-    Card(
-        shape = RoundedCornerShape(100),
-        modifier = Modifier.padding(5.dp)
-    ) {
-        Timer(
-            totalTime = 10L * 1000L,
-            navController = navController,
-            handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
-            inactiveBarColor = Color.DarkGray,
-            activeBarColor = Color(0xFF37B900),
-            modifier = Modifier.size(300.dp),
-            viewModel = viewModel
-        )
+            Card(
+                shape = RoundedCornerShape(100),
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Timer(
+                    totalTime = 10L * 1000L,
+                    navController = navController,
+                    handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
+                    inactiveBarColor = Color.DarkGray,
+                    activeBarColor = Color(0xFF37B900),
+                    modifier = Modifier.size(300.dp),
+                    viewModel = viewModel
+                )
 
-    }
-    
-    Card() {
-        LaunchedEffect(key1 = viewModel.uiState.currentCycleIdx) {
-            viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name
+            }
+
+            Card() {
+                LaunchedEffect(key1 = viewModel.uiState.currentCycleIdx) {
+                    viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name
+                }
+                Text(text = viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name)
+            }
+
+        Button(
+            onClick = {
+                navController.navigate("play_screenNT")
+            },
+            modifier = Modifier
+                .width(250.dp).height(56.dp).padding(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = DarkBlue,
+                backgroundColor = Color.White
+            ),
+            shape = RoundedCornerShape(40.dp),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 5.dp,
+                pressedElevation = 8.dp
+            )
+        ) {
+            Text(
+                "Timer Screen",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Justify
+            )
         }
-        Text(text = viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name)
     }
 }

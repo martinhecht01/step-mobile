@@ -113,6 +113,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                 }
                             }
                         }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally){
                         Row(horizontalArrangement = Arrangement.SpaceEvenly){
                             Button(onClick = {
                                 comingUpNextFlag = false
@@ -151,7 +152,7 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                             },
                             modifier = Modifier
                                 .width(160.dp)
-                                .padding(end = 30.dp, top = 25.dp)
+                                .padding(end = 30.dp, top = 10.dp)
                                 .clip(RoundedCornerShape(15.dp))) {
                                 Text(text = "Previous",modifier = Modifier.padding(top=30.dp, bottom=30.dp), fontSize = 18.sp)
                             }
@@ -197,13 +198,41 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                             },
                                 modifier = Modifier
                                     .width(160.dp)
-                                    .padding(start = 30.dp, top = 25.dp)
+                                    .padding(start = 30.dp, top = 10.dp)
                                     .clip(RoundedCornerShape(15.dp))){
                                 if(endFlag)
                                     Text(text = "Finish",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
                                 else
                                     Text(text = "Next",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
                             }
+
+                        }
+
+                                Button(
+                                    onClick = {
+                                        navController.navigate("play_screen")
+                                    },
+                                    modifier = Modifier
+                                        .width(250.dp)
+                                        .height(40.dp).padding(top = 20.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        contentColor = DarkBlue,
+                                        backgroundColor = Color.White
+                                    ),
+                                    shape = RoundedCornerShape(40.dp),
+                                    elevation = ButtonDefaults.elevation(
+                                        defaultElevation = 5.dp,
+                                        pressedElevation = 8.dp
+                                    )
+                                ) {
+                                    Text(
+                                        "Timer Screen",
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Justify
+                                    )
+                                }
+
                         }
                     }
                 }
