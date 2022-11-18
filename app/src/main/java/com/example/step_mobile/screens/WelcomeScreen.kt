@@ -43,6 +43,14 @@ fun WelcomeScreen(navController: NavController, mainViewModel: MainViewModel) {
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
+        Column(modifier = Modifier.padding(15.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top){
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(90.dp)
+            )
+        }
         Column(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,28 +60,29 @@ fun WelcomeScreen(navController: NavController, mainViewModel: MainViewModel) {
         ) {
             titleText(stringResource(R.string.welcome))
             subtitleText(stringResource(R.string.welcome_text))
-            loginButton(navController, "login_screen?id=${-1}")
+            Row(horizontalArrangement = Arrangement.Center){
+                loginButton(navController, "login_screen?id=${-1}", stringResource(id = R.string.signin), Modifier.padding(end = 10.dp))
+                loginButton(navController, "sign_up_screen", stringResource(id = R.string.signup), Modifier.padding(start = 10.dp))
+            }
         }
     }
 }
 
 @Composable
-fun loginButton(navController: NavController, route: String) {
+fun loginButton(navController: NavController, route: String, label: String, modifier: Modifier) {
     Button(
         onClick = {
             navController.navigate(route)},
-        modifier = Modifier
-            .padding(bottom = 20.dp)
+        modifier = modifier
         ,
         colors = ButtonDefaults.buttonColors(
             contentColor = Color.White,
             backgroundColor = Color(0xFF55B8FF)
         ),
-
         shape = RoundedCornerShape(40.dp),
         elevation = ButtonDefaults.elevation(defaultElevation = 5.dp, pressedElevation = 8.dp)
     ) {
-        Text(stringResource(R.string.login), fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
+        Text(label, fontSize = 25.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Justify)
     }
 }
 
