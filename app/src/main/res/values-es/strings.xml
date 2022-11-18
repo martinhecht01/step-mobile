@@ -11,6 +11,7 @@
     <string name="search">Buscar</string>
     <string name="date">Fecha</string>
     <string name="difficulty">Dificultad</string>
+    <string name="category">Categoria</string>
     <string name="rating">Calificación</string>
 
 
@@ -31,18 +32,19 @@
     <string name="welcome">Bienvenido!</string>
     <string name="welcome_text">Dejanos mejorar tu experiencia de entrenamiento</string>
 
-    <!-- Login screen -->
+    <!-- Login and Profile screen -->
     <string name="password">Clave</string>
     <string name="username">Usuario</string>
     <string name="login">Ingresar</string>
     <string name="signin">Iniciar Sesion</string>
     <string name="signup_for_free">Registrarse gratuitamente</string>
 
-    <!-- Signup screen -->
+    <!-- Signup and Profile screen -->
     <string name="already_user">Ya tienes usuario? Ingresar</string>
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellido</string>
     <string name="signup">Registrarse</string>
+    <string name="profile">Perfil</string>
 
     <!-- View routine screen -->
     <string name="review">PUNTUAR</string>
@@ -62,6 +64,10 @@
     <string name="welcome_message_with_name">Bienvenido %1$s!</string>
     <string name="top_workout">Rutina Mejor Puntuada</string>
 
+    <!-- Review screen -->
+    <string name="review_routine">Puntuar rutina</string>
+    <string name="submit_review">Puntuar!</string>
 
-
+    <!-- Errors -->
+    <string name="invalid_fields">Usuario o contraseña incorrecta</string>
 </resources>

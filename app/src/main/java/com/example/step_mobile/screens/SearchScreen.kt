@@ -74,16 +74,17 @@ fun SearchScreen( navController: NavController,  mainViewModel : MainViewModel) 
                             modifier = Modifier.clip(shape = RoundedCornerShape(15.dp)),
 
                             ) {
-                            var dateString = "Date"
+                            val dateString = stringResource(id = R.string.date)
                             DropdownMenuItem(onClick = { title = dateString; expanded = false }) {
-                                Text(text = stringResource(R.string.date))
+                                Text(text = dateString)
                             }
 
-                            var difficultyString = "Difficulty"
+                            val difficultyString = stringResource(id = R.string.difficulty)
                             DropdownMenuItem(onClick = { title = difficultyString; expanded = false }) {
                                 Text(text = difficultyString)
                             }
-                            var categoryString = "Category"
+
+                            val categoryString = stringResource(id = R.string.category)
                             DropdownMenuItem(onClick = { title = categoryString; expanded = false }) {
                                 Text(text = categoryString)
                             }

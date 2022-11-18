@@ -10,6 +10,7 @@
     <string name="search">Search</string>
     <string name="date">Date</string>
     <string name="difficulty">Difficulty</string>
+    <string name="category">Category</string>
     <string name="rating">Rating</string>
 
     <!-- Play screen -->
@@ -34,18 +35,19 @@
     <string name="welcome">Welcome!</string>
     <string name="welcome_text">Let us enhance your workout experience.</string>
 
-    <!-- Login screen -->
+    <!-- Login and Profile screen -->
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="login">Log in</string>
     <string name="signin">Sign In</string>
     <string name="signup_for_free">Sign up for free</string>
 
-    <!-- Signup screen -->
+    <!-- Signup and Profile screen -->
     <string name="already_user">Already a user? Sign In</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="signup">Sign Up</string>
+    <string name="profile">Profile</string>
 
     <!-- View routine screen -->
     <string name="review">REVIEW</string>
@@ -62,4 +64,11 @@
     <string name="cheering_message_2">Step it up!</string>
     <string name="welcome_message_with_name">Welcome %1$s!</string>
     <string name="top_workout">Best Rated Workout</string>
+
+    <!-- Review screen -->
+    <string name="review_routine">Review routine</string>
+    <string name="submit_review">Submit review!</string>
+
+    <!-- Errors -->
+    <string name="invalid_fields">Invalid username or password</string>
 </resources>
