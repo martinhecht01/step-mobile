@@ -63,6 +63,7 @@
     <string name="cheering_message_2">Sigue adelante!</string>
     <string name="welcome_message_with_name">Bienvenido %1$s!</string>
     <string name="top_workout">Rutina Mejor Puntuada</string>
+    <string name="no_routines_home">Ups! No tienes ninguna rutina</string>
 
     <!-- Review screen -->
     <string name="review_routine">Puntuar rutina</string>

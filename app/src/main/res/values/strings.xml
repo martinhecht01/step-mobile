@@ -64,6 +64,7 @@
     <string name="cheering_message_2">Step it up!</string>
     <string name="welcome_message_with_name">Welcome %1$s!</string>
     <string name="top_workout">Best Rated Workout</string>
+    <string name="no_routines_home">Oops! You don\'t have any routines</string>
 
     <!-- Review screen -->
     <string name="review_routine">Review routine</string>

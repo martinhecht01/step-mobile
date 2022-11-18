@@ -118,9 +118,11 @@ fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
                     modifier = Modifier
                         .clickable {
                             scope.launch {
-                                mainViewModel.getRoutine(routine.id).invokeOnCompletion {
-                                    mainViewModel.getFullCyclesExercises(routine.id)
-                                }
+                                mainViewModel
+                                    .getRoutine(routine.id)
+                                    .invokeOnCompletion {
+                                        mainViewModel.getFullCyclesExercises(routine.id)
+                                    }
                             }
                             navController.navigate("view_routine_screen")
                         }
@@ -158,7 +160,7 @@ fun TopWorkoutCard(navController: NavController, mainViewModel: MainViewModel){
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier
                         .padding(horizontal = 35.dp, vertical = 10.dp)) {
-                    Text(text = "Ups! No routines available",
+                    Text(text = stringResource(id = R.string.no_routines_home),
                         color = Color.DarkGray,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
