@@ -23,10 +23,10 @@
 
 
     <!-- My Workouts screen -->
-    <string name="my_workouts_screen">Mis rutinas</string>
+    <string name="my_workouts_screen">Rutinas</string>
 
     <!-- My Favourites screen -->
-    <string name="my_favourites">Mis Favoritos</string>
+    <string name="my_favourites">Favoritos</string>
 
     <!-- Welcome screen -->
     <string name="welcome">Bienvenido!</string>
