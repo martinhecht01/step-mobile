@@ -63,6 +63,7 @@ import kotlinx.coroutines.launch
 fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
 
     val scope = rememberCoroutineScope()
+    val cannotRoutine = stringResource(id = R.string.cannot_routine)
     val snackbarHostState = remember { SnackbarHostState() }
 
 
@@ -179,7 +180,7 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
             } else {
                 //TODO: Error management? Tirar error screen?
                 scope.launch {
-                    snackbarHostState.showSnackbar("Couldn't fetch Routine")
+                    snackbarHostState.showSnackbar(cannotRoutine)
                 }
             }
         }

@@ -53,7 +53,7 @@ fun ScrollRoutine(navController: NavController, noOrderRoutines: List<Routine>, 
             .height(200.dp)) {
             Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
                 Text(
-                    text = "Ups! Seems like you don't have any routines available!",
+                    text = stringResource(R.string.no_routines_home),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(vertical = 15.dp, horizontal = 20.dp),
                     color = Color.Black,
