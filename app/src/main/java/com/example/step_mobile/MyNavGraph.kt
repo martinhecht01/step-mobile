@@ -1,8 +1,13 @@
 package com.example.step_mobile
 
 import android.content.Intent
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -92,7 +97,14 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             PlayScreenNT(navController = navController, viewModel = mainViewModel)
         }
 
-
+        composable(Screen.SearchScreenError.route){
+            val snackbarHostState = remember { SnackbarHostState() }
+            val snackbarText = stringResource(id = R.string.cannot_routine)
+            LaunchedEffect(key1 = true){
+                snackbarHostState.showSnackbar(snackbarText)
+            }
+            SearchScreen(navController = navController, mainViewModel = mainViewModel)
+            SnackbarHost(hostState = snackbarHostState)
+        }
     }
-
 }

@@ -70,4 +70,7 @@
 
     <!-- Errors -->
     <string name="invalid_fields">Usuario o contraseña incorrecta</string>
+    <string name="cannot_routine">Error: no existe la rutina</string>
+    <string name="cannot_empty_workout">Error: rutina vacía</string>
+    <string name="cannot_empty_cycle">Error: rutina con ciclo vacío </string>
 </resources>

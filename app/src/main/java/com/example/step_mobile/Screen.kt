@@ -18,4 +18,5 @@ sealed class Screen(val title: String, val icon: ImageVector, val route: String,
     object PlayScreenNT: Screen("Advanced Workout", Icons.Rounded.PlayArrow, "play_screenNT", true, true)
     object SignUpScreen: Screen("Sign Up", Icons.Rounded.PlayArrow, "sign_up_screen", true, true)
     object VerifyScreen: Screen("Verify Email", Icons.Rounded.PlayArrow, "verify_screen", true, true)
+    object SearchScreenError: Screen("Search", Icons.Rounded.Search, "search_screen_error", false, true)
 }

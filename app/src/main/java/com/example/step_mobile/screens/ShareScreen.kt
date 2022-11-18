@@ -28,17 +28,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ShareScreen(navController: NavController, mainViewModel: MainViewModel, id: Int){
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
     if(mainViewModel.uiState.isAuthenticated ) {
         LaunchedEffect(key1 = true) {
             mainViewModel.getRoutine(id).invokeOnCompletion {
                 if (mainViewModel.uiState.currentRoutine == null){
-                    scope.launch {
-                        snackbarHostState.showSnackbar("Couldn't fetch Routine")
+                    mainViewModel.getRoutines().invokeOnCompletion {
+                        navController.navigate("search_screen_error")
+                        return@invokeOnCompletion
                     }
-                    navController.navigate("search_screen")
-                    return@invokeOnCompletion
                 }
                 mainViewModel.getFullCyclesExercises(id).invokeOnCompletion {
                     navController.navigate("view_routine_screen")
@@ -48,5 +45,4 @@ fun ShareScreen(navController: NavController, mainViewModel: MainViewModel, id: 
     } else{
         navController.navigate("login_screen?id=${id}")
     }
-    SnackbarHost(hostState = snackbarHostState)
 }

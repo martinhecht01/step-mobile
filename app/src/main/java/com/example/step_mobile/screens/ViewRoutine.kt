@@ -97,6 +97,8 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                         ) {
                         RoutineInfo(mainViewModel)
                     }
+                    val snackbarText1 = stringResource(id = R.string.cannot_empty_workout)
+                    val snackbarText2 = stringResource(id = R.string.cannot_empty_cycle)
                     Row(horizontalArrangement = Arrangement.Center) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -106,17 +108,15 @@ fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
                                 onClick = {
                                     if (mainViewModel.uiState.currentWorkout.isEmpty()) {
                                         scope.launch {
-                                            snackbarHostState.showSnackbar("Cannot execute: Workout is empty")
+                                            snackbarHostState.showSnackbar(snackbarText1)
                                         }
                                         return@Button
                                     }
                                     for (cycle in mainViewModel.uiState.currentWorkout) {
                                         if (cycle.exercises.isEmpty()) {
-
                                             scope.launch {
-                                                snackbarHostState.showSnackbar("Cannot execute: Workout has empty Cycle")
+                                                snackbarHostState.showSnackbar(snackbarText2)
                                             }
-                                            //navController.navigate("search_screen") //TODO: llevar a otra pantalla donde indique error?
                                             return@Button
                                         }
                                     }
