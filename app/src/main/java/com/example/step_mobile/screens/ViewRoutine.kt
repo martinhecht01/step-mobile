@@ -58,102 +58,134 @@ import com.example.step_mobile.ui.theme.StepmobileTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("CoroutineCreationDuringComposition")
+@SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ViewRoutine(navController: NavController, mainViewModel: MainViewModel) {
 
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.fondonp),
-        contentDescription = null,
-        contentScale = ContentScale.Crop
-    )
-    StepmobileTheme() {
-        ScreenTitle("", true, navController)
-    }
-    if(mainViewModel.uiState.isFetching){
-        ScreenLoader()
-    } else {
-        var routine = mainViewModel.uiState.currentRoutine
-        if (routine != null) {
-            var showArrow = mainViewModel.uiState.isAuthenticated
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                StepmobileTheme() {
-                    ScreenTitle(title = routine.name, showArrow, navController)
-                }
-                Card(
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .height(400.dp)
-                        .fillMaxWidth(),
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-                    shape = RoundedCornerShape(20.dp),
-                    elevation = 10.dp,
 
-                    ) {
-                    RoutineInfo(mainViewModel)
-                }
-                Row(horizontalArrangement = Arrangement.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
-                        Button(
-                            onClick = {
-                                if (mainViewModel.uiState.currentWorkout.isEmpty()){
-                                    navController.navigate("search_screen")
-                                    return@Button
-                                }
-                                for (cycle in mainViewModel.uiState.currentWorkout){
-                                    if (cycle.exercises.isEmpty()){
-                                        navController.navigate("search_screen") //TODO: llevar a otra pantalla donde indique error?
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.fondonp),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+        StepmobileTheme() {
+            ScreenTitle("", true, navController)
+        }
+        if (mainViewModel.uiState.isFetching) {
+            ScreenLoader()
+        } else {
+            var routine = mainViewModel.uiState.currentRoutine
+            if (routine != null) {
+                var showArrow = mainViewModel.uiState.isAuthenticated
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    StepmobileTheme() {
+                        ScreenTitle(title = routine.name, showArrow, navController)
+                    }
+                    Card(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .height(400.dp)
+                            .fillMaxWidth(),
+
+                        shape = RoundedCornerShape(20.dp),
+                        elevation = 10.dp,
+
+                        ) {
+                        RoutineInfo(mainViewModel)
+                    }
+                    Row(horizontalArrangement = Arrangement.Center) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(20.dp)
+                        ) {
+                            Button(
+                                onClick = {
+                                    if (mainViewModel.uiState.currentWorkout.isEmpty()) {
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar("Cannot execute: Workout is empty")
+                                        }
                                         return@Button
                                     }
-                                }
-                                mainViewModel.uiState.currentCycleIdx = 0
-                                mainViewModel.uiState.currentExIdx = 0
-                                navController.navigate("play_screenNT")
-                            },
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .size(60.dp),
-                            shape = RoundedCornerShape(100),
-                            elevation = ButtonDefaults.elevation(5.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = PlayGreen,
-                                contentColor = Color.White
+                                    for (cycle in mainViewModel.uiState.currentWorkout) {
+                                        if (cycle.exercises.isEmpty()) {
+
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar("Cannot execute: Workout has empty Cycle")
+                                            }
+                                            //navController.navigate("search_screen") //TODO: llevar a otra pantalla donde indique error?
+                                            return@Button
+                                        }
+                                    }
+                                    mainViewModel.uiState.currentCycleIdx = 0
+                                    mainViewModel.uiState.currentExIdx = 0
+                                    navController.navigate("play_screenNT")
+                                },
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .size(60.dp),
+                                shape = RoundedCornerShape(100),
+                                elevation = ButtonDefaults.elevation(5.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = PlayGreen,
+                                    contentColor = Color.White
+                                )
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.PlayArrow,
+                                    contentDescription = null
+                                )
+                            }
+                            Text(
+                                text = stringResource(id = R.string.play),
+                                fontSize = 15.sp,
+                                color = Color.White
                             )
-                        ) {
-                            Icon(imageVector = Icons.Filled.PlayArrow, contentDescription = null)
                         }
-                        Text(text = stringResource(id = R.string.play), fontSize = 15.sp, color = Color.White)
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(20.dp)) {
-                        Button(
-                            onClick = {
-                                navController.navigate("review_screen")
-                            },
-                            modifier = Modifier
-                                .padding(10.dp)
-                                .size(60.dp),
-                            shape = RoundedCornerShape(100),
-                            elevation = ButtonDefaults.elevation(5.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = DarkBlue
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(20.dp)
+                        ) {
+                            Button(
+                                onClick = {
+                                    navController.navigate("review_screen")
+                                },
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .size(60.dp),
+                                shape = RoundedCornerShape(100),
+                                elevation = ButtonDefaults.elevation(5.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.White,
+                                    contentColor = DarkBlue
+                                )
+                            ) {
+                                Icon(
+                                    painterResource(id = R.drawable.ic_star),
+                                    contentDescription = null
+                                )
+                            }
+                            Text(
+                                text = stringResource(id = R.string.review),
+                                fontSize = 15.sp,
+                                color = Color.White
                             )
-                        ) {
-                            Icon(painterResource(id = R.drawable.ic_star), contentDescription = null)
                         }
-                        Text(text = stringResource(id = R.string.review), fontSize = 15.sp, color = Color.White)
                     }
                 }
-            }
-        } else {
-            //TODO: Error management? Tirar error screen?
-            navController.navigate("search_screen") {
-                popUpTo("search_screen")
+            } else {
+                //TODO: Error management? Tirar error screen?
+                scope.launch {
+                    snackbarHostState.showSnackbar("Couldn't fetch Routine")
+                }
             }
         }
+    SnackbarHost(hostState = snackbarHostState)
     }
-}
+
 
 @Composable
 fun RoutineInfo(mainViewModel: MainViewModel){
