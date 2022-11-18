@@ -3,6 +3,7 @@ package com.example.step_mobile
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,18 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.step_mobile.components.ExerciseCard
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Place
-import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.PointMode
@@ -41,7 +36,6 @@ import androidx.navigation.NavController
 import com.example.step_mobile.classes.MainViewModel
 import com.example.step_mobile.components.ScreenTitle
 import com.example.step_mobile.ui.theme.DarkBlue
-import com.example.step_mobile.ui.theme.PlayGreen
 import com.example.step_mobile.ui.theme.StopRed
 import kotlinx.coroutines.delay
 import kotlin.math.PI
@@ -60,7 +54,7 @@ fun Timer(
     modifier: Modifier = Modifier,
     initialValue: Float = 1f,
     strokeWidth: Dp = 15.dp
-) {
+): String {
     //creamos las variables
     var size by remember {
         mutableStateOf(IntSize.Zero)
@@ -92,7 +86,9 @@ fun Timer(
                 isTimerRunning = true
             }else if(currentTime<=0){
                 isTimerRunning = !isTimerRunning
-                navController.navigate("search_screen")
+                navController.navigate("review_screen"){
+                    popUpTo("view_routine_screen")
+                }
                 return@LaunchedEffect
             }//TODO: confirmacion para empezar otro ciclo(mega opcional)
 
@@ -139,8 +135,8 @@ fun Timer(
                 drawPoints(
                     listOf(Offset(center.x + a, center.y + b)),
                     pointMode = PointMode.Points,
-                    color = handleColor,
-                    strokeWidth = (strokeWidth * 1.5f).toPx(),
+                    color = activeBarColor,
+                    strokeWidth = (strokeWidth * 1f).toPx(),
                     cap = StrokeCap.Round,
                 )
             }
@@ -160,59 +156,40 @@ fun Timer(
             }
 
             Text(
-                text = (currentTime / 1000L).toString(),
-                fontSize = 30.sp,
+                text = stringResource(R.string.time_left, (currentTime / 1000L).toString()),
+                fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
-                //color = DarkBlue,
-                //modifier = Modifier.padding(10.dp)
+                modifier = Modifier.padding(5.dp)
             )
+                Icon(
+                    if(isTimerRunning && currentTime > 0L) painterResource(R.drawable.ic_baseline_pause_circle_24)
+                    else if(!isTimerRunning && currentTime >=0L) painterResource(R.drawable.ic_baseline_play_circle_24)
+                    else  painterResource(R.drawable.fast_forward) ,
+                    contentDescription = null,
+                    tint = if(!isTimerRunning || currentTime <= 0L){ DarkBlue }else{ StopRed },
+                    modifier = Modifier.size(60.dp).clickable {
+                        if(currentTime <= 0L) {
 
-            // start button
-            Button(
-                onClick = {
-                    if(currentTime <= 0L) {
-
-                        while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
-                            viewModel.uiState.currentCycleIdx++
+                            while(viewModel.uiState.currentWorkout[viewModel.uiState.currentCycleIdx].exercises.isEmpty() && viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                                viewModel.uiState.currentCycleIdx++
+                            }
+                            if (viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
+                                navController.navigate("search_screen")
+                                return@clickable
+                            }
+                            viewModel.uiState.currentExIdx =0
+                            viewModel.uiState.currentCycleIdx =0
+                            isTimerRunning = true
+                        } else {
+                            isTimerRunning = !isTimerRunning
                         }
-                        if (viewModel.uiState.currentCycleIdx < viewModel.uiState.currentWorkout.size-1){
-                            navController.navigate("search_screen")
-                            return@Button
-                        }
-                        viewModel.uiState.currentExIdx =0
-                        viewModel.uiState.currentCycleIdx =0
-                        isTimerRunning = true
-                    } else {
-                        isTimerRunning = !isTimerRunning
-                    }
-                },
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(60.dp)
-                    .padding(top = 10.dp),
-
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (!isTimerRunning || currentTime <= 0L) {
-                        DarkBlue
-                    } else {
-                        StopRed
                     }
                 )
-            ) {
-                Text(
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    text = if (isTimerRunning && currentTime > 0L) "Stop"
-                    else if (!isTimerRunning && currentTime >= 0L) "Start"
-                    else "Next"
-                )
-            }
-
-
         }
 
 
         }
+    return  viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name
 }
 
 @Composable
@@ -225,6 +202,7 @@ fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
             }
         }
        Box {
+
             val contentPaddingModifier = Modifier.padding(16.dp)
             val configuration = LocalConfiguration.current
             when (configuration.orientation) {
@@ -238,6 +216,8 @@ fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally) {
+
+
                         mainContent(viewModel, myNavController)
 
 
@@ -251,43 +231,52 @@ fun PlayScreen(myNavController: NavController, viewModel : MainViewModel) {
 fun mainContent( viewModel : MainViewModel, navController: NavController,) {
 
 
-//    Text(
-//        text = stringResource(id = R.string.play_screen),
-//        fontSize = 30.sp,
-//        fontWeight = FontWeight.Bold,
-//        color = Color.White
-//    )
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Card(
-                shape = RoundedCornerShape(100),
-                modifier = Modifier.padding(5.dp)
-            ) {
+        var cycleName by remember{
+            mutableStateOf("")
+        }
+
+        Card(
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier
+                .padding(15.dp)
+                .width(300.dp)
+        ) {
+            Text(fontSize = 25.sp,
+                text = stringResource(R.string.cycle, cycleName),
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(10.dp),
+                textAlign = TextAlign.Center)
+        }
+
+        Card(
+            shape = RoundedCornerShape(100),
+            modifier = Modifier.padding(5.dp)
+        ) {
+
+            cycleName =
                 Timer(
-                    totalTime = 10L * 1000L,
-                    navController = navController,
-                    handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
-                    inactiveBarColor = Color.DarkGray,
-                    activeBarColor = Color(0xFF37B900),
-                    modifier = Modifier.size(300.dp),
-                    viewModel = viewModel
-                )
+                totalTime = 10L * 1000L,
+                navController = navController,
+                handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
+                inactiveBarColor = Color.DarkGray,
+                activeBarColor = Color(0xFF37B900),
+                modifier = Modifier.size(300.dp),
+                viewModel = viewModel)
 
-            }
+        }
 
-            Card() {
-                LaunchedEffect(key1 = viewModel.uiState.currentCycleIdx) {
-                    viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name
-                }
-                Text(text = viewModel.uiState.currentCycles[viewModel.uiState.currentCycleIdx].name)
-            }
+
 
         Button(
             onClick = {
                 navController.navigate("play_screenNT")
             },
             modifier = Modifier
-                .width(250.dp).height(56.dp).padding(10.dp),
+                .width(250.dp)
+                .height(80.dp)
+                .padding(10.dp),
             colors = ButtonDefaults.buttonColors(
                 contentColor = DarkBlue,
                 backgroundColor = Color.White
@@ -299,8 +288,8 @@ fun mainContent( viewModel : MainViewModel, navController: NavController,) {
             )
         ) {
             Text(
-                "Timer Screen",
-                fontSize = 15.sp,
+                "To Step Workout",
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Justify
             )

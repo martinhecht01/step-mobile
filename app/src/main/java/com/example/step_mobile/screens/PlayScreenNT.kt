@@ -19,6 +19,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -149,12 +152,17 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                         endFlag = true
                                     }
                                 }
+                                endFlag = false
                             },
+
                             modifier = Modifier
+
                                 .width(160.dp)
                                 .padding(end = 30.dp, top = 10.dp)
                                 .clip(RoundedCornerShape(15.dp))) {
-                                Text(text = "Previous",modifier = Modifier.padding(top=30.dp, bottom=30.dp), fontSize = 18.sp)
+                                //Text(text = "Previous",modifier = Modifier.padding(top=15.dp, bottom=15.dp), fontSize = 18.sp)
+                                Icon(painterResource(R.drawable.fast_rewind), contentDescription = null, tint = DarkBlue)
+
                             }
                             Button(onClick = {
                                 comingUpNextFlag = false
@@ -191,7 +199,9 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     }
                                 }
                                 else{
-                                    navController.navigate("review_screen")
+                                    navController.navigate("review_screen"){
+                                        popUpTo("view_routine_screen")
+                                    }
                                     return@Button
                                 }
 
@@ -201,9 +211,11 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     .padding(start = 30.dp, top = 10.dp)
                                     .clip(RoundedCornerShape(15.dp))){
                                 if(endFlag)
-                                    Text(text = "Finish",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
+                                    //Text(text = "Finish",modifier = Modifier.padding(vertical=15.dp), fontSize = 18.sp)
+                                    Icon(Icons.Rounded.Done, contentDescription = null, tint = DarkBlue)
                                 else
-                                    Text(text = "Next",modifier = Modifier.padding(vertical=30.dp), fontSize = 18.sp)
+                                    //Text(text = "Next",modifier = Modifier.padding(vertical=15.dp), fontSize = 18.sp)
+                                    Icon(painterResource(R.drawable.fast_forward), contentDescription = null, tint = DarkBlue)
                             }
 
                         }
@@ -214,7 +226,8 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     },
                                     modifier = Modifier
                                         .width(250.dp)
-                                        .height(40.dp).padding(top = 20.dp),
+                                        .height(80.dp)
+                                        .padding(top = 20.dp),
                                     colors = ButtonDefaults.buttonColors(
                                         contentColor = DarkBlue,
                                         backgroundColor = Color.White
@@ -226,8 +239,8 @@ fun PlayScreenNT(navController: NavController, viewModel: MainViewModel) {
                                     )
                                 ) {
                                     Text(
-                                        "Timer Screen",
-                                        fontSize = 15.sp,
+                                        "To Timer Screen",
+                                        fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Justify
                                     )

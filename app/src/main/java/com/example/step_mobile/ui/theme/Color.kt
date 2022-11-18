@@ -3,7 +3,7 @@ package com.example.step_mobile.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
-val PlayGreen = Color(0xFF6CEF89)
+val PlayGreen = Color(0xFF37D900)
 val DarkBlue = Color(0xFF1B56ED)
 val LightBlue = Color(0xFFBAE2FF)
 val Purple500 = Color(0xFF6200EE)

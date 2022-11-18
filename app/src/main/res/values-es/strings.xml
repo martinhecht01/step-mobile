@@ -16,6 +16,10 @@
 
     <!-- Play screen -->
     <string name="play_screen">Comenzar</string>
+    <string name="cycle">Ciclo: %1$s</string>
+    <string name="time_left">Tiempo restante: %1$s</string>
+
+
 
     <!-- My Workouts screen -->
     <string name="my_workouts_screen">Mis rutinas</string>
