@@ -2,9 +2,7 @@ package com.example.step_mobile.data.network
 
 import com.example.step_mobile.util.SessionManager
 import com.example.step_mobile.data.network.api.ApiUserService
-import com.example.step_mobile.data.network.model.NetworkCredentials
-import com.example.step_mobile.data.network.model.NetworkName
-import com.example.step_mobile.data.network.model.NetworkUser
+import com.example.step_mobile.data.network.model.*
 
 
 class UserRemoteDataSource(
@@ -22,6 +20,18 @@ class UserRemoteDataSource(
     suspend fun logout() {
         handleApiResponse { apiUserService.logout() }
         sessionManager.removeAuthToken()
+    }
+
+    suspend fun signUp(user: NetworkSignUp) {
+        handleApiResponse {
+            apiUserService.signUp(user)
+        }
+    }
+
+    suspend fun verify(data: NetworkVerify) {
+        handleApiResponse {
+            apiUserService.verify(data)
+        }
     }
 
     suspend fun getCurrentUser() : NetworkUser {

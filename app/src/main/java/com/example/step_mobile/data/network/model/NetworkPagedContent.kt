@@ -2,7 +2,7 @@ package com.example.step_mobile.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NetworkPagedContent<T> (
+class NetworkPagedContent<T> (
 
     @SerializedName("totalCount")
     var totalCount: Int,

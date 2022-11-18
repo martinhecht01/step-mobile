@@ -8,7 +8,7 @@ import java.util.Date
 class NetworkUser (
 
     @SerializedName("id")
-    var id: Int?,
+    var id: Int,
     @SerializedName("username")
     var username: String,
     @SerializedName("firstName")
@@ -28,7 +28,7 @@ class NetworkUser (
     @SerializedName("metadata")
     var metadata: NetworkUserMetadata? = null,
     @SerializedName("date")
-    var date: Date,
+    var date: Date? = null,
     @SerializedName("lastActivity")
     var lastActivity: Date? = null,
     @SerializedName("verified")

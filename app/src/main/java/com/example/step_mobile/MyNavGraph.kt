@@ -23,6 +23,14 @@ fun MyNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
             ProfileScreen(navController, mainViewModel)
         }
 
+        composable(Screen.VerifyScreen.route){
+            VerifyScreen(navController, mainViewModel)
+        }
+
+        composable(Screen.SignUpScreen.route) {
+            SignUpScreen(navController, mainViewModel)
+        }
+
         composable(Screen.ReviewScreen.route){
             ReviewRoutine(navController, mainViewModel)
         }

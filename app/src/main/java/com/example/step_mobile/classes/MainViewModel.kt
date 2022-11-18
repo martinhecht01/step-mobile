@@ -34,6 +34,7 @@ class MainViewModel(
             uiState = uiState.copy(
                 isFetching = true,
                 message = null,
+                currentUser = null
             )
 
             runCatching {
@@ -50,6 +51,48 @@ class MainViewModel(
                     isFetching = false)
             }
 
+    }
+
+    fun signUp(data: SignUp) = viewModelScope.launch {
+
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null,
+        )
+
+        runCatching {
+            userRepository.signUp(data)
+        }.onSuccess {
+            uiState = uiState.copy(
+                isFetching = false,
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
+
+    }
+
+    fun verify(data: Verify) = viewModelScope.launch {
+        uiState = uiState.copy(
+            isFetching = true,
+            message = null,
+        )
+
+        runCatching {
+            userRepository.verify(data)
+        }.onSuccess {
+            uiState = uiState.copy(
+                isFetching = false,
+            )
+        }.onFailure { e ->
+            // Handle the error and notify the UI when appropriate.
+            uiState = uiState.copy(
+                message = e.message,
+                isFetching = false)
+        }
     }
 
     fun logout() = viewModelScope.launch {

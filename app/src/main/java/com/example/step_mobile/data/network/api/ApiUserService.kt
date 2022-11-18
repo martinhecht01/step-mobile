@@ -1,10 +1,7 @@
 package com.example.step_mobile.data.network.api
 
 
-import com.example.step_mobile.data.network.model.NetworkCredentials
-import com.example.step_mobile.data.network.model.NetworkName
-import com.example.step_mobile.data.network.model.NetworkToken
-import com.example.step_mobile.data.network.model.NetworkUser
+import com.example.step_mobile.data.network.model.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,4 +20,10 @@ interface ApiUserService {
 
     @PUT("users/current")
     suspend fun modifyUser(@Body newName : NetworkName): Response<NetworkUser>
+
+    @POST("users")
+    suspend fun signUp(@Body user : NetworkSignUp) : Response<NetworkUser>
+
+    @POST("users/verify_email")
+    suspend fun verify(@Body data : NetworkVerify) : Response<NetworkVerify>
 }
