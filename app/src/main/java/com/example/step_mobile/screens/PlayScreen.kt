@@ -264,7 +264,7 @@ fun mainContent( viewModel : MainViewModel, navController: NavController,) {
                 Timer(
                 totalTime = 10L * 1000L,
                 navController = navController,
-                handleColor = Color.Green,//TODO: habria que pasarle bien los colores q no se muy bien como se hace
+                handleColor = Color.Green,
                 inactiveBarColor = Color.DarkGray,
                 activeBarColor = Color(0xFF37B900),
                 modifier = Modifier.size(300.dp),
