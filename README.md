@@ -1,7 +1,6 @@
 # step-mobile
 
-UN PAIS QUE LE EXIGE MAS A LA SELECCION QUE A UN GRUPO DE HCI...
-ESTA DESTINADA A GANAR EL MUNDIAL VAMOS ARGENTINA!
+Workout App coded in Jetpack Android
 
 Tomas Camilo Gay Bare 62103
 
